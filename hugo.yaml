@@ -1,0 +1,91 @@
+baseURL: "https://naimidevslayer.github.io/Blog/"
+languageCode: "fr-fr"
+title: "NAIMI Dev Slayer — Blog"
+theme: "PaperMod"
+
+pagination:
+  pagerSize: 10
+
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+
+googleAnalytics: ""
+
+minify:
+  disableXML: true
+
+params:
+  env: production
+  title: "NAIMI Dev Slayer"
+  description: "Tutoriels Symfony, EasyAdmin et développement PHP"
+  keywords: [Symfony, EasyAdmin, PHP, Doctrine, Tutoriels]
+  author: "Naimi"
+  DateFormat: "January 2, 2006"
+  defaultTheme: auto
+  disableThemeToggle: false
+  ShowShareButtons: true
+  ShowReadingTime: true
+  ShowBreadCrumbs: true
+  ShowPostNavLinks: true
+  ShowCodeCopyButtons: true
+  ShowWordCount: true
+  ShowToc: true
+  TocOpen: false
+  comments: false
+
+  homeInfoParams:
+    Title: "NAIMI Dev Slayer 👋"
+    Content: "Tutoriels pratiques sur Symfony, EasyAdmin, Doctrine et le développement PHP moderne — basés sur de vrais projets."
+
+  socialIcons:
+    - name: youtube
+      url: "https://youtube.com/@NaimiDevSlayer"
+    - name: github
+      url: "https://github.com/NaimiDevSlayer"
+
+  assets:
+    disableHLJS: false
+
+  fuseOpts:
+    isCaseSensitive: false
+    shouldSort: true
+    location: 0
+    distance: 1000
+    threshold: 0.4
+    minMatchCharLength: 0
+    keys: ["title", "permalink", "summary", "content"]
+
+menu:
+  main:
+    - identifier: home
+      name: Accueil
+      url: /
+      weight: 10
+    - identifier: posts
+      name: Articles
+      url: /posts/
+      weight: 20
+    - identifier: tags
+      name: Tags
+      url: /tags/
+      weight: 30
+    - identifier: search
+      name: Recherche
+      url: /search/
+      weight: 40
+
+markup:
+  highlight:
+    noClasses: false
+    codeFences: true
+    guessSyntax: true
+    lineNos: false
+    style: monokai
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
