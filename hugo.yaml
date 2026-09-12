@@ -48,6 +48,8 @@ params:
   assets:
     disableHLJS: false
 
+  mainSections: ["posts"]
+
   fuseOpts:
     isCaseSensitive: false
     shouldSort: true
@@ -63,6 +65,10 @@ menu:
       name: Accueil
       url: /
       weight: 10
+    - identifier: cours
+      name: Cours
+      url: /cours/
+      weight: 15
     - identifier: posts
       name: Articles
       url: /posts/

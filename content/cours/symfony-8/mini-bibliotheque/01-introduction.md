@@ -7,6 +7,7 @@ tags: ["Symfony", "EasyAdmin", "PHP", "Symfony 8", "Beginner"]
 categories: ["Mini Library Course"]
 series: ["Mini Library"]
 series_order: 1
+weight: 1
 cover:
     image: ""
     alt: "Mini Library Course Introduction"
