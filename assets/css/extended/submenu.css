@@ -1,0 +1,63 @@
+/* Dropdown submenu for the main menu (e.g. Cours > Symfony 8) */
+/* The theme clips the menu (overflow-x: auto) so it can scroll on phones.
+   On larger screens, let the dropdown overflow below the header. */
+@media screen and (min-width: 769px) {
+    #menu {
+        overflow: visible;
+    }
+}
+
+#menu li.has-submenu {
+    position: relative;
+}
+
+#menu .submenu-caret {
+    margin-inline-start: 4px;
+    font-size: 0.8em;
+}
+
+#menu .submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 10;
+    min-width: 180px;
+    margin: 0;
+    padding: 6px 0;
+    line-height: 1.4;
+    list-style: none;
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+#menu .submenu li {
+    display: block;
+    margin: 0;
+}
+
+#menu .submenu a {
+    display: block;
+    padding: 8px 16px;
+    font-size: 15px;
+    white-space: nowrap;
+}
+
+#menu .submenu a:hover {
+    background: var(--code-bg);
+}
+
+#menu li.has-submenu:hover > .submenu,
+#menu li.has-submenu:focus-within > .submenu {
+    display: block;
+}
+
+/* On small screens the menu scrolls horizontally: keep the parent link only */
+@media screen and (max-width: 768px) {
+    #menu .submenu,
+    #menu .submenu-caret {
+        display: none !important;
+    }
+}

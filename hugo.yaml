@@ -69,6 +69,11 @@ menu:
       name: Cours
       url: /cours/
       weight: 15
+    - identifier: symfony-8
+      parent: cours
+      name: Symfony 8
+      url: /cours/symfony-8/
+      weight: 1
     - identifier: posts
       name: Articles
       url: /posts/
