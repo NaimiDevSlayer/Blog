@@ -1,0 +1,40 @@
+{{- /* Hugo: on a list, .Next returns the page BEFORE in the list, .Prev the page AFTER.
+       Override PaperMod: prev/next between chapters of the same course (ordered by weight),
+       and the theme's default behaviour for regular posts. */ -}}
+{{- if eq .Section "cours" }}
+  {{- $pages := .CurrentSection.RegularPages.ByWeight }}
+  {{- if gt (len $pages) 1 }}
+  <nav class="paginav">
+    {{- with $pages.Next . }}
+    <a class="prev" href="{{ .Permalink }}">
+      <span class="title">« Chapitre précédent</span>
+      <span>{{- .Title -}}</span>
+    </a>
+    {{- end }}
+    {{- with $pages.Prev . }}
+    <a class="next" href="{{ .Permalink }}">
+      <span class="title">Chapitre suivant »</span>
+      <span>{{- .Title -}}</span>
+    </a>
+    {{- end }}
+  </nav>
+  {{- end }}
+{{- else }}
+  {{- $pages := where site.RegularPages "Type" "in" site.Params.mainSections }}
+  {{- if and (gt (len $pages) 1) (in $pages . ) }}
+  <nav class="paginav">
+    {{- with $pages.Next . }}
+    <a class="prev" href="{{ .Permalink }}">
+      <span class="title">« {{ i18n "prev_page" }}</span>
+      <span>{{- .Name -}}</span>
+    </a>
+    {{- end }}
+    {{- with $pages.Prev . }}
+    <a class="next" href="{{ .Permalink }}">
+      <span class="title">{{ i18n "next_page" }} »</span>
+      <span>{{- .Name -}}</span>
+    </a>
+    {{- end }}
+  </nav>
+  {{- end }}
+{{- end }}
