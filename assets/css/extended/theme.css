@@ -361,3 +361,9 @@ button:focus-visible {
     border-color: var(--blade);
     color: var(--blade);
 }
+
+/* Show code exactly as typed: no ligatures (-> must not become an arrow) */
+code, pre, kbd {
+    font-variant-ligatures: none;
+    font-feature-settings: "liga" 0, "calt" 0;
+}

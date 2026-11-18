@@ -5,7 +5,7 @@ title: "NAIMI Dev Slayer — Blog"
 theme: "PaperMod"
 
 pagination:
-  pagerSize: 10
+  pagerSize: 20
 
 enableRobotsTXT: true
 buildDrafts: false
