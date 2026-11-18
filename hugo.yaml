@@ -48,7 +48,7 @@ params:
   assets:
     disableHLJS: false
 
-  mainSections: ["posts"]
+  mainSections: ["posts", "cours"]
 
   fuseOpts:
     isCaseSensitive: false

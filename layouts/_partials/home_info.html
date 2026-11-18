@@ -1,0 +1,20 @@
+{{- /* Home hero: the channel name cut by a single crimson blade stroke. */ -}}
+{{- with site.Params.homeInfoParams }}
+<section class="hero" aria-labelledby="hero-title">
+    <div class="hero-title-wrap">
+        <h1 id="hero-title" class="hero-title">NAIMI<br>Dev Slayer</h1>
+        <svg class="hero-slash" viewBox="0 0 600 220" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <path d="M0 214 Q 290 118, 600 4 Q 300 136, 0 214 Z" />
+        </svg>
+    </div>
+    <div class="hero-text">
+        {{ $opts := dict "display" "block" }}
+        {{ .Content | $.Page.RenderString $opts }}
+    </div>
+    <div class="hero-actions">
+        <a class="hero-btn hero-btn-primary" href="{{ "cours/symfony-8/mini-bibliotheque/" | absLangURL }}">Commencer le cours Symfony 8</a>
+        <a class="hero-btn hero-btn-ghost" href="https://youtube.com/@NaimiDevSlayer" rel="noopener">Voir la chaîne YouTube</a>
+    </div>
+</section>
+<h2 class="home-latest">Chapitres du cours</h2>
+{{- end -}}

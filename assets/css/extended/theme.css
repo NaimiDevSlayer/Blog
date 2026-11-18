@@ -1,0 +1,333 @@
+/* NAIMI Dev Slayer: ink, blade-crimson and indigo night.
+   Overrides PaperMod's variables, then adds the hero and course styles. */
+
+:root {
+    --theme: #f4f5f7;          /* cool rice paper */
+    --entry: #ffffff;
+    --primary: #1a1d2b;        /* indigo ink */
+    --secondary: #5f6576;
+    --tertiary: #d9dce3;
+    --content: #262a38;
+    --code-block-bg: #1c2236;
+    --code-bg: #e9ebf0;
+    --border: #dfe2e8;
+
+    --blade: #b0132d;          /* crimson accent */
+    --blade-soft: rgba(176, 19, 45, 0.09);
+    --gold: #9a7330;           /* chapter numerals */
+    --font-display: "Shippori Mincho B1", "Hiragino Mincho ProN", Georgia, serif;
+    --font-body: "Zen Kaku Gothic New", "Segoe UI", system-ui, sans-serif;
+    --font-code: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+
+:root[data-theme="dark"] {
+    --theme: #0f1528;          /* indigo night */
+    --entry: #161e36;
+    --primary: #eceef4;
+    --secondary: #a3a9bb;
+    --tertiary: #2b3554;
+    --content: #d3d7e3;
+    --code-block-bg: #0b1020;
+    --code-bg: #222b47;
+    --border: #253050;
+
+    --blade: #e3445c;
+    --blade-soft: rgba(227, 68, 92, 0.12);
+    --gold: #d2ae6a;
+}
+
+/* ---------- Base type ---------- */
+
+body {
+    font-family: var(--font-body);
+    font-size: 17px;
+}
+
+.list {
+    background: var(--theme);
+}
+
+h1, h2, h3,
+.post-title,
+.page-header h1,
+.entry-header h2,
+.logo a {
+    font-family: var(--font-display);
+    letter-spacing: 0;
+}
+
+.logo a {
+    font-weight: 800;
+}
+
+code, pre, kbd {
+    font-family: var(--font-code);
+}
+
+::selection {
+    background: var(--blade);
+    color: #fff;
+}
+
+/* Links in articles: crimson underline */
+.main .post-content a,
+.main .md-content a {
+    box-shadow: none;
+    text-decoration: underline;
+    text-decoration-color: var(--blade);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+.main .post-content a:hover,
+.main .md-content a:hover {
+    color: var(--blade);
+}
+
+/* Active menu item and keyboard focus */
+#menu .active {
+    text-decoration-color: var(--blade);
+}
+
+a:focus-visible,
+button:focus-visible {
+    outline: 2px solid var(--blade);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* ---------- Home hero ---------- */
+
+.hero {
+    margin: 24px 0 56px;
+}
+
+.hero-title-wrap {
+    position: relative;
+    display: inline-block;
+    padding: 8px 12px 8px 0;
+}
+
+.hero-title {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(48px, 10vw, 92px);
+    line-height: 0.98;
+    color: var(--primary);
+}
+
+.hero-slash {
+    position: absolute;
+    z-index: 0;
+    left: -6%;
+    top: 4%;
+    width: 112%;
+    height: 96%;
+    pointer-events: none;
+}
+
+.hero-slash path {
+    fill: var(--blade);
+    clip-path: inset(0 100% 0 0);
+    animation: blade-cut 0.55s cubic-bezier(0.7, 0, 0.2, 1) 0.35s forwards;
+}
+
+@keyframes blade-cut {
+    to { clip-path: inset(0 0 0 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-slash path {
+        animation: none;
+        clip-path: none;
+    }
+}
+
+.hero-text {
+    max-width: 34em;
+    margin-top: 22px;
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--content);
+}
+
+.hero-text p {
+    margin: 0;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.hero-btn {
+    display: inline-block;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.2;
+    transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.hero-btn-primary {
+    background: var(--blade);
+    color: #fff;
+    border: 2px solid var(--blade);
+}
+
+.hero-btn-primary:hover {
+    background: transparent;
+    color: var(--blade);
+}
+
+.hero-btn-ghost {
+    border: 2px solid var(--tertiary);
+    color: var(--primary);
+}
+
+.hero-btn-ghost:hover {
+    border-color: var(--primary);
+}
+
+.home-latest {
+    margin: 0 0 18px;
+    font-size: 26px;
+    color: var(--primary);
+}
+
+/* ---------- Entries (lists) ---------- */
+
+.post-entry {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: border-color 0.15s;
+}
+
+.post-entry:hover {
+    border-color: var(--blade);
+}
+
+.entry-header h2 {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+/* Course chapters: the number sits in a left column */
+.post-entry.has-chapter {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    column-gap: 18px;
+    align-items: start;
+}
+
+.post-entry.has-chapter > .entry-header,
+.post-entry.has-chapter > .entry-content,
+.post-entry.has-chapter > .entry-footer {
+    grid-column: 2;
+}
+
+.chapter-num {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 52px;
+    line-height: 1;
+    color: var(--gold);
+    text-align: center;
+}
+
+@media screen and (max-width: 600px) {
+    .post-entry.has-chapter {
+        grid-template-columns: 40px 1fr;
+        column-gap: 12px;
+    }
+    .chapter-num {
+        font-size: 34px;
+    }
+}
+
+/* ---------- Single pages ---------- */
+
+.post-title {
+    font-weight: 800;
+    font-size: clamp(30px, 5vw, 42px);
+    line-height: 1.2;
+}
+
+.post-content h2 {
+    font-size: 28px;
+    margin-top: 48px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--blade-soft);
+}
+
+.post-content h3 {
+    font-size: 21px;
+}
+
+.post-content blockquote {
+    border-inline-start: 4px solid var(--blade);
+    background: var(--blade-soft);
+    padding: 12px 18px;
+    border-radius: 0 6px 6px 0;
+    color: var(--content);
+}
+
+.post-content blockquote p {
+    margin: 0;
+}
+
+.post-content :not(pre) > code {
+    color: var(--primary);
+    background: var(--code-bg);
+}
+
+.post-content pre {
+    border-radius: 8px;
+}
+
+/* YouTube embeds: rounded frame, matches cards */
+.post-content iframe[src*="youtube"],
+.post-content div:has(> iframe[src*="youtube"]) {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.post-content div:has(> iframe[src*="youtube"]) {
+    margin: 24px 0 32px;
+    box-shadow: 0 10px 28px rgba(15, 21, 40, 0.18);
+}
+
+/* Prev/next chapter cards */
+.paginav {
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--entry);
+}
+
+.paginav a:hover {
+    color: var(--blade);
+}
+
+.paginav .title {
+    color: var(--blade);
+    letter-spacing: 0;
+}
+
+/* Breadcrumbs stay quiet */
+.breadcrumbs a {
+    text-decoration: none;
+    box-shadow: none;
+}
+
+.breadcrumbs a:hover {
+    color: var(--blade);
+}
