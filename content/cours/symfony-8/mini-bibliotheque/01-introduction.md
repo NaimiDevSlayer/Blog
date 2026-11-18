@@ -19,6 +19,8 @@ Welcome to a brand new tutorial series where we won't just cover Symfony theory 
 
 This is **Chapter 1** of the Mini Library course. If you're new here, this series will take you from an empty folder to a fully working app with a public catalog, PDF reading, and a complete EasyAdmin dashboard.
 
+{{< youtube 0oUd5R5RYcA >}}
+
 ## What We're Building
 
 Throughout this series, we'll create:
