@@ -15,7 +15,7 @@ cover:
 ShowToc: true
 ---
 
-In [Chapter 1](../01-introduction/), we set up our development environment. Now it's time for the real work. In this chapter we do two things:
+In [Chapter 1]({{< relref "01-introduction" >}}), we set up our development environment. Now it's time for the real work. In this chapter we do two things:
 
 1. **Install our Symfony 8 project**, following the official documentation step by step
 2. **Integrate an HTML/CSS template**, so our app looks good from day one

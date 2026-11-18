@@ -8,4 +8,4 @@ Bienvenue dans la section **Cours** de NAIMI Dev Slayer. Chaque cours suit une s
 
 ## Cours disponibles
 
-- **[Symfony 8](/cours/symfony-8/)** — Construis des applications complètes avec Symfony 8.
+- **[Symfony 8]({{< relref "/cours/symfony-8" >}})** — Construis des applications complètes avec Symfony 8.
