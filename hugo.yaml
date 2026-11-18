@@ -1,5 +1,6 @@
 baseURL: "https://naimidevslayer.github.io/Blog/"
 languageCode: "fr-fr"
+defaultContentLanguage: "fr"
 title: "NAIMI Dev Slayer — Blog"
 theme: "PaperMod"
 
@@ -22,7 +23,7 @@ params:
   description: "Tutoriels Symfony, EasyAdmin et développement PHP"
   keywords: [Symfony, EasyAdmin, PHP, Doctrine, Tutoriels]
   author: "Naimi"
-  DateFormat: "January 2, 2006"
+  DateFormat: "2 January 2006"
   defaultTheme: auto
   disableThemeToggle: false
   ShowShareButtons: true
@@ -36,19 +37,17 @@ params:
   comments: false
 
   homeInfoParams:
-    Title: "NAIMI Dev Slayer 👋"
+    Title: "NAIMI Dev Slayer"
     Content: "Tutoriels pratiques sur Symfony, EasyAdmin, Doctrine et le développement PHP moderne — basés sur de vrais projets."
 
   socialIcons:
     - name: youtube
       url: "https://youtube.com/@NaimiDevSlayer"
-    - name: github
-      url: "https://github.com/NaimiDevSlayer"
 
   assets:
     disableHLJS: false
 
-  mainSections: ["posts", "cours"]
+  mainSections: ["cours"]
 
   fuseOpts:
     isCaseSensitive: false
@@ -74,14 +73,6 @@ menu:
       name: Symfony 8
       url: /cours/symfony-8/
       weight: 1
-    - identifier: posts
-      name: Articles
-      url: /posts/
-      weight: 20
-    - identifier: tags
-      name: Tags
-      url: /tags/
-      weight: 30
     - identifier: search
       name: Recherche
       url: /search/
