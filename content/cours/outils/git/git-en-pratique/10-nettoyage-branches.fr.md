@@ -15,6 +15,12 @@ Imagine que tu travailles en méthode agile : au bout de trois sprints, tu as tr
 
 {{< youtube id="HducC-0PJF4" >}}
 
+{{< objectifs >}}
+- Supprimer une branche mergée, en local et sur le serveur
+- Forcer la suppression d'une branche non mergée
+- Oublier les branches supprimées par les autres
+{{< /objectifs >}}
+
 ## La situation de départ
 
 ```bash
@@ -73,6 +79,24 @@ Quand une branche est supprimée sur le serveur par quelqu'un d'autre, ton dép�
 git fetch --prune
 ```
 
+{{< encadre type="tip" title="Trouver les branches à supprimer" >}}
+Pour lister les branches **déjà mergées** dans la branche courante, donc supprimables sans risque avec `-d` :
+
+```bash
+git branch --merged
+```
+
+Et pour que chaque `git fetch` ou `git pull` fasse le ménage automatiquement, sans avoir à penser à `--prune` :
+
+```bash
+git config --global fetch.prune true
+```
+{{< /encadre >}}
+
+{{< encadre type="tip" >}}
+Sur GitHub, l'option **Automatically delete head branches** (Settings → General) supprime la branche sur le serveur dès que sa pull request est mergée. Il ne te reste que le ménage local.
+{{< /encadre >}}
+
 ## Récap
 
 | Commande | Rôle |
@@ -81,6 +105,22 @@ git fetch --prune
 | `git branch -D <branche>` | Forcer la suppression d'une branche locale **non mergée** |
 | `git push origin --delete <branche>` | Supprimer une branche **sur le serveur** |
 | `git fetch --prune` | Oublier les branches supprimées du serveur |
+
+{{< exercice title="Le grand ménage" >}}
+La branche `feature/login` est mergée. La branche `test/essai` ne l'est pas, mais tu n'en veux plus. Les deux existent en local et sur le serveur. Supprime-les partout.
+
+{{< solution >}}
+```bash
+git branch -d feature/login
+git push origin --delete feature/login
+
+git branch -D test/essai
+git push origin --delete test/essai
+```
+
+`-d` suffit pour la branche mergée. Pour `test/essai`, Git refuserait `-d` : il faut `-D`.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## La suite
 

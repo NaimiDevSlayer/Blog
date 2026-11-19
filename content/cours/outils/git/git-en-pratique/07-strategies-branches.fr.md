@@ -15,6 +15,13 @@ Un sujet très important quand on travaille en équipe : les **stratégies de br
 
 {{< youtube id="usTOnmepUJQ" >}}
 
+{{< objectifs >}}
+- La différence entre branches longue durée et courte durée
+- GitHub Flow : une seule branche `main`
+- Git Flow : `main`, `develop`, `feature`, `release` et `hotfix`
+- Construire ton propre workflow
+{{< /objectifs >}}
+
 ## Git te laisse libre… et c'est le problème
 
 Git te donne tous les outils pour gérer tes branches, mais il ne t'impose **aucune façon de faire**. C'est à toi et à ton équipe de les utiliser de façon optimale.
@@ -41,12 +48,7 @@ Git te donne tous les outils pour gérer tes branches, mais il ne t'impose **auc
 - **Toutes les autres** sont des branches courte durée.
 - Chaque modification, correction ou ajout part de `main` et revient dans `main`.
 
-```
-main     ──●────────●──────────●──
-            \      /  \       /
-feature/a    ●──●─●    \     /
-                        ●───●   fix/b
-```
+{{< schema name="github-flow" caption="GitHub Flow : chaque branche part de `main` et y revient par une pull request." >}}
 
 Idéal pour les petites équipes et les projets déployés en continu.
 
@@ -67,6 +69,8 @@ Et des branches courte durée avec chacune leur rôle :
 
 Le `hotfix` est le seul cas où une branche courte touche directement `main`, car c'est une urgence en production. **N'oublie pas** de reporter la correction sur `develop` avant de supprimer la branche, sinon le bug reviendra à la prochaine version.
 
+{{< schema name="git-flow" caption="Git Flow : les fonctionnalités passent par `develop`, les versions par `release`, et les urgences par `hotfix`." >}}
+
 ## Et si aucun ne te convient ?
 
 Rien ne t'oblige à suivre l'un de ces modèles. Tu peux créer **ton propre workflow**, selon la taille de ton équipe et tes besoins.
@@ -78,6 +82,18 @@ Rien ne t'oblige à suivre l'un de ces modèles. Tu peux créer **ton propre wor
 - `develop` : pour la validation des développements par l'équipe de dev.
 
 Les branches courte durée suivent toujours le même principe.
+
+{{< exercice title="Quelle stratégie choisir ?" >}}
+Pour chaque projet, quelle stratégie choisirais-tu ?
+
+1. Ton blog perso, que tu déploies dès qu'un article est prêt.
+2. Une application mobile publiée sur les stores toutes les 6 semaines, avec une équipe de 8 développeurs.
+
+{{< solution >}}
+1. **GitHub Flow.** Une seule personne, un déploiement continu : une branche `main` toujours en ligne et des branches courtes suffisent largement. Git Flow ajouterait des étapes sans rien apporter.
+2. **Git Flow.** Les versions sont planifiées : `develop` accumule les fonctionnalités, une branche `release` stabilise la version avant publication, et `hotfix` permet de corriger un bug en production sans embarquer le travail en cours.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## La suite
 

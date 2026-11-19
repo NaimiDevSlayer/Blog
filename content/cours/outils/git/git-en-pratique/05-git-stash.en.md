@@ -15,6 +15,12 @@ You're in the middle of a change and need to switch branches urgently? Or you wa
 
 {{< youtube id="9ESGvO456Lg" >}}
 
+{{< objectifs >}}
+- Set work in progress aside with `git stash`
+- List, restore and delete your stashes
+- Choose between `apply` and `pop`
+{{< /objectifs >}}
+
 ## What `git stash` does
 
 `git stash` takes your **uncommitted changes** (staged with `git add` or not), **sets them aside** for later, and gives you back a **clean** working copy, as it was at the last commit.
@@ -91,6 +97,36 @@ So there are two ways to do the same thing:
 ## Key takeaway
 
 `git stash` is very handy when you work on **several branches at once**: you set your work in progress aside, handle the urgent task elsewhere, then pick up exactly where you left off.
+
+{{< encadre type="tip" title="Name your stashes" >}}
+After three stashes, `WIP on feature/1` doesn't tell you much. Add a message:
+
+```bash
+git stash push -m "half-done contact form"
+git stash list
+# stash@{0}: On feature/1: half-done contact form
+```
+{{< /encadre >}}
+
+{{< encadre type="mistake" title="A conflict on pop" >}}
+If your changes clash with the current code, `git stash pop` stops on a **conflict**, just like a merge. Don't panic: in that case Git **keeps the stash** in the list ("The stash entry is kept in case you need it again"). Resolve the conflict in your files, then delete the stash with `git stash drop` once everything is fine.
+{{< /encadre >}}
+
+{{< exercice title="An emergency mid-task" >}}
+You're editing `index.html` and have created a new `contact.html` file, when you're asked for an urgent fix on `main`. Set **everything** aside, switch branches, then come back and restore your work.
+
+{{< solution >}}
+```bash
+git stash -u            # -u: includes the new contact.html file
+git checkout main
+# … fix, commit, push …
+git checkout feature/contact
+git stash pop
+```
+
+Without `-u`, `contact.html` (untracked by Git) would have stayed in your folder and followed you onto `main`.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## What's Next
 

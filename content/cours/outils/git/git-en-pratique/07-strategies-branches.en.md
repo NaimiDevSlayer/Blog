@@ -15,6 +15,13 @@ A very important topic when working as a team: **branching strategies**.
 
 {{< youtube id="usTOnmepUJQ" >}}
 
+{{< objectifs >}}
+- The difference between long-running and short-lived branches
+- GitHub Flow: a single `main` branch
+- Git Flow: `main`, `develop`, `feature`, `release` and `hotfix`
+- Build your own workflow
+{{< /objectifs >}}
+
 ## Git leaves you free… and that's the problem
 
 Git gives you every tool to manage branches, but it doesn't impose **any way of doing things**. It's up to you and your team to use them well.
@@ -41,12 +48,7 @@ Git gives you every tool to manage branches, but it doesn't impose **any way of 
 - **Every other branch** is short-lived.
 - Every change, fix or addition starts from `main` and goes back into `main`.
 
-```
-main     ──●────────●──────────●──
-            \      /  \       /
-feature/a    ●──●─●    \     /
-                        ●───●   fix/b
-```
+{{< schema name="github-flow" caption="GitHub Flow: every branch starts from `main` and comes back to it through a pull request." >}}
 
 Great for small teams and projects deployed continuously.
 
@@ -67,6 +69,8 @@ And short-lived branches, each with its own role:
 
 The `hotfix` is the only case where a short-lived branch touches `main` directly, because it's a production emergency. **Don't forget** to bring the fix into `develop` before deleting the branch, or the bug will come back with the next release.
 
+{{< schema name="git-flow" caption="Git Flow: features go through `develop`, versions through `release`, and emergencies through `hotfix`." >}}
+
 ## What if neither fits?
 
 Nothing forces you to follow one of these models. You can build **your own workflow**, based on your team's size and needs.
@@ -78,6 +82,18 @@ Nothing forces you to follow one of these models. You can build **your own workf
 - `develop`: for the dev team to validate developments.
 
 Short-lived branches still follow the same principle.
+
+{{< exercice title="Which strategy?" >}}
+For each project, which strategy would you pick?
+
+1. Your personal blog, deployed as soon as a post is ready.
+2. A mobile app released on the stores every 6 weeks, with a team of 8 developers.
+
+{{< solution >}}
+1. **GitHub Flow.** One person, continuous deployment: a `main` branch that's always live plus short-lived branches is plenty. Git Flow would add steps for nothing.
+2. **Git Flow.** Releases are planned: `develop` collects features, a `release` branch stabilizes the version before publishing, and `hotfix` fixes a production bug without shipping work in progress.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## What's Next
 

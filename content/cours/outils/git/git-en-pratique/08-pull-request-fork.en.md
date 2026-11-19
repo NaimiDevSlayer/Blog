@@ -15,6 +15,13 @@ In the previous chapter, we covered branching strategies. Here, we get concrete,
 
 {{< youtube id="91q88rYyxo0" >}}
 
+{{< objectifs >}}
+- What a pull request is, and what a fork is
+- Contribute to a project you don't own
+- How a code review works
+- Pick the right merge option
+{{< /objectifs >}}
+
 ## The problem
 
 I created my branch from `develop`, finished my work and pushed it. Now what?
@@ -89,6 +96,21 @@ On the original project, the pull request shows up. The lead:
 | **Rebase and merge** | Replays the commits one by one onto the target branch, with no merge commit |
 
 Once the PR is merged, your changes are on the original project's `master` branch.
+
+{{< encadre type="tip" title="A pull request that gets merged fast" >}}
+- **Small:** a PR touching 50 lines gets reviewed within the hour, a 2,000-line PR waits for days.
+- **One topic**, just like a good commit.
+- **A description**: what changes, why, and how to test it. A screenshot helps a lot for a visual change.
+- **A draft pull request** lets you show unfinished work and get feedback early.
+{{< /encadre >}}
+
+{{< exercice title="Which merge option?" >}}
+Your PR has 6 commits: "wip", "fix typo", "another fix", "add the form"… Which merge option keeps a clean history on `main`?
+
+{{< solution >}}
+**Squash and merge.** The 6 commits become **a single** commit on `main`, with a clear message like "Add the contact form". The intermediate steps don't clutter the project's history.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## What's Next
 

@@ -15,6 +15,12 @@ Pour utiliser Git, il suffit de l'installer sur ta machine et de lui dire qui tu
 
 {{< youtube id="3AJNLIrHupQ" >}}
 
+{{< objectifs >}}
+- Installer Git sur ta machine
+- Vérifier que l'installation fonctionne
+- Configurer ton nom et ton email, une bonne fois pour toutes
+{{< /objectifs >}}
+
 ## Installer Git
 
 1. Va sur le site officiel, **git-scm.com**, rubrique **Downloads**.
@@ -49,6 +55,37 @@ Pour vérifier ta configuration :
 ```bash
 git config --global --list
 ```
+
+{{< encadre type="tip" title="Deux réglages qui facilitent la vie" >}}
+Pour que Git ouvre **VS Code** quand il a besoin d'un message (un commit sans `-m`, un merge…), au lieu de l'éditeur Vim qui en piège plus d'un :
+
+```bash
+git config --global core.editor "code --wait"
+```
+
+Et pour voir toute ta configuration, avec l'endroit où chaque valeur est définie :
+
+```bash
+git config --list --show-origin
+```
+{{< /encadre >}}
+
+{{< encadre type="mistake" >}}
+**Tes commits n'apparaissent pas sur ton profil GitHub ?** L'email configuré dans Git ne correspond à aucun email de ton compte. Vérifie-le avec `git config --global user.email`, et ajoute-le si besoin dans les paramètres de GitHub (**Settings → Emails**).
+{{< /encadre >}}
+
+{{< exercice title="Vérifie ton identité" >}}
+Affiche le nom et l'email que Git utilisera pour tes prochains commits.
+
+{{< solution >}}
+```bash
+git config --global user.name
+git config --global user.email
+```
+
+Sans valeur après le nom du réglage, `git config` affiche la valeur actuelle au lieu de la modifier.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## La suite
 

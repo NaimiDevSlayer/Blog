@@ -15,6 +15,12 @@ In this first chapter, we answer two questions: **what is Git**, and **why use i
 
 {{< youtube id="mpeFQm-AKIY" >}}
 
+{{< objectifs >}}
+- What Git is, and the problem it solves
+- Why every developer uses it, alone or in a team
+- The difference between Git and GitHub
+{{< /objectifs >}}
+
 > The videos of this course are in French. Turn on YouTube's auto-translated subtitles if needed: every chapter below is fully written in English.
 
 ## What is Git?
@@ -34,6 +40,15 @@ Picture a team working on the same project, each person on their own PC.
 **With Git**, everyone **pushes** their changes to an online platform such as **GitHub**, **GitLab** or **Bitbucket**. The whole team can then **pull** those changes, build on top of them and push their own, without overwriting anything.
 
 It's a very simple example, but you'll explore all of this in detail in the next chapters.
+
+{{< encadre type="further" title="Git or GitHub?" >}}
+They're often mixed up, but they're two different things:
+
+- **Git** is the tool, installed on your machine. It records your project's history, even without an internet connection.
+- **GitHub** is a website that **hosts** Git repositories online, and adds everything you need to work as a team: pull requests, code reviews, issues… **GitLab** and **Bitbucket** do the same.
+
+So you can use Git without GitHub. The other way round makes no sense.
+{{< /encadre >}}
 
 ## What's Next
 
