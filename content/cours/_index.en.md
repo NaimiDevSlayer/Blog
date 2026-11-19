@@ -10,3 +10,4 @@ Welcome to the **Courses** section of NAIMI Dev Slayer. Each course follows a Yo
 
 - **[Web development]({{< relref "/cours/developpement-web" >}})**: Symfony 8, EasyAdmin and complete applications.
 - **[Databases]({{< relref "/cours/bases-de-donnees" >}})**: SQL and MySQL, from the basics to joins.
+- **[Developer tools]({{< relref "/cours/outils" >}})**: Git, GitHub and teamwork.
