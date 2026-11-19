@@ -39,7 +39,8 @@ Les menus et les textes d'accueil sont définis par langue dans `hugo.yaml`.
 
 ## Ajouter un cours ou une techno au menu
 
-Dans `hugo.yaml`, ajouter une entrée sous `menu.main` avec `parent: cours`.
+Dans `hugo.yaml`, ajouter une entrée avec `parent: cours` dans **les deux** menus
+(`languages.fr.menus.main` et `languages.en.menus.main`).
 
 ## Publication
 
