@@ -64,7 +64,7 @@ languages:
       DateFormat: "2 January 2006"
       homeInfoParams:
         Title: "NAIMI Dev Slayer"
-        Content: "Tutoriels pratiques sur Symfony, EasyAdmin, SQL et le développement web moderne, basés sur de vrais projets."
+        Content: "Tutoriels pratiques sur Symfony, EasyAdmin, SQL, Git et le développement web moderne, basés sur de vrais projets."
     menus:
       main:
         - identifier: home
@@ -95,6 +95,16 @@ languages:
           name: MySQL
           pageRef: /cours/bases-de-donnees/mysql
           weight: 1
+        - identifier: outils
+          parent: cours
+          name: Outils de développement
+          pageRef: /cours/outils
+          weight: 3
+        - identifier: git
+          parent: outils
+          name: Git
+          pageRef: /cours/outils/git
+          weight: 1
         - identifier: search
           name: Recherche
           pageRef: /search
@@ -109,7 +119,7 @@ languages:
       DateFormat: "January 2, 2006"
       homeInfoParams:
         Title: "NAIMI Dev Slayer"
-        Content: "Hands-on tutorials on Symfony, EasyAdmin, SQL and modern web development, built around real projects."
+        Content: "Hands-on tutorials on Symfony, EasyAdmin, SQL, Git and modern web development, built around real projects."
     menus:
       main:
         - identifier: home
@@ -139,6 +149,16 @@ languages:
           parent: bases-de-donnees
           name: MySQL
           pageRef: /cours/bases-de-donnees/mysql
+          weight: 1
+        - identifier: outils
+          parent: cours
+          name: Developer tools
+          pageRef: /cours/outils
+          weight: 3
+        - identifier: git
+          parent: outils
+          name: Git
+          pageRef: /cours/outils/git
           weight: 1
         - identifier: search
           name: Search
