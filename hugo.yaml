@@ -64,7 +64,7 @@ languages:
       DateFormat: "2 January 2006"
       homeInfoParams:
         Title: "NAIMI Dev Slayer"
-        Content: "Tutoriels pratiques sur Symfony, EasyAdmin, Doctrine et le développement PHP moderne, basés sur de vrais projets."
+        Content: "Tutoriels pratiques sur Symfony, EasyAdmin, SQL et le développement web moderne, basés sur de vrais projets."
     menus:
       main:
         - identifier: home
@@ -75,10 +75,25 @@ languages:
           name: Cours
           pageRef: /cours
           weight: 15
-        - identifier: symfony-8
+        - identifier: dev-web
           parent: cours
+          name: Développement web
+          pageRef: /cours/developpement-web
+          weight: 1
+        - identifier: symfony-8
+          parent: dev-web
           name: Symfony 8
-          pageRef: /cours/symfony-8
+          pageRef: /cours/developpement-web/symfony-8
+          weight: 1
+        - identifier: bases-de-donnees
+          parent: cours
+          name: Bases de données
+          pageRef: /cours/bases-de-donnees
+          weight: 2
+        - identifier: mysql
+          parent: bases-de-donnees
+          name: MySQL
+          pageRef: /cours/bases-de-donnees/mysql
           weight: 1
         - identifier: search
           name: Recherche
@@ -94,7 +109,7 @@ languages:
       DateFormat: "January 2, 2006"
       homeInfoParams:
         Title: "NAIMI Dev Slayer"
-        Content: "Hands-on tutorials on Symfony, EasyAdmin, Doctrine and modern PHP development, built around real projects."
+        Content: "Hands-on tutorials on Symfony, EasyAdmin, SQL and modern web development, built around real projects."
     menus:
       main:
         - identifier: home
@@ -105,10 +120,25 @@ languages:
           name: Courses
           pageRef: /cours
           weight: 15
-        - identifier: symfony-8
+        - identifier: dev-web
           parent: cours
+          name: Web development
+          pageRef: /cours/developpement-web
+          weight: 1
+        - identifier: symfony-8
+          parent: dev-web
           name: Symfony 8
-          pageRef: /cours/symfony-8
+          pageRef: /cours/developpement-web/symfony-8
+          weight: 1
+        - identifier: bases-de-donnees
+          parent: cours
+          name: Databases
+          pageRef: /cours/bases-de-donnees
+          weight: 2
+        - identifier: mysql
+          parent: bases-de-donnees
+          name: MySQL
+          pageRef: /cours/bases-de-donnees/mysql
           weight: 1
         - identifier: search
           name: Search

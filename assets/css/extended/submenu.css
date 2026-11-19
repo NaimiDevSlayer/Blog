@@ -61,3 +61,34 @@
         display: none !important;
     }
 }
+
+/* Third level (e.g. Cours > Développement web > Symfony 8): flies out to the right */
+#menu .submenu li.has-submenu {
+    position: relative;
+}
+
+#menu .submenu li.has-submenu > a {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+#menu .submenu-caret-side {
+    font-size: 0.75em;
+    color: var(--secondary);
+}
+
+/* "Cours" sits near the right edge of the header, so the third level opens to the left */
+#menu .submenu-nested {
+    top: -7px;
+    left: auto;
+    right: 100%;
+    margin-right: 2px;
+}
+
+#menu .submenu li.has-submenu:hover > .submenu-nested,
+#menu .submenu li.has-submenu:focus-within > .submenu-nested {
+    display: block;
+}
