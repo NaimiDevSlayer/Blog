@@ -1,0 +1,5 @@
+{{- /* Exercise: the statement is the inner content; nest a solution shortcode inside for the hidden answer. */ -}}
+<section class="box box-exercise">
+  <p class="box-title">{{ i18n "box_exercise" }}{{ with .Get "title" }} · {{ . }}{{ end }}</p>
+  {{ .Inner | .Page.RenderString (dict "display" "block") }}
+</section>

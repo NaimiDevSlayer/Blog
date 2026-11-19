@@ -16,6 +16,12 @@ Last chapter ended with a challenge: our file and image fields are **required**,
 
 {{< youtube GMD-6r8Un38 >}}
 
+{{< objectifs >}}
+- Understand why a required file field blocks editing
+- Use `$pageName` to adapt a field to the current page
+- Load your own CSS (and JS) in EasyAdmin with `configureAssets()`
+{{< /objectifs >}}
+
 ## Why It Happens
 
 On the edit page, an upload field doesn't know that a file is already stored for this entity. If it's marked as required, the form expects a new file every time.
@@ -69,11 +75,41 @@ The path is relative to `public/`. Test again with a large file: the error messa
 
 > Need JavaScript too? Use `addJsFile()` the same way: `Assets::new()->addJsFile('admin.js')`.
 
+{{< encadre type="mistake" >}}
+**Your CSS changes nothing?** The browser often keeps the old version in cache. Press **Ctrl + Shift + R** to reload the page without cache. Also check, in the developer tools' **Network** tab, that `custom.css` is actually loaded (status 200, not 404).
+{{< /encadre >}}
+
+{{< encadre type="tip" >}}
+For a style that only concerns **one CRUD**, define `configureAssets()` in that CRUD controller rather than in the dashboard: the file is then only loaded on its pages.
+{{< /encadre >}}
+
 ## Recap
 
 - `$pageName === Crud::PAGE_NEW` makes upload fields required only on creation
 - Global admin styles go in a CSS file in `public/`
 - `configureAssets()` with `addCssFile()` or `addJsFile()` loads them in EasyAdmin
+
+{{< exercice title="A bit of JavaScript" >}}
+Create a `public/admin.js` file that prints "Admin loaded" in the browser console, and load it across the whole admin.
+
+{{< solution >}}
+```js
+// public/admin.js
+console.log('Admin loaded');
+```
+
+```php
+public function configureAssets(): Assets
+{
+    return Assets::new()
+        ->addCssFile('custom.css')
+        ->addJsFile('admin.js');
+}
+```
+
+Open the browser console (F12) on any admin page: the message shows up.
+{{< /solution >}}
+{{< /exercice >}}
 
 ---
 

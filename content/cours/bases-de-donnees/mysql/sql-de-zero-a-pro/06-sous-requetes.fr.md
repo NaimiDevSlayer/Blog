@@ -15,6 +15,13 @@ On passe au SQL avancé avec un concept super utile : les **sous-requêtes**.
 
 {{< youtube id="XBjkfScm83M" >}}
 
+{{< objectifs >}}
+- Ce qu'est une sous-requête, et où on peut l'utiliser
+- Ajouter une colonne calculée, remplacer une table, filtrer avec `IN`
+- Copier, modifier ou supprimer des lignes à partir d'un résultat
+- Contourner l'erreur 1093 de MySQL
+{{< /objectifs >}}
+
 ## C'est quoi, une sous-requête ?
 
 Une **sous-requête** est une requête SQL **imbriquée dans une autre requête**, entre parenthèses. On peut l'utiliser dans `SELECT`, `FROM`, `WHERE`, `HAVING`, et même dans `INSERT`, `UPDATE` ou `DELETE`.
@@ -112,6 +119,37 @@ WHERE id IN (
 - La sous-requête la plus imbriquée calcule la moyenne de likes de **tous** les posts.
 
 > Une erreur « champ inconnu » ? Vérifie le nom exact des colonnes : ici c'est `user_id`, pas `id_user`.
+
+{{< encadre type="further" title="IN ou EXISTS ?" >}}
+Pour « les utilisateurs qui ont au moins un post », on peut aussi écrire :
+
+```sql
+SELECT * FROM user u
+WHERE EXISTS (SELECT 1 FROM post p WHERE p.user_id = u.id);
+```
+
+`EXISTS` se contente de vérifier s'il existe **au moins une ligne** : il s'arrête dès qu'il en trouve une. Ici, la sous-requête dépend de la ligne en cours (`u.id`) : c'est une sous-requête **corrélée**.
+
+Et surtout, `NOT EXISTS` est plus sûr que `NOT IN` dès qu'une colonne peut contenir `NULL` : on verra pourquoi dans le [chapitre d'exercices]({{< relref "08-exercices-partie-1" >}}).
+{{< /encadre >}}
+
+{{< exercice title="Au-dessus de sa propre moyenne" >}}
+Affiche les posts qui ont plus de likes que **la moyenne des posts de leur auteur** (et non la moyenne générale).
+
+{{< solution >}}
+```sql
+SELECT p.id, p.title, p.user_id, p.nb_like
+FROM post p
+WHERE p.nb_like > (
+    SELECT AVG(p2.nb_like)
+    FROM post p2
+    WHERE p2.user_id = p.user_id
+);
+```
+
+C'est une sous-requête **corrélée** : pour chaque post `p`, elle recalcule la moyenne des posts du même utilisateur. Les alias `p` et `p2` sont indispensables pour distinguer les deux utilisations de la même table.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## La suite
 

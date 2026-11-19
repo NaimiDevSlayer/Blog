@@ -15,6 +15,13 @@ Deuxième série d'exercices SQL sur LeetCode ! Au programme : jointures, `NULL`
 
 {{< youtube id="PQRCtqb7blI" >}}
 
+{{< objectifs >}}
+- Gérer les `NULL` dans une condition
+- Filtrer des groupes avec `HAVING`
+- Gérer les ex æquo avec une sous-requête
+- Découvrir `IF` et `CASE` pour transformer des valeurs
+{{< /objectifs >}}
+
 ## 1. Employee Bonus
 
 **Tables :**
@@ -138,6 +145,24 @@ END;
 ```
 
 `IF` et `CASE` n'étaient pas au programme du cours, mais ils sont très utiles. Je t'invite à explorer d'autres fonctions de MySQL : beaucoup te simplifieront la vie dans des cas bien précis.
+
+{{< exercice title="Bonus : classer les salaires" >}}
+Avec la table `Employee` de l'exercice 1, affiche le nom de chaque employé et une colonne `niveau` qui vaut `'haut'` si son salaire dépasse 3000, `'moyen'` s'il est entre 1000 et 3000, et `'bas'` sinon.
+
+{{< solution >}}
+```sql
+SELECT name,
+    CASE
+        WHEN salary > 3000 THEN 'haut'
+        WHEN salary >= 1000 THEN 'moyen'
+        ELSE 'bas'
+    END AS niveau
+FROM Employee;
+```
+
+MySQL teste les `WHEN` **dans l'ordre** et s'arrête au premier qui est vrai : inutile d'écrire `salary <= 3000` dans le deuxième.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## Fin du cours
 

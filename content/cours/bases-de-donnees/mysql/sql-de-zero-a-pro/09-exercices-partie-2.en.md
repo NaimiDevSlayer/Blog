@@ -15,6 +15,13 @@ A second round of LeetCode SQL problems! On the menu: joins, `NULL`, grouping, s
 
 {{< youtube id="PQRCtqb7blI" >}}
 
+{{< objectifs >}}
+- Handle `NULL` in a condition
+- Filter groups with `HAVING`
+- Handle ties with a subquery
+- Discover `IF` and `CASE` to transform values
+{{< /objectifs >}}
+
 ## 1. Employee Bonus
 
 **Tables:**
@@ -138,6 +145,24 @@ END;
 ```
 
 `IF` and `CASE` weren't part of the course, but they're very handy. I encourage you to explore other MySQL functions: many of them will make your life easier in specific cases.
+
+{{< exercice title="Bonus: rank the salaries" >}}
+Using the `Employee` table from exercise 1, show each employee's name and a `level` column that's `'high'` if their salary is above 3000, `'medium'` if it's between 1000 and 3000, and `'low'` otherwise.
+
+{{< solution >}}
+```sql
+SELECT name,
+    CASE
+        WHEN salary > 3000 THEN 'high'
+        WHEN salary >= 1000 THEN 'medium'
+        ELSE 'low'
+    END AS level
+FROM Employee;
+```
+
+MySQL checks the `WHEN`s **in order** and stops at the first true one: no need to write `salary <= 3000` in the second.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## End of the course
 

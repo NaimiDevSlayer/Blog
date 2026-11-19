@@ -15,6 +15,12 @@ Place à la pratique ! On récupère un projet existant, on crée une branche, o
 
 {{< youtube id="bm_u0MtggvI" >}}
 
+{{< objectifs >}}
+- Le cycle de base de Git sur un vrai projet
+- Cloner, créer une branche, modifier, committer, pousser
+- Ce que font vraiment `git add`, `git commit` et `git push`
+{{< /objectifs >}}
+
 ## 1. Cloner le projet
 
 Sur la page du dépôt (GitHub, Bitbucket…), copie l'URL du projet, puis :
@@ -104,9 +110,22 @@ git push --set-upstream origin develop
 
 `--set-upstream` (ou `-u`) relie ta branche locale à la branche du serveur. Les fois suivantes, un simple `git push` suffira.
 
+{{< schema name="git-cycle" caption="Le chemin d'une modification : `git add` la prépare, `git commit` l'enregistre dans ton dépôt local, `git push` l'envoie sur le serveur. `git pull` fait le chemin inverse." >}}
+
 ## Vérifier sur la plateforme
 
 Rafraîchis la page du dépôt : la branche `develop` apparaît à côté de `master`. Tu y vois ton commit, avec son message, et en cliquant dessus, le détail de chaque modification : la ligne supprimée, le fichier ajouté, le fichier supprimé.
+
+{{< encadre type="mistake" title="« rejected… fetch first » au moment du push" >}}
+Quelqu'un a poussé sur la même branche depuis ta dernière mise à jour : le serveur a des commits que tu n'as pas. Git refuse d'écraser son travail. Récupère d'abord ses modifications, puis pousse :
+
+```bash
+git pull
+git push
+```
+
+Et ne cède pas à la tentation de `git push --force` sur une branche partagée : c'est justement ce qui efface le travail des autres.
+{{< /encadre >}}
 
 ## Récap
 
@@ -119,6 +138,23 @@ Rafraîchis la page du dépôt : la branche `develop` apparaît à côté de `ma
 | `git add <fichier>` / `git add .` | Préparer les fichiers pour le commit |
 | `git commit -m "message"` | Enregistrer les modifications |
 | `git push -u origin <branche>` | Envoyer une nouvelle branche sur le serveur |
+
+{{< exercice title="Un cycle complet" >}}
+Sur ton projet, crée une branche `docs/readme`, ajoute une ligne au fichier `README.md`, puis committe et pousse cette branche sur le serveur.
+
+{{< solution >}}
+```bash
+git checkout -b docs/readme      # ou : git switch -c docs/readme
+# … modifie README.md …
+git status
+git add README.md
+git commit -m "Complète le README"
+git push --set-upstream origin docs/readme
+```
+
+`--set-upstream` (ou `-u`) n'est nécessaire qu'au premier push de la branche. Ensuite, un simple `git push` suffit.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## La suite
 

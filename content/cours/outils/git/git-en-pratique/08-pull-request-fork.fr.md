@@ -15,6 +15,13 @@ Au chapitre précédent, on a parlé des stratégies de branches. Ici, on entre 
 
 {{< youtube id="91q88rYyxo0" >}}
 
+{{< objectifs >}}
+- Ce qu'est une pull request, et ce qu'est un fork
+- Contribuer à un projet qui ne t'appartient pas
+- Comment se passe une revue de code
+- Choisir la bonne option de merge
+{{< /objectifs >}}
+
 ## Le problème
 
 J'ai créé ma branche à partir de `develop`, j'ai terminé mon développement et je l'ai poussée. Et maintenant ?
@@ -89,6 +96,21 @@ Sur le projet original, la pull request apparaît. Le responsable :
 | **Rebase and merge** | Rejoue les commits un par un sur la branche cible, sans commit de merge |
 
 Une fois la PR mergée, tes modifications sont sur la branche `master` du projet original.
+
+{{< encadre type="tip" title="Une pull request qui sera mergée vite" >}}
+- **Petite :** une PR qui touche 50 lignes est relue dans l'heure, une PR de 2000 lignes attend des jours.
+- **Un seul sujet**, comme pour un bon commit.
+- **Une description** : ce qui change, pourquoi, et comment le tester. Une capture d'écran aide beaucoup pour un changement visuel.
+- **Une PR en brouillon** (*Draft pull request*) permet de montrer un travail pas encore fini et d'avoir des retours tôt.
+{{< /encadre >}}
+
+{{< exercice title="Quelle option de merge ?" >}}
+Ta PR contient 6 commits : « wip », « fix typo », « encore un fix », « ajoute le formulaire »… Quelle option de merge choisir pour garder un historique propre sur `main` ?
+
+{{< solution >}}
+**Squash and merge.** Les 6 commits deviennent **un seul** commit sur `main`, avec un message clair comme « Ajoute le formulaire de contact ». Les étapes intermédiaires n'encombrent pas l'historique du projet.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## La suite
 

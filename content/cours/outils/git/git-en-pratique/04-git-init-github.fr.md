@@ -15,6 +15,13 @@ Au chapitre précédent, le projet existait déjà sur le serveur. Ici, on part 
 
 {{< youtube id="WzMF_k-1cvc" >}}
 
+{{< objectifs >}}
+- Transformer un dossier existant en dépôt Git avec `git init`
+- Créer le dépôt sur GitHub et comprendre le `.gitignore`
+- Relier ton projet au dépôt avec `git remote`
+- Faire le premier commit et le premier push
+{{< /objectifs >}}
+
 ## 1. Initialiser Git : `git init`
 
 Crée un dossier avec un premier fichier, puis initialise Git dedans :
@@ -99,6 +106,20 @@ git push --set-upstream origin master
 
 Rafraîchis la page GitHub : ton fichier est là, sur la branche `master`. Prends l'habitude de **lire les messages de Git** : très souvent, ils te disent exactement quoi faire.
 
+{{< encadre type="mistake" title="Les deux erreurs du premier push" >}}
+**« remote origin already exists »** : le projet est déjà relié à un dépôt (par exemple un ancien). Pour changer l'URL au lieu d'en ajouter une :
+
+```bash
+git remote set-url origin https://github.com/<utilisateur>/<projet>.git
+```
+
+**« src refspec main does not match any »** : la branche `main` n'existe pas encore. Soit tu n'as fait **aucun commit** (une branche n'existe qu'à partir du premier commit), soit ta branche s'appelle `master`. Vérifie avec `git branch`, puis pousse la bonne branche.
+{{< /encadre >}}
+
+{{< encadre type="warning" >}}
+Prépare le `.gitignore` **avant** le premier `git add .`. Un fichier déjà committé reste suivi par Git même si tu l'ajoutes ensuite au `.gitignore` : il faut alors le retirer du suivi avec `git rm --cached <fichier>`. Et si c'était un fichier de mots de passe, considère-les comme compromis et change-les.
+{{< /encadre >}}
+
 ## Récap
 
 | Commande | Rôle |
@@ -108,6 +129,20 @@ Rafraîchis la page GitHub : ton fichier est là, sur la branche `master`. Prend
 | `git remote add origin <url>` | Relier le projet à un dépôt distant |
 | `git remote -v` | Voir les dépôts distants |
 | `git push --set-upstream origin <branche>` | Premier push d'une branche |
+
+{{< exercice title="Ignore les bons fichiers" >}}
+Ton projet contient un dossier `node_modules/`, un fichier `.env` avec des mots de passe et des fichiers `*.log`. Écris le `.gitignore`.
+
+{{< solution >}}
+```gitignore
+node_modules/
+.env
+*.log
+```
+
+Un nom qui finit par `/` désigne un dossier, et `*` remplace n'importe quelle suite de caractères. Vérifie ensuite avec `git status` : ces fichiers ne doivent plus apparaître.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## La suite
 

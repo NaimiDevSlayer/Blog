@@ -15,6 +15,12 @@ As its name suggests, **`git diff`** shows **the difference**: the exact changes
 
 {{< youtube id="hhZ4wfGo-G0" >}}
 
+{{< objectifs >}}
+- Read `git diff` output: the `+` and `-` signs
+- Review your changes before every commit
+- Compare what's staged with what isn't
+{{< /objectifs >}}
+
 ## An example
 
 In a file, we **delete** one line, **change** another and **add** a new one. `git status` only says the file is modified. To see the details:
@@ -51,6 +57,31 @@ Nothing serious, but it makes the commit less clean and harder to review. Person
 | `git diff` | Changes **not yet** staged with `git add` |
 | `git diff --staged` | Changes **already staged**, which will go into the next commit |
 | `git diff <file>` | Changes in a single file |
+
+{{< encadre type="further" title="Comparing other things" >}}
+`git diff` can compare far more than your working directory:
+
+| Command | What it compares |
+| --- | --- |
+| `git diff HEAD` | Everything changed since the last commit, staged or not |
+| `git diff --stat` | A summary: changed files and line counts |
+| `git diff main..feature/1` | Two branches |
+| `git diff HEAD~1` | Your folder and the commit before last |
+
+And in **VS Code**, the **Source Control** tab shows the same differences side by side: clicking a changed file opens the comparison.
+{{< /encadre >}}
+
+{{< exercice title="What goes into the commit" >}}
+You ran `git add` on two files, then changed one of them again. Which command shows **exactly** what will go into your next commit?
+
+{{< solution >}}
+```bash
+git diff --staged
+```
+
+A plain `git diff` only shows the latest change, **not yet** staged. It won't go into the commit until you run `git add` again.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## End of the course
 

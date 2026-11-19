@@ -18,6 +18,12 @@ Voici le **chapitre 1** du cours Mini Bibliothèque. Si tu débutes, cette séri
 
 {{< youtube JrCc4EDhYyU >}}
 
+{{< objectifs >}}
+- Ce qu'on va construire dans ce cours, et pourquoi c'est un vrai projet
+- Les outils à installer : WAMP, Composer, Symfony CLI et VS Code
+- Comment vérifier que ta machine est prête avec `symfony check:requirements`
+{{< /objectifs >}}
+
 ## Ce qu'on va construire
 
 Tout au long de la série, on va créer :
@@ -88,6 +94,36 @@ symfony check:requirements
 ```
 
 Si tu vois une confirmation comme celle-ci, ton environnement est prêt.
+
+{{< encadre type="mistake" >}}
+**`symfony check:requirements` affiche des erreurs ?** Le plus souvent, il manque une extension PHP, comme `intl` ou `pdo_mysql`. Pour voir celles qui sont actives :
+
+```bash
+php -m
+```
+
+Avec WAMP, active l'extension manquante en cliquant sur l'icône de WAMP → **PHP** → **Extensions PHP**, ou retire le `;` devant la ligne `extension=intl` dans ton `php.ini`, puis redémarre les services.
+
+Vérifie aussi que le PHP du terminal est le bon : `php -v` doit afficher la même version que celle choisie dans WAMP. Sinon, c'est que ta variable `PATH` pointe vers une autre installation de PHP.
+{{< /encadre >}}
+
+{{< encadre type="further" >}}
+WAMP n'est pas la seule option. Sur **Windows**, **Laragon** est une alternative légère et très appréciée. Sur **macOS** et **Linux**, tu peux installer PHP avec le gestionnaire de paquets (`brew`, `apt`) et laisser le **Symfony CLI** servir le projet. Et pour un environnement identique sur toutes les machines de l'équipe, **Docker** est la solution la plus robuste : on y viendra dans la partie déploiement.
+{{< /encadre >}}
+
+{{< exercice title="Prépare ta machine" >}}
+Vérifie ton installation avec trois commandes : la version de PHP, la version de Composer, puis les prérequis de Symfony.
+
+{{< solution >}}
+```bash
+php -v
+composer --version
+symfony check:requirements
+```
+
+Les trois doivent répondre sans erreur, et la dernière doit se terminer par « Your system is ready to run Symfony projects ».
+{{< /solution >}}
+{{< /exercice >}}
 
 ## La suite
 

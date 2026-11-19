@@ -15,6 +15,12 @@ Picture yourself working in an agile team: after three sprints, you've handled 2
 
 {{< youtube id="HducC-0PJF4" >}}
 
+{{< objectifs >}}
+- Delete a merged branch, locally and on the server
+- Force-delete an unmerged branch
+- Forget branches deleted by others
+{{< /objectifs >}}
+
 ## Starting point
 
 ```bash
@@ -73,6 +79,24 @@ When someone else deletes a branch on the server, your local repository keeps a 
 git fetch --prune
 ```
 
+{{< encadre type="tip" title="Finding branches to delete" >}}
+To list branches **already merged** into the current branch, so safe to delete with `-d`:
+
+```bash
+git branch --merged
+```
+
+And to have every `git fetch` or `git pull` tidy up automatically, without thinking about `--prune`:
+
+```bash
+git config --global fetch.prune true
+```
+{{< /encadre >}}
+
+{{< encadre type="tip" >}}
+On GitHub, the **Automatically delete head branches** option (Settings → General) deletes the branch on the server as soon as its pull request is merged. Only the local cleanup is left to you.
+{{< /encadre >}}
+
 ## Recap
 
 | Command | Role |
@@ -81,6 +105,22 @@ git fetch --prune
 | `git branch -D <branch>` | Force-delete an **unmerged** local branch |
 | `git push origin --delete <branch>` | Delete a branch **on the server** |
 | `git fetch --prune` | Forget branches deleted from the server |
+
+{{< exercice title="The big cleanup" >}}
+The `feature/login` branch is merged. The `test/trial` branch isn't, but you don't want it anymore. Both exist locally and on the server. Delete them everywhere.
+
+{{< solution >}}
+```bash
+git branch -d feature/login
+git push origin --delete feature/login
+
+git branch -D test/trial
+git push origin --delete test/trial
+```
+
+`-d` is enough for the merged branch. For `test/trial`, Git would refuse `-d`: you need `-D`.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## What's Next
 

@@ -16,6 +16,13 @@ L'entité **Book** est le cœur du projet. Dans ce chapitre, on configure tous l
 
 {{< youtube qPcG8uIFZeU >}}
 
+{{< objectifs >}}
+- Configurer des champs texte obligatoires et du texte riche
+- Relier les entités avec `AssociationField` et `__toString()`
+- Générer un slug automatiquement
+- Uploader un PDF avec `FileField` et une couverture avec `ImageField`
+{{< /objectifs >}}
+
 Génère le controller comme pour les autres (`symfony console make:admin:crud`, puis choisis Book), ajoute-le au menu, et remplissons `configureFields()`.
 
 ## Titre et résumé
@@ -52,11 +59,15 @@ Même erreur pour les catégories, même solution :
 
 ```php
 // src/Entity/Category.php
-public function __toString()
+public function __toString(): string
 {
-    return $this->getCategoryName();
+    return $this->getCategoryName() ?? '';
 }
 ```
+
+{{< encadre type="mistake" >}}
+`__toString()` doit **toujours** renvoyer une chaîne. Or `categoryName` est nullable : sans le `?? ''`, une catégorie sans nom fait planter toute la liste avec une `TypeError`. Côté `Author`, la concaténation avec `.` transforme déjà `null` en chaîne vide, donc pas de souci.
+{{< /encadre >}}
 
 ### Les placeholders
 
@@ -145,12 +156,40 @@ Trois choses posent encore problème dans la liste :
 
 Ce sera pour le prochain chapitre.
 
+{{< encadre type="mistake" title="Un PDF de 5 Mo refusé alors que la limite est à 7 Mo ?" >}}
+Avant même qu'EasyAdmin vérifie la taille, **PHP** applique ses propres limites, définies dans `php.ini` :
+
+```ini
+upload_max_filesize = 8M
+post_max_size = 10M
+```
+
+Par défaut, `upload_max_filesize` vaut souvent **2 Mo**. Mets-le au-dessus de ta limite `maxSize()`, avec `post_max_size` un peu plus grand, puis redémarre les services de WAMP. Vérifie les valeurs actives avec `php -i | grep upload_max`.
+{{< /encadre >}}
+
+{{< encadre type="further" >}}
+Pour des uploads plus avancés (redimensionnement des images, stockage sur le cloud), regarde du côté de **VichUploaderBundle** ou de **Flysystem**. Pour ce projet, les champs natifs d'EasyAdmin suffisent largement.
+{{< /encadre >}}
+
 ## Récap
 
 - `AssociationField` pour les relations, avec `__toString()` dans les entités liées
 - `setFormTypeOption()` pour les placeholders
 - `SlugField` + `setTargetFieldName()` pour des slugs automatiques
 - `FileField` et `ImageField` pour les uploads : dossier, chemin, nom, taille et type
+
+{{< exercice title="Des couvertures plus légères" >}}
+Limite les couvertures à **1 Mo** et accepte aussi les **GIF**.
+
+{{< solution >}}
+```php
+ImageField::new('coverImageName', 'Couverture')
+    // … mêmes options qu'avant …
+    ->maxSize('1M', 'Le fichier "{{ name }}" dépasse la taille maximale autorisée ({{ limit }} {{ suffix }}).')
+    ->mimeTypes('image/jpeg,image/png,image/webp,image/gif'),
+```
+{{< /solution >}}
+{{< /exercice >}}
 
 ---
 

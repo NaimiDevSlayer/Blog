@@ -1,0 +1,21 @@
+{{- $fr := eq .Lang "fr" -}}
+<svg viewBox="0 0 640 150" role="img" aria-label="{{ cond $fr "Les quatre types de jointures : INNER, LEFT, RIGHT et FULL JOIN" "The four join types: INNER, LEFT, RIGHT and FULL JOIN" }}">
+  <defs>
+    <clipPath id="sj-clip-b1"><circle cx="100" cy="58" r="36"/></clipPath>
+  </defs>
+  {{- range $i, $j := slice "INNER JOIN" "LEFT JOIN" "RIGHT JOIN" "FULL JOIN" }}
+  {{- $x := mul $i 160 }}
+  <g transform="translate({{ $x }},0)">
+    <g class="s-accent" opacity="0.35">
+      {{- if eq $i 0 }}<circle cx="60" cy="58" r="36" clip-path="url(#sj-clip-b1)"/>{{ end }}
+      {{- if or (eq $i 1) (eq $i 3) }}<circle cx="60" cy="58" r="36"/>{{ end }}
+      {{- if or (eq $i 2) (eq $i 3) }}<circle cx="100" cy="58" r="36"/>{{ end }}
+    </g>
+    <circle cx="60" cy="58" r="36" fill="none" class="s-stroke" stroke-width="1.5"/>
+    <circle cx="100" cy="58" r="36" fill="none" class="s-stroke" stroke-width="1.5"/>
+    <text x="42" y="63" class="s-text" text-anchor="middle" font-weight="700">A</text>
+    <text x="118" y="63" class="s-text" text-anchor="middle" font-weight="700">B</text>
+    <text x="80" y="122" class="s-code" text-anchor="middle" font-weight="600">{{ $j }}</text>
+  </g>
+  {{- end }}
+</svg>

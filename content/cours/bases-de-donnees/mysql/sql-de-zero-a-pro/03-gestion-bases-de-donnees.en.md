@@ -15,6 +15,13 @@ In this chapter, we learn to **manage databases**: create them, delete them, ren
 
 {{< youtube id="u9YaDkzRCFA" >}}
 
+{{< objectifs >}}
+- Connect to MySQL from the command line
+- Create, delete, list and select a database
+- Rename a database (there's no command for that!)
+- Pick the right encoding from the start
+{{< /objectifs >}}
+
 ## The two basic commands
 
 ```sql
@@ -101,6 +108,27 @@ USE test_safe_1;
 
 On a server with several databases, `USE` tells MySQL which one you want to work on: every following command applies to it.
 
+{{< encadre type="tip" title="The right encoding from the start" >}}
+Set the encoding when you create the database: **`utf8mb4`** handles every character, accents and emojis alike.
+
+```sql
+CREATE DATABASE blog CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+On MySQL 8, `utf8mb4` is already the default. But on older versions the default was `latin1`, and MySQL's old `utf8` can't store emojis. Spelling it out costs nothing.
+{{< /encadre >}}
+
+{{< encadre type="warning" >}}
+`DROP DATABASE` is **permanent**: no trash, no undo. Before deleting a database that holds data, back it up with `mysqldump`, just like for renaming.
+
+For scripts that don't fail when the database already exists (or doesn't), add `IF EXISTS` / `IF NOT EXISTS`:
+
+```sql
+CREATE DATABASE IF NOT EXISTS blog;
+DROP DATABASE IF EXISTS blog;
+```
+{{< /encadre >}}
+
 ## Recap
 
 | Command | Role |
@@ -110,6 +138,19 @@ On a server with several databases, `USE` tells MySQL which one you want to work
 | `SHOW DATABASES;` | List databases |
 | `USE name;` | Pick the database to work on |
 | `mysqldump` + import | Rename (or back up) a database |
+
+{{< exercice title="A database for a blog" >}}
+From the command line: create a `blog` database in `utf8mb4`, check that it shows up in the list, select it, then delete it.
+
+{{< solution >}}
+```sql
+CREATE DATABASE blog CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+SHOW DATABASES;
+USE blog;
+DROP DATABASE blog;
+```
+{{< /solution >}}
+{{< /exercice >}}
 
 ## What's Next
 

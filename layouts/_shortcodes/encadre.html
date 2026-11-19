@@ -1,0 +1,7 @@
+{{- /* Callout. type: tip | warning | further | mistake. Optional title overrides the default label. */ -}}
+{{- $type := .Get "type" | default "tip" -}}
+{{- $title := .Get "title" | default (i18n (printf "box_%s" $type)) -}}
+<aside class="box box-{{ $type }}">
+  <p class="box-title">{{ $title }}</p>
+  {{ .Inner | .Page.RenderString (dict "display" "block") }}
+</aside>

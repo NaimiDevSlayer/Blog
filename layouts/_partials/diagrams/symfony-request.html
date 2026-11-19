@@ -1,0 +1,25 @@
+{{- $fr := eq .Lang "fr" -}}
+<svg viewBox="0 0 640 170" role="img" aria-label="{{ cond $fr "Le trajet d'une requête dans Symfony" "The journey of a request in Symfony" }}">
+  <defs>
+    <marker id="sr-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="s-arrow"/>
+    </marker>
+  </defs>
+  {{- $steps := slice
+      (slice (cond $fr "Navigateur" "Browser") "GET /home")
+      (slice "Route" "app_home")
+      (slice "Controller" "HomeController")
+      (slice "Twig" "render()")
+      (slice (cond $fr "Réponse" "Response") "HTML") }}
+  {{- range $i, $s := $steps }}
+  {{- $x := mul $i 132 }}
+  <rect x="{{ $x }}" y="30" width="110" height="58" rx="8" class="s-box" stroke-width="1.5" {{ if eq $i 2 }}style="stroke: var(--blade)"{{ end }}/>
+  <text x="{{ add $x 55 }}" y="55" class="s-text" text-anchor="middle" font-weight="700">{{ index $s 0 }}</text>
+  <text x="{{ add $x 55 }}" y="74" class="s-code" text-anchor="middle" font-size="10">{{ index $s 1 }}</text>
+  {{- if lt $i 4 }}
+  <line x1="{{ add $x 112 }}" y1="59" x2="{{ add $x 130 }}" y2="59" class="s-line" stroke-width="1.5" marker-end="url(#sr-arrow)"/>
+  {{- end }}
+  {{- end }}
+  <path d="M583,92 C583,150 55,150 55,94" fill="none" class="s-line" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#sr-arrow)"/>
+  <text x="320" y="160" class="s-small" text-anchor="middle">{{ cond $fr "la page HTML revient au navigateur" "the HTML page goes back to the browser" }}</text>
+</svg>

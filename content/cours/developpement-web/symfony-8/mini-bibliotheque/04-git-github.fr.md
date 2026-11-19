@@ -16,6 +16,12 @@ Avant d'ajouter de nouvelles fonctionnalités, on prend un moment pour **pousser
 
 {{< youtube LcZKbIsjVdM >}}
 
+{{< objectifs >}}
+- Créer un dépôt sur GitHub et y relier ton projet Symfony
+- Faire ton premier commit et le pousser sur `main`
+- Savoir quels fichiers ne doivent jamais partir sur GitHub
+{{< /objectifs >}}
+
 ## Créer le dépôt
 
 On utilise **GitHub** ici, mais GitLab ou Bitbucket fonctionnent de la même façon.
@@ -86,12 +92,43 @@ Rafraîchis la page du dépôt : le projet est en ligne.
 
 > **Remarque : le dossier `vendor/` n'y est pas.** C'est voulu, il est listé dans `.gitignore`. Ne pousse jamais `vendor/` : n'importe qui peut le reconstruire avec `composer install`.
 
+{{< encadre type="warning" title="Ce qui ne doit jamais être poussé" >}}
+Le `.gitignore` créé par Symfony exclut déjà l'essentiel : `/vendor/`, `/var/` (cache et logs) et **`.env.local`**, où vont tes vrais identifiants. Avant ton premier `git add .`, jette un œil à `git status` : si un fichier de configuration avec un mot de passe apparaît, ajoute-le au `.gitignore` **avant** de committer. Une fois poussé, un secret reste dans l'historique, même si tu supprimes le fichier ensuite.
+{{< /encadre >}}
+
+{{< encadre type="mistake" >}}
+**GitHub refuse ton mot de passe au moment du `git push` ?** C'est normal : depuis 2021, GitHub n'accepte plus le mot de passe du compte en ligne de commande. Utilise un **token d'accès personnel** (Settings → Developer settings → Personal access tokens) à la place du mot de passe, ou configure une **clé SSH**. Le plus simple sur Windows : laisser **Git Credential Manager**, installé avec Git, ouvrir la connexion dans le navigateur.
+{{< /encadre >}}
+
+{{< encadre type="further" >}}
+Git mérite un cours à lui tout seul, et il en a un : [Git en pratique]({{< relref "/cours/outils/git/git-en-pratique" >}}), des branches aux pull requests.
+{{< /encadre >}}
+
 ## Récap
 
 - `git remote add origin <url>` relie le projet local à GitHub
 - `git add .` → `git commit -m "..."` → `git push origin main`
 - `git branch -M main` renomme `master` en `main`
 - `vendor/` reste hors de Git
+
+{{< exercice title="Un deuxième commit" >}}
+Modifie le titre de ta page d'accueil, puis enregistre ce changement dans un nouveau commit et pousse-le sur GitHub. Vérifie ensuite que ton historique contient bien deux commits.
+
+{{< solution >}}
+```bash
+git status
+git add templates/home/index.html.twig
+git commit -m "Change le titre de la page d'accueil"
+git push
+
+git log --oneline
+# a1b2c3d Change le titre de la page d'accueil
+# 9f8e7d6 first commit
+```
+
+Comme la branche `main` est déjà reliée au serveur depuis le premier push, un simple `git push` suffit.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## La suite
 

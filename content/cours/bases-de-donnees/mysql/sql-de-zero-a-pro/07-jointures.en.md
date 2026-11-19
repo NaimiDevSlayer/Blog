@@ -15,6 +15,13 @@ If you've ever worked with several tables, you've surely needed to cross-referen
 
 {{< youtube id="hkwM-npTqKg" >}}
 
+{{< objectifs >}}
+- Visualize joins before writing them
+- `INNER JOIN`, `LEFT JOIN` and `RIGHT JOIN`, with prefixes and aliases
+- Emulate a `FULL OUTER JOIN` in MySQL with `UNION`
+- Replace a subquery with a join
+{{< /objectifs >}}
+
 ## Visualizing joins
 
 The easiest way to understand joins is a **circle diagram** (like the ones on sql.sh), before you even write the query. With two tables A and B:
@@ -25,6 +32,8 @@ The easiest way to understand joins is a **circle diagram** (like the ones on sq
 | `LEFT JOIN` | **All of table A**, plus the matches in B |
 | `RIGHT JOIN` | **All of table B**, plus the matches in A |
 | `FULL OUTER JOIN` | **Everything**, from both sides |
+
+{{< schema name="sql-joins" caption="The four joins: the colored part is what the query returns." >}}
 
 ## Sample tables
 
@@ -160,6 +169,45 @@ Two important points:
 - **`GROUP BY u.id`.** We're mixing columns with an aggregate function: MySQL (in `ONLY_FULL_GROUP_BY` mode, on by default) then requires a grouping. Since `id` is the primary key, MySQL knows the other `user` columns depend on it. With **MariaDB**, list every column: `GROUP BY u.id, u.name, u.birthday, u.city`.
 
 The result is the same as the subquery version, but the query is easier to read.
+
+{{< encadre type="mistake" title="The LEFT JOIN that turns back into an INNER JOIN" >}}
+We want **every customer**, with their paid orders if they have any. First idea:
+
+```sql
+SELECT c.nom, co.statut
+FROM client c
+LEFT JOIN commande co ON co.client_id = c.id
+WHERE co.statut = 'payee';
+```
+
+Wrong: customers without a paid order disappear. For them, `co.statut` is `NULL`, and the `WHERE` drops them. The `LEFT JOIN` then behaves like an `INNER JOIN`.
+
+The fix: put the condition on the right-hand table **inside the `ON`**:
+
+```sql
+SELECT c.nom, co.statut
+FROM client c
+LEFT JOIN commande co ON co.client_id = c.id AND co.statut = 'payee';
+```
+
+Every customer is there, with `NULL` when they have no paid order. You'll meet this trap again in the *Employee Bonus* exercise of [chapter 9]({{< relref "09-exercices-partie-2" >}}).
+{{< /encadre >}}
+
+{{< exercice title="Customers without orders" >}}
+Using the chapter's `client` and `commande` tables, show the customers who have **no** order, with a join.
+
+{{< solution >}}
+```sql
+SELECT c.nom
+FROM client c
+LEFT JOIN commande co ON co.client_id = c.id
+WHERE co.id IS NULL;
+-- Charlie
+```
+
+The `LEFT JOIN` keeps every customer. For those without an order, every `commande` column is `NULL`: just filter them with `IS NULL`. That's the "left part only" of the diagram.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## What's Next
 

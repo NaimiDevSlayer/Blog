@@ -15,6 +15,12 @@ What should you do **before** committing? Here's a simple method for clean commi
 
 {{< youtube id="si7hanw6qRY" >}}
 
+{{< objectifs >}}
+- Review your changes before committing
+- Make commits that cover a single topic
+- Write a clear commit message
+{{< /objectifs >}}
+
 ## 1. List the changed files
 
 ```bash
@@ -69,6 +75,42 @@ A perfect commit is:
 - **clean code**, with nothing forgotten and nothing weird added;
 - **one topic** per commit;
 - **a clear message**.
+
+{{< encadre type="tip" title="One file, two topics? git add -p" >}}
+You fixed a bug **and** changed some text in the same file? With `-p` (*patch*), Git shows you each changed block and asks whether to stage it:
+
+```bash
+git add -p index.html
+# Stage this hunk [y,n,q,a,d,s,e,?]?
+```
+
+Answer `y` to stage it, `n` to leave it out, `s` to split the block into smaller pieces. That way you can make two clean commits from a single file.
+{{< /encadre >}}
+
+{{< encadre type="further" title="A convention for messages" >}}
+Many teams follow **Conventional Commits**: a prefix tells the type of change.
+
+```text
+feat: add the contact form
+fix: correct the cart total
+docs: expand the README
+```
+
+And if you spot a mistake in your **last** commit, not pushed yet: `git commit --amend` lets you fix its message or add a forgotten file.
+{{< /encadre >}}
+
+{{< exercice title="Fix the last commit" >}}
+You just committed, but forgot to add `style.css`. The commit isn't pushed yet. Add the file **to that same commit**, without creating a new one.
+
+{{< solution >}}
+```bash
+git add style.css
+git commit --amend --no-edit
+```
+
+`--no-edit` keeps the current message. Only use `--amend` on a commit that's **not pushed yet**: it replaces the commit with a new one, which would cause trouble for anyone who already fetched the old one.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## What's Next
 

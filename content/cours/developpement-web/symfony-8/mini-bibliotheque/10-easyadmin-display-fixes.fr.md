@@ -16,6 +16,13 @@ Notre CRUD Book fonctionne, mais la liste est difficile à lire : HTML brut dans
 
 {{< youtube IWthEdosl0c >}}
 
+{{< objectifs >}}
+- Exclure les fichiers uploadés de Git
+- Déclarer deux champs EasyAdmin pour une même propriété
+- Afficher du HTML, des badges et des liens dans la liste
+- Choisir entre `onlyOnForms()`, `hideOnForm()` et `hideOnIndex()`
+{{< /objectifs >}}
+
 ## Ne pas pousser les uploads
 
 ```bash
@@ -141,6 +148,35 @@ En regardant la base de données, deux choses ne vont pas :
 2. Supprime un livre : sa ligne disparaît, mais **le PDF et l'image restent sur le disque**. À la longue, c'est un problème de stockage.
 
 On corrige les deux au prochain chapitre.
+
+{{< encadre type="tip" title="Du HTML plus facile à maintenir" >}}
+Écrire du HTML dans des `sprintf()` devient vite illisible. EasyAdmin permet de confier l'affichage d'un champ à un **template Twig** :
+
+```php
+TextareaField::new('summary', 'Résumé')
+    ->hideOnForm()
+    ->setTemplatePath('admin/field/summary.html.twig'),
+```
+
+```twig
+{# templates/admin/field/summary.html.twig #}
+<a href="#" data-bs-toggle="modal" data-bs-target="#modal-{{ entity.instance.id }}">📄 Voir le résumé</a>
+```
+
+Dans ce template, `field.value` contient la valeur et `entity.instance` l'objet `Book`. Et Twig échappe le HTML par défaut, ce qui protège contre les failles XSS.
+{{< /encadre >}}
+
+{{< exercice title="Une liste plus lisible" >}}
+Le slug n'apporte rien dans la liste des livres. **Masque-le** sur la page index, en le gardant dans les formulaires et la vue détail.
+
+{{< solution >}}
+```php
+SlugField::new('bookSlug')
+    ->setTargetFieldName(['title', 'author'])
+    ->hideOnIndex(),
+```
+{{< /solution >}}
+{{< /exercice >}}
 
 ---
 

@@ -10,3 +10,17 @@
   translation: "Visit the YouTube channel"
 - id: home_latest
   translation: "Latest chapters"
+- id: box_objectives
+  translation: "What you'll learn"
+- id: box_tip
+  translation: "Tip"
+- id: box_warning
+  translation: "Watch out"
+- id: box_further
+  translation: "Going further"
+- id: box_mistake
+  translation: "Common mistake"
+- id: box_exercise
+  translation: "Exercise"
+- id: box_solution
+  translation: "Show the solution"

@@ -15,6 +15,12 @@ Au chapitre précédent, on a vu les pull requests et les forks. Mais il manquai
 
 {{< youtube id="bqmxVf9fqnM" >}}
 
+{{< objectifs >}}
+- Pourquoi ton fork prend du retard sur le projet original
+- Le rôle des remotes `origin` et `upstream`
+- Garder ton fork à jour, et le cycle complet d'une contribution
+{{< /objectifs >}}
+
 ## Le problème
 
 Ton fork est une **copie** du projet, faite à un instant donné. Pendant que tu travailles, d'autres développeurs font merger leurs pull requests dans le projet original. Ton fork, lui, ne se met pas à jour tout seul.
@@ -27,6 +33,8 @@ Ton projet local connaît deux dépôts distants :
 | --- | --- | --- |
 | `origin` | **Ton fork** | Pousser tes modifications |
 | `upstream` | **Le projet original** | Récupérer les nouveautés |
+
+{{< schema name="git-fork" caption="On tire depuis `upstream`, on pousse vers `origin`, et la pull request fait le dernier pas." >}}
 
 Pour voir les remotes configurés, ouvre le fichier `.git/config` du projet, ou lance :
 
@@ -65,6 +73,32 @@ git push origin feature/1
 ```
 
 Retiens la règle : **on tire depuis `upstream`, on pousse vers `origin`**. Les pushes vont toujours sur ton fork, et c'est la pull request qui fait passer les modifications dans le projet original.
+
+{{< encadre type="further" title="Deux autres façons de se mettre à jour" >}}
+`git pull` fait deux choses d'un coup : il **télécharge** (`fetch`) puis **fusionne** (`merge`). Tu peux aussi les séparer, pour regarder ce qui arrive avant de l'intégrer :
+
+```bash
+git fetch upstream
+git log --oneline HEAD..upstream/main   # les nouveaux commits
+git merge upstream/main
+```
+
+Et sur GitHub, le bouton **Sync fork** de la page de ton fork met à jour sa branche principale en un clic. Il te reste ensuite un simple `git pull` en local.
+
+Pense aussi au nom de la branche : beaucoup de projets récents utilisent `main` et non `master`.
+{{< /encadre >}}
+
+{{< exercice title="Ajoute le remote manquant" >}}
+`git remote -v` n'affiche que `origin`. Le projet original est `https://github.com/symfony/demo.git`, et sa branche principale est `main`. Ajoute `upstream`, puis récupère ses dernières modifications.
+
+{{< solution >}}
+```bash
+git remote add upstream https://github.com/symfony/demo.git
+git remote -v
+git pull upstream main
+```
+{{< /solution >}}
+{{< /exercice >}}
 
 ## La suite
 

@@ -1,0 +1,5 @@
+{{- /* Box listing what the chapter teaches. Inner content: a Markdown list. */ -}}
+<aside class="box box-objectives" aria-label="{{ i18n "box_objectives" }}">
+  <p class="box-title">{{ i18n "box_objectives" }}</p>
+  {{ .Inner | .Page.RenderString (dict "display" "block") }}
+</aside>

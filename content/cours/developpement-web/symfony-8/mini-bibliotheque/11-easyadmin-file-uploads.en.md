@@ -16,6 +16,13 @@ We left two problems open: the **file paths aren't saved**, and **deleted books 
 
 {{< youtube obbayz6mEGo >}}
 
+{{< objectifs >}}
+- Spot the hidden bug of a path computed at display time
+- Save each file's path in the database at upload time
+- Override `persistEntity`, `updateEntity` and `deleteEntity`
+- Delete old files without any risk of data loss
+{{< /objectifs >}}
+
 ## The Hidden Bug in Our Path System
 
 In chapter 9, we computed the upload folder from the **current date**, directly in `configureFields()`:
@@ -198,6 +205,38 @@ ImageField::new('coverImageName', 'Couverture')
 ## A Challenge for You
 
 Edit a book, change **only the title**, and save. EasyAdmin complains that the file fields are empty: on the edit page they don't know the file already exists, and they're marked as required. Think about how to fix it. The solution is in the next chapter.
+
+{{< encadre type="further" title="Another approach: Doctrine events" >}}
+Here, the file logic lives in the CRUD controller, so it **only applies in the admin**. If a book is one day deleted elsewhere (a console command, an API…), its files will stay on disk.
+
+For a rule that applies everywhere, you can move it into a **Doctrine listener**, triggered on every `Book` deletion, wherever it comes from:
+
+```php
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
+
+#[AsEntityListener(event: Events::postRemove, entity: Book::class)]
+final class BookFileCleaner
+{
+    public function __invoke(Book $book): void
+    {
+        // delete the PDF and the cover from disk
+    }
+}
+```
+
+`postRemove` runs **after** the database deletion: just like our `deleteEntity()`, the files are only touched once the row is really gone.
+{{< /encadre >}}
+
+{{< exercice title="Why after the flush?" >}}
+In `updateEntity()` and `deleteEntity()`, files are deleted **after** `flush()`, never before. What would happen the other way round if saving to the database failed?
+
+{{< solution >}}
+The files would already be gone, but the database would still hold the book with its old paths. The result: a book pointing to a PDF and a cover that no longer exist, with no way to get them back.
+
+By deleting after a successful `flush()`, the worst case is an orphan file on disk: a bit of wasted space, but no broken data.
+{{< /solution >}}
+{{< /exercice >}}
 
 ---
 

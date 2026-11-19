@@ -15,6 +15,13 @@ Une base de données sans tables, c'est une boîte vide. Dans ce chapitre, on cr
 
 {{< youtube id="8XI37ht3QNE" >}}
 
+{{< objectifs >}}
+- Créer, modifier et supprimer des tables
+- Relier les tables : un à un, un à plusieurs, plusieurs à plusieurs
+- Nommer ses contraintes
+- Insérer, modifier et supprimer des données sans casse
+{{< /objectifs >}}
+
 ## Anatomie d'une table
 
 Prenons une table `user` avec quatre colonnes :
@@ -77,6 +84,8 @@ Teste-les toi-même sur ta table : c'est le meilleur moyen de les retenir.
 ## Les relations entre tables
 
 On travaille avec une base de données **relationnelle** : les tables sont **liées** entre elles. On relie deux tables grâce à une **clé étrangère** (`FOREIGN KEY`), une colonne qui fait référence à la clé primaire d'une autre table.
+
+{{< schema name="sql-relations" caption="Les trois types de relations, et où se place la clé étrangère dans chaque cas." >}}
 
 ### Un à un (One to One)
 
@@ -205,6 +214,21 @@ WHERE name = 'Safe';
 
 > ⚠️ **Sans `WHERE`, `UPDATE` et `DELETE` s'appliquent à toute la table.** Vérifie toujours ta condition avant d'exécuter.
 
+{{< encadre type="tip" title="Le filet de sécurité : les transactions" >}}
+Avant un `UPDATE` ou un `DELETE` risqué, ouvre une **transaction**. Tu vérifies le résultat, puis tu valides avec `COMMIT`… ou tu annules tout avec `ROLLBACK` :
+
+```sql
+START TRANSACTION;
+
+DELETE FROM user WHERE city = 'Paris';
+SELECT COUNT(*) FROM user;   -- le résultat est-il celui attendu ?
+
+ROLLBACK;   -- annule la suppression (ou COMMIT; pour la valider)
+```
+
+Et deux réflexes simples : lance d'abord un `SELECT` avec le même `WHERE` pour voir les lignes concernées, et écris le `WHERE` **avant** le reste de la requête.
+{{< /encadre >}}
+
 ### Vider une table : `TRUNCATE`
 
 ```sql
@@ -212,6 +236,28 @@ TRUNCATE TABLE user;
 ```
 
 `TRUNCATE` supprime tout le contenu de la table d'un coup, comme un `DELETE` sans `WHERE`, et remet aussi le compteur `AUTO_INCREMENT` à zéro.
+
+{{< encadre type="further" title="Que devient une commande si on supprime son client ?" >}}
+Par défaut, MySQL **refuse** de supprimer un client qui a encore des commandes : la clé étrangère protège la cohérence des données. On peut choisir un autre comportement avec `ON DELETE` :
+
+```sql
+FOREIGN KEY (client_id) REFERENCES client(client_id) ON DELETE CASCADE
+```
+
+| Option | Quand le client est supprimé… |
+| --- | --- |
+| *(rien)* ou `RESTRICT` | … la suppression est refusée |
+| `CASCADE` | … ses commandes sont supprimées aussi |
+| `SET NULL` | … ses commandes restent, avec `client_id` à `NULL` |
+
+`CASCADE` est pratique, mais à manier avec soin : une seule suppression peut effacer beaucoup de lignes en chaîne.
+
+À noter aussi : `TRUNCATE` est **refusé** sur une table référencée par une clé étrangère (erreur 1701). Dans ce cas, il faut passer par `DELETE`.
+{{< /encadre >}}
+
+{{< encadre type="further" >}}
+Ces relations sont exactement celles qu'on construit avec Doctrine dans le cours [Mini Bibliothèque]({{< relref "/cours/developpement-web/symfony-8/mini-bibliotheque/03-database-entities-migrations" >}}) : un livre a un auteur (ManyToOne) et plusieurs catégories (ManyToMany, avec une table intermédiaire).
+{{< /encadre >}}
 
 ## Récap
 
@@ -223,6 +269,33 @@ TRUNCATE TABLE user;
 | `ALTER TABLE … ADD / DROP / MODIFY / CHANGE` | Modifier les colonnes |
 | `FOREIGN KEY … REFERENCES` | Relier deux tables |
 | `INSERT`, `UPDATE`, `DELETE`, `TRUNCATE` | Manipuler les données |
+
+{{< exercice title="Auteurs et livres" >}}
+Crée deux tables : `auteur` (`id`, `nom`) et `livre` (`id`, `titre`, `auteur_id`). Un auteur peut écrire plusieurs livres. Ajoute la clé étrangère, puis insère un auteur et deux de ses livres.
+
+{{< solution >}}
+```sql
+CREATE TABLE auteur (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE livre (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    titre VARCHAR(255) NOT NULL,
+    auteur_id INT NOT NULL,
+    CONSTRAINT fk_livre_auteur FOREIGN KEY (auteur_id) REFERENCES auteur(id)
+);
+
+INSERT INTO auteur (nom) VALUES ('Victor Hugo');
+INSERT INTO livre (titre, auteur_id) VALUES
+    ('Les Misérables', 1),
+    ('Notre-Dame de Paris', 1);
+```
+
+C'est une relation **un à plusieurs** : la clé étrangère va du côté « plusieurs », donc dans `livre`. Essaie ensuite d'insérer un livre avec `auteur_id = 99` : MySQL refuse, car cet auteur n'existe pas.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## La suite
 

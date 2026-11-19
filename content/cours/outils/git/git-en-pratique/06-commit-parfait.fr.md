@@ -15,6 +15,12 @@ Qu'est-ce qu'il faut faire **avant** de committer ? Voici une méthode simple po
 
 {{< youtube id="si7hanw6qRY" >}}
 
+{{< objectifs >}}
+- Relire ses modifications avant de committer
+- Faire des commits qui ne traitent qu'un seul sujet
+- Écrire un message de commit clair
+{{< /objectifs >}}
+
 ## 1. Lister les fichiers modifiés
 
 ```bash
@@ -69,6 +75,42 @@ Un commit parfait, c'est :
 - **du code propre**, sans oubli ni ajout bizarre ;
 - **un seul sujet** par commit ;
 - **un message clair**.
+
+{{< encadre type="tip" title="Un fichier, deux sujets ? git add -p" >}}
+Tu as corrigé un bug **et** changé un texte dans le même fichier ? Avec `-p` (*patch*), Git te montre chaque bloc modifié et te demande s'il faut l'ajouter :
+
+```bash
+git add -p index.html
+# Stage this hunk [y,n,q,a,d,s,e,?]?
+```
+
+Réponds `y` pour l'ajouter, `n` pour le laisser de côté, `s` pour découper le bloc en plus petits morceaux. Tu peux ainsi faire deux commits propres à partir d'un seul fichier.
+{{< /encadre >}}
+
+{{< encadre type="further" title="Une convention pour les messages" >}}
+Beaucoup d'équipes suivent les **Conventional Commits** : un préfixe indique le type de changement.
+
+```text
+feat: ajoute le formulaire de contact
+fix: corrige le calcul du total du panier
+docs: complète le README
+```
+
+Et si tu remarques une faute dans ton **dernier** commit, pas encore poussé : `git commit --amend` permet de corriger son message ou d'y ajouter un fichier oublié.
+{{< /encadre >}}
+
+{{< exercice title="Corrige le dernier commit" >}}
+Tu viens de committer, mais tu as oublié d'ajouter `style.css`. Le commit n'est pas encore poussé. Ajoute le fichier **dans ce même commit**, sans en créer un nouveau.
+
+{{< solution >}}
+```bash
+git add style.css
+git commit --amend --no-edit
+```
+
+`--no-edit` garde le message actuel. N'utilise `--amend` que sur un commit **pas encore poussé** : il remplace le commit par un nouveau, ce qui poserait problème à ceux qui ont déjà récupéré l'ancien.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## La suite
 

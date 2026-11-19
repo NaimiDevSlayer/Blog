@@ -15,6 +15,12 @@ Dans ce premier chapitre, on répond à deux questions : **c'est quoi Git**, et 
 
 {{< youtube id="mpeFQm-AKIY" >}}
 
+{{< objectifs >}}
+- Ce qu'est Git, et le problème qu'il résout
+- Pourquoi tous les développeurs l'utilisent, seuls comme en équipe
+- La différence entre Git et GitHub
+{{< /objectifs >}}
+
 ## C'est quoi Git ?
 
 La définition la plus connue : **Git est un système de gestion de versions**. Concrètement, voici ce qu'il fait :
@@ -32,6 +38,15 @@ Imagine une équipe qui travaille sur le même projet, chacun sur son PC.
 **Avec Git**, chacun **pousse** ses modifications sur une plateforme en ligne comme **GitHub**, **GitLab** ou **Bitbucket**. Toute l'équipe peut ensuite **récupérer** ces modifications, travailler par-dessus et pousser les siennes, sans rien écraser.
 
 C'est un exemple très simple, mais tu vas découvrir tout ça en détail dans les prochains chapitres.
+
+{{< encadre type="further" title="Git ou GitHub ?" >}}
+On les confond souvent, mais ce sont deux choses différentes :
+
+- **Git** est l'outil, installé sur ta machine. Il enregistre l'historique de ton projet, même sans connexion internet.
+- **GitHub** est un site qui **héberge** des dépôts Git en ligne, et ajoute tout ce qu'il faut pour travailler en équipe : pull requests, revues de code, tickets… **GitLab** et **Bitbucket** font la même chose.
+
+Tu peux donc utiliser Git sans GitHub. L'inverse, en revanche, n'a pas de sens.
+{{< /encadre >}}
 
 ## La suite
 

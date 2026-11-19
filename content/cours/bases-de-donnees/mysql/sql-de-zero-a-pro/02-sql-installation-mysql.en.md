@@ -15,6 +15,12 @@ In this chapter, we answer the question **"what is SQL?"**, see why it's used ev
 
 {{< youtube id="-rrXv2B8Ti0" >}}
 
+{{< objectifs >}}
+- What SQL is, and what a DBMS like MySQL is
+- Why SQL is still a must-have for a developer
+- Install MySQL with WAMP and open phpMyAdmin
+{{< /objectifs >}}
+
 ## What is SQL?
 
 **SQL** stands for *Structured Query Language*. It's a language designed to **query, manipulate and manage data** in **relational databases**.
@@ -63,6 +69,20 @@ Click the WAMP icon, then **phpMyAdmin**, or go straight to `http://localhost/ph
 You land on an interface that lists all your **databases**. Click a database to see its **tables**.
 
 > phpMyAdmin is very handy, but in this course we'll mainly learn to write **real SQL queries**. GUIs will come later to save you time.
+
+{{< encadre type="further" title="MySQL or MariaDB?" >}}
+WAMP often installs **MySQL and MariaDB** side by side. MariaDB is a fork of MySQL, created by its founders: for this whole course, both behave the same way, apart from a few details I'll point out along the way.
+
+To find out which one you're connected to, run this query in phpMyAdmin's **SQL** tab:
+
+```sql
+SELECT VERSION();
+-- 8.0.31            → MySQL
+-- 10.11.6-MariaDB   → MariaDB
+```
+
+And outside WAMP: **MySQL Workbench** and **DBeaver** are very good graphical clients, and **Docker** lets you start a MySQL server with one command, without installing anything else.
+{{< /encadre >}}
 
 ## What's Next
 

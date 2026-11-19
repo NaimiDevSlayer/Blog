@@ -16,6 +16,12 @@ EasyAdmin est installé, mais `/admin` affiche encore la page d'accueil par déf
 
 {{< youtube TJOA8UoWrbI >}}
 
+{{< objectifs >}}
+- Les trois façons de choisir ce qu'affiche `/admin`
+- Afficher ton propre template en gardant le layout d'EasyAdmin
+- Passer des données (des statistiques) à ton dashboard
+{{< /objectifs >}}
+
 ## Les trois options de `index()`
 
 Ouvre `src/Controller/Admin/DashboardController.php`. La méthode `index()` générée propose trois options :
@@ -60,11 +66,62 @@ Rafraîchis `/admin` : notre dashboard s'affiche, avec le menu latéral et son �
 yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
 ```
 
+## Pour aller plus loin : un vrai tableau de bord
+
+Un dashboard qui dit juste « Dashboard », c'est un peu vide. Comme `index()` est un controller Symfony classique, on peut y **injecter des repositories** et passer des chiffres au template :
+
+```php
+use App\Repository\AuthorRepository;
+use App\Repository\BookRepository;
+
+public function __construct(
+    private readonly BookRepository $bookRepository,
+    private readonly AuthorRepository $authorRepository,
+) {}
+
+public function index(): Response
+{
+    return $this->render('admin/dashboard.html.twig', [
+        'nbBooks' => $this->bookRepository->count([]),
+        'nbAuthors' => $this->authorRepository->count([]),
+    ]);
+}
+```
+
+```twig
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+    <h1>Mini Bibliothèque</h1>
+    <p>{{ nbBooks }} livres · {{ nbAuthors }} auteurs</p>
+{% endblock %}
+```
+
+`count([])` compte toutes les lignes de la table, sans filtre.
+
 ## Récap
 
 - `index()` décide de ce qu'affiche `/admin`
 - `$this->render('admin/dashboard.html.twig')` affiche notre propre page
 - Étendre `@EasyAdmin/page/content.html.twig` conserve le layout d'EasyAdmin
+
+{{< exercice title="Le nombre de catégories" >}}
+Ajoute au dashboard le **nombre de catégories**, sur le même modèle que les livres et les auteurs.
+
+{{< solution >}}
+Injecte `CategoryRepository` dans le constructeur, puis :
+
+```php
+'nbCategories' => $this->categoryRepository->count([]),
+```
+
+Et dans le template :
+
+```twig
+<p>{{ nbBooks }} livres · {{ nbAuthors }} auteurs · {{ nbCategories }} catégories</p>
+```
+{{< /solution >}}
+{{< /exercice >}}
 
 ## La suite
 

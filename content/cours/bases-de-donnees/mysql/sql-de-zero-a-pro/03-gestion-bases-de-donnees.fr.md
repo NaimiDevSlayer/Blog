@@ -15,6 +15,13 @@ Dans ce chapitre, on apprend à **gérer les bases de données** : les créer, l
 
 {{< youtube id="u9YaDkzRCFA" >}}
 
+{{< objectifs >}}
+- Se connecter à MySQL en ligne de commande
+- Créer, supprimer, lister et choisir une base
+- Renommer une base (il n'y a pas de commande pour ça !)
+- Choisir le bon encodage dès la création
+{{< /objectifs >}}
+
 ## Les deux commandes de base
 
 ```sql
@@ -101,6 +108,27 @@ USE test_safe_1;
 
 Sur un serveur qui contient plusieurs bases, `USE` indique sur laquelle tu veux travailler : toutes les commandes suivantes s'appliqueront à elle.
 
+{{< encadre type="tip" title="Le bon encodage dès le départ" >}}
+Précise l'encodage en créant la base : **`utf8mb4`** gère tous les caractères, accents comme emojis.
+
+```sql
+CREATE DATABASE blog CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+Sur MySQL 8, `utf8mb4` est déjà la valeur par défaut. Mais sur d'anciennes versions, la valeur par défaut était `latin1`, et le vieux `utf8` de MySQL ne stocke pas les emojis. Le préciser ne coûte rien.
+{{< /encadre >}}
+
+{{< encadre type="warning" >}}
+`DROP DATABASE` est **définitif** : pas de corbeille, pas d'annulation. Avant de supprimer une base qui contient des données, fais une sauvegarde avec `mysqldump`, comme pour le renommage.
+
+Pour des scripts qui ne plantent pas si la base existe déjà (ou n'existe pas), ajoute `IF EXISTS` / `IF NOT EXISTS` :
+
+```sql
+CREATE DATABASE IF NOT EXISTS blog;
+DROP DATABASE IF EXISTS blog;
+```
+{{< /encadre >}}
+
 ## Récap
 
 | Commande | Rôle |
@@ -110,6 +138,19 @@ Sur un serveur qui contient plusieurs bases, `USE` indique sur laquelle tu veux 
 | `SHOW DATABASES;` | Lister les bases |
 | `USE nom;` | Choisir la base sur laquelle travailler |
 | `mysqldump` + import | Renommer (ou sauvegarder) une base |
+
+{{< exercice title="Une base pour un blog" >}}
+En ligne de commande : crée une base `blog` en `utf8mb4`, vérifie qu'elle apparaît dans la liste, sélectionne-la, puis supprime-la.
+
+{{< solution >}}
+```sql
+CREATE DATABASE blog CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+SHOW DATABASES;
+USE blog;
+DROP DATABASE blog;
+```
+{{< /solution >}}
+{{< /exercice >}}
 
 ## La suite
 

@@ -22,6 +22,12 @@ This is **Chapter 1** of the Mini Library course. If you're new here, this serie
 
 {{< youtube 0oUd5R5RYcA >}}
 
+{{< objectifs >}}
+- What we'll build in this course, and why it's a real project
+- The tools to install: WAMP, Composer, Symfony CLI and VS Code
+- How to check that your machine is ready with `symfony check:requirements`
+{{< /objectifs >}}
+
 ## What We're Building
 
 Throughout this series, we'll create:
@@ -92,6 +98,36 @@ symfony check:requirements
 ```
 
 If you see a confirmation like this, your environment is ready.
+
+{{< encadre type="mistake" >}}
+**`symfony check:requirements` shows errors?** Most of the time, a PHP extension is missing, such as `intl` or `pdo_mysql`. To see which ones are enabled:
+
+```bash
+php -m
+```
+
+With WAMP, enable the missing extension by clicking the WAMP icon → **PHP** → **PHP extensions**, or remove the `;` in front of the `extension=intl` line in your `php.ini`, then restart the services.
+
+Also check that your terminal uses the right PHP: `php -v` must show the same version as the one selected in WAMP. Otherwise, your `PATH` points to another PHP installation.
+{{< /encadre >}}
+
+{{< encadre type="further" >}}
+WAMP isn't the only option. On **Windows**, **Laragon** is a lightweight and popular alternative. On **macOS** and **Linux**, you can install PHP with your package manager (`brew`, `apt`) and let the **Symfony CLI** serve the project. And for an identical setup on every team member's machine, **Docker** is the most robust solution: we'll get there in the deployment part.
+{{< /encadre >}}
+
+{{< exercice title="Get your machine ready" >}}
+Check your setup with three commands: the PHP version, the Composer version, then the Symfony requirements.
+
+{{< solution >}}
+```bash
+php -v
+composer --version
+symfony check:requirements
+```
+
+All three must answer without errors, and the last one must end with "Your system is ready to run Symfony projects".
+{{< /solution >}}
+{{< /exercice >}}
 
 ## What's Next
 

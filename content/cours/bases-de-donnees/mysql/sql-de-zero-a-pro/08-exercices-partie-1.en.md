@@ -15,6 +15,13 @@ Time to practice! We solve SQL problems on **LeetCode**, one of the best platfor
 
 {{< youtube id="XqKi8moeMSg" >}}
 
+{{< objectifs >}}
+- Solve 5 "Easy" SQL problems from LeetCode
+- Choose between a join and a subquery
+- Join a table with itself (self-join)
+- Match the expected output format exactly
+{{< /objectifs >}}
+
 > **LeetCode tip:** **Run** tests your query on the example, **Submit** checks it against every test case and shows its performance. If you're stuck, the **Solutions** tab shows how others solved the problem.
 
 ## 1. Combine Two Tables
@@ -86,6 +93,25 @@ WHERE id NOT IN (SELECT customerId FROM Orders);
 
 Watch the expected column name: without `AS Customers`, the answer is rejected even if the data is right.
 
+{{< encadre type="mistake" title="NOT IN and NULL: the classic trap" >}}
+This solution works on LeetCode because `customerId` is never empty. But if a single order had a `NULL` `customerId`, the query would return… **no customers at all**. `NOT IN` compares each `id` with every value in the list, and a comparison with `NULL` is never true.
+
+Two safe versions that work in every case:
+
+```sql
+-- With NOT EXISTS
+SELECT name AS Customers
+FROM Customers c
+WHERE NOT EXISTS (SELECT 1 FROM Orders o WHERE o.customerId = c.id);
+
+-- With a join
+SELECT c.name AS Customers
+FROM Customers c
+LEFT JOIN Orders o ON o.customerId = c.id
+WHERE o.id IS NULL;
+```
+{{< /encadre >}}
+
 ## 5. Employees Earning More Than Their Managers
 
 **Table:** `Employee`: `id`, `name`, `salary`, `managerId`
@@ -114,6 +140,13 @@ WHERE e1.salary > e2.salary;
 ```
 
 After a **Submit**, LeetCode shows your query's performance. A query can be correct but slow: comparing it with other solutions is a great way to improve.
+
+{{< encadre type="tip" title="My method for an SQL exercise" >}}
+1. **Read the expected output** before the instructions: column names, order, duplicates.
+2. Spot **the tables** you need, and how they're linked.
+3. Write the query **step by step**: first the `FROM` and joins, then the `WHERE`, then the `SELECT`.
+4. Think about edge cases: `NULL`, duplicates, empty tables.
+{{< /encadre >}}
 
 ## What's Next
 

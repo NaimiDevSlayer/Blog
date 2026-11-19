@@ -16,6 +16,13 @@ Place à notre premier écran **CRUD** : créer, lister, modifier et supprimer. 
 
 {{< youtube 0aRGROuLZoI >}}
 
+{{< objectifs >}}
+- Générer un CRUD controller avec `make:admin:crud`
+- Choisir les champs affichés et leurs libellés
+- Ajouter le CRUD au menu du dashboard
+- Personnaliser les titres des pages et les boutons
+{{< /objectifs >}}
+
 ## Générer le CRUD controller
 
 ```bash
@@ -103,12 +110,56 @@ Le bouton **New** affiche maintenant *Ajouter une catégorie*, avec une icône p
 
 Avant le prochain chapitre, construis toi-même le CRUD **Author**, en suivant les mêmes étapes. Le chapitre suivant montre le résultat final.
 
+{{< encadre type="tip" title="Plus rapide : les libellés de l'entité" >}}
+Plutôt que de réécrire le titre de chaque page, tu peux donner à EasyAdmin le **nom de l'entité**, au singulier et au pluriel. Il l'utilise alors partout : titres, boutons « Ajouter », messages…
+
+```php
+public function configureCrud(Crud $crud): Crud
+{
+    return $crud
+        ->setEntityLabelInSingular('Catégorie')
+        ->setEntityLabelInPlural('Catégories');
+}
+```
+
+Garde `setPageTitle()` pour les pages où tu veux un titre vraiment différent.
+{{< /encadre >}}
+
+{{< encadre type="mistake" >}}
+**« Attempted to load class "Action" » ou « Class not found » ?** Il manque un `use` en haut du controller. Les classes utilisées ici viennent toutes d'EasyAdmin :
+
+```php
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+```
+
+Avec l'extension **PHP Intelephense** de VS Code, l'import se fait automatiquement quand tu sélectionnes la classe dans l'autocomplétion.
+{{< /encadre >}}
+
 ## Récap
 
 - `make:admin:crud` génère un CRUD controller pour une entité
 - `configureFields()` → quels champs, avec quels libellés
 - `MenuItem::linkTo()` ajoute le CRUD au menu
 - `configureCrud()` → titres des pages ; `configureActions()` → boutons
+
+{{< exercice title="Le bouton d'enregistrement" >}}
+Sur la page de création d'une catégorie, renomme le bouton **« Create »** en **« Enregistrer »**.
+
+{{< solution >}}
+Sur la page `new`, le bouton « Create » correspond à l'action `SAVE_AND_RETURN` :
+
+```php
+->update(Crud::PAGE_NEW, Action::SAVE_AND_RETURN, function (Action $action) {
+    return $action->setLabel('Enregistrer');
+})
+```
+
+Le bouton « Create and add another » correspond, lui, à `Action::SAVE_AND_ADD_ANOTHER`.
+{{< /solution >}}
+{{< /exercice >}}
 
 ---
 

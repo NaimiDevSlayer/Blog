@@ -15,6 +15,12 @@ Time to practice! We grab an existing project, create a branch, make some change
 
 {{< youtube id="bm_u0MtggvI" >}}
 
+{{< objectifs >}}
+- Git's basic cycle on a real project
+- Clone, create a branch, edit, commit, push
+- What `git add`, `git commit` and `git push` really do
+{{< /objectifs >}}
+
 ## 1. Clone the project
 
 On the repository page (GitHub, Bitbucket…), copy the project URL, then:
@@ -104,9 +110,22 @@ git push --set-upstream origin develop
 
 `--set-upstream` (or `-u`) links your local branch to the server branch. Next time, a plain `git push` is enough.
 
+{{< schema name="git-cycle" caption="A change's journey: `git add` stages it, `git commit` saves it in your local repository, `git push` sends it to the server. `git pull` goes the other way." >}}
+
 ## Check on the platform
 
 Refresh the repository page: the `develop` branch shows up next to `master`. You'll see your commit with its message, and clicking it shows every change in detail: the deleted line, the added file, the removed file.
+
+{{< encadre type="mistake" title="“rejected… fetch first” when pushing" >}}
+Someone pushed to the same branch since your last update: the server has commits you don't. Git refuses to overwrite their work. Get their changes first, then push:
+
+```bash
+git pull
+git push
+```
+
+And resist the urge to `git push --force` on a shared branch: that's exactly what wipes out other people's work.
+{{< /encadre >}}
 
 ## Recap
 
@@ -119,6 +138,23 @@ Refresh the repository page: the `develop` branch shows up next to `master`. You
 | `git add <file>` / `git add .` | Stage files for the commit |
 | `git commit -m "message"` | Save the changes |
 | `git push -u origin <branch>` | Send a new branch to the server |
+
+{{< exercice title="A full cycle" >}}
+On your project, create a `docs/readme` branch, add a line to `README.md`, then commit and push that branch to the server.
+
+{{< solution >}}
+```bash
+git checkout -b docs/readme      # or: git switch -c docs/readme
+# … edit README.md …
+git status
+git add README.md
+git commit -m "Expand the README"
+git push --set-upstream origin docs/readme
+```
+
+`--set-upstream` (or `-u`) is only needed on the branch's first push. After that, a plain `git push` is enough.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## What's Next
 

@@ -15,6 +15,12 @@ Tu es en plein milieu d'une modification, et tu dois changer de branche en urgen
 
 {{< youtube id="9ESGvO456Lg" >}}
 
+{{< objectifs >}}
+- Mettre de côté un travail en cours avec `git stash`
+- Lister, récupérer et supprimer ses stash
+- Choisir entre `apply` et `pop`
+{{< /objectifs >}}
+
 ## Ce que fait `git stash`
 
 `git stash` prend tes **modifications non commitées** (préparées avec `git add` ou non), les **met de côté** pour plus tard, et remet ta copie de travail **propre**, comme au dernier commit.
@@ -91,6 +97,36 @@ Donc, deux façons de faire la même chose :
 ## À retenir
 
 `git stash` est très utile quand on travaille sur **plusieurs branches en même temps** : tu mets ton travail en cours de côté, tu règles l'urgence ailleurs, puis tu reprends exactement où tu en étais.
+
+{{< encadre type="tip" title="Donne un nom à tes stash" >}}
+Au bout de trois stash, `WIP on feature/1` ne dit plus grand-chose. Ajoute un message :
+
+```bash
+git stash push -m "formulaire de contact à moitié fait"
+git stash list
+# stash@{0}: On feature/1: formulaire de contact à moitié fait
+```
+{{< /encadre >}}
+
+{{< encadre type="mistake" title="Un conflit au moment du pop" >}}
+Si tes modifications entrent en conflit avec le code actuel, `git stash pop` s'arrête sur un **conflit**, comme un merge. Pas de panique : dans ce cas, Git **garde le stash** dans la liste (« The stash entry is kept in case you need it again »). Résous le conflit dans tes fichiers, puis supprime le stash avec `git stash drop` une fois que tout est bon.
+{{< /encadre >}}
+
+{{< exercice title="Une urgence en plein travail" >}}
+Tu modifies `index.html` et tu as créé un nouveau fichier `contact.html`, quand on te demande une correction urgente sur `main`. Mets **tout** de côté, change de branche, puis reviens et récupère ton travail.
+
+{{< solution >}}
+```bash
+git stash -u            # -u : inclut le nouveau fichier contact.html
+git checkout main
+# … correction, commit, push …
+git checkout feature/contact
+git stash pop
+```
+
+Sans `-u`, `contact.html` (non suivi par Git) serait resté dans ton dossier et t'aurait suivi sur `main`.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## La suite
 

@@ -16,6 +16,13 @@ On a laissé deux problèmes en suspens : les **chemins des fichiers ne sont pas
 
 {{< youtube XGxbm7oA5II >}}
 
+{{< objectifs >}}
+- Repérer le bug caché d'un chemin calculé à l'affichage
+- Enregistrer le chemin des fichiers en base au moment de l'upload
+- Surcharger `persistEntity`, `updateEntity` et `deleteEntity`
+- Supprimer les anciens fichiers sans risque de perte
+{{< /objectifs >}}
+
 ## Le bug caché de notre système de chemins
 
 Au chapitre 9, on a calculé le dossier d'upload à partir de la **date du jour**, directement dans `configureFields()` :
@@ -198,6 +205,38 @@ ImageField::new('coverImageName', 'Couverture')
 ## Un défi pour toi
 
 Modifie un livre, change **seulement le titre**, et enregistre. EasyAdmin se plaint que les champs de fichiers sont vides : sur la page de modification, ils ne savent pas que le fichier existe déjà, et ils sont marqués comme obligatoires. Réfléchis à une solution : la réponse est au prochain chapitre.
+
+{{< encadre type="further" title="Une autre approche : les événements Doctrine" >}}
+Ici, la logique de fichiers vit dans le CRUD controller : elle ne s'applique donc **que dans l'admin**. Si un jour un livre est supprimé ailleurs (une commande console, une API…), ses fichiers resteront sur le disque.
+
+Pour une règle valable partout, on peut la déplacer dans un **listener Doctrine**, déclenché à chaque suppression d'un `Book`, d'où qu'elle vienne :
+
+```php
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
+
+#[AsEntityListener(event: Events::postRemove, entity: Book::class)]
+final class BookFileCleaner
+{
+    public function __invoke(Book $book): void
+    {
+        // supprimer le PDF et la couverture du disque
+    }
+}
+```
+
+`postRemove` s'exécute **après** la suppression en base : comme dans notre `deleteEntity()`, on ne touche aux fichiers qu'une fois la ligne vraiment supprimée.
+{{< /encadre >}}
+
+{{< exercice title="Pourquoi après le flush ?" >}}
+Dans `updateEntity()` et `deleteEntity()`, on supprime les fichiers **après** `flush()`, jamais avant. Que se passerait-il dans l'ordre inverse si l'enregistrement en base échouait ?
+
+{{< solution >}}
+Les fichiers seraient déjà supprimés, mais la base contiendrait toujours le livre avec ses anciens chemins. Résultat : un livre qui pointe vers un PDF et une couverture qui n'existent plus, sans aucun moyen de les récupérer.
+
+En supprimant après un `flush()` réussi, le pire cas est un fichier orphelin sur le disque : un peu d'espace perdu, mais aucune donnée cassée.
+{{< /solution >}}
+{{< /exercice >}}
 
 ---
 

@@ -15,6 +15,13 @@ In the previous chapter, the project already existed on the server. Here, we sta
 
 {{< youtube id="WzMF_k-1cvc" >}}
 
+{{< objectifs >}}
+- Turn an existing folder into a Git repository with `git init`
+- Create the repository on GitHub and understand `.gitignore`
+- Link your project to the repository with `git remote`
+- Make the first commit and the first push
+{{< /objectifs >}}
+
 ## 1. Initialize Git: `git init`
 
 Create a folder with a first file, then initialize Git inside it:
@@ -99,6 +106,20 @@ git push --set-upstream origin master
 
 Refresh the GitHub page: your file is there, on the `master` branch. Get into the habit of **reading Git's messages**: very often, they tell you exactly what to do.
 
+{{< encadre type="mistake" title="The two first-push errors" >}}
+**"remote origin already exists"**: the project is already linked to a repository (an old one, for example). To change the URL instead of adding another:
+
+```bash
+git remote set-url origin https://github.com/<user>/<project>.git
+```
+
+**"src refspec main does not match any"**: the `main` branch doesn't exist yet. Either you haven't made **any commit** (a branch only exists from its first commit), or your branch is called `master`. Check with `git branch`, then push the right branch.
+{{< /encadre >}}
+
+{{< encadre type="warning" >}}
+Set up `.gitignore` **before** the first `git add .`. A file that's already committed stays tracked even if you add it to `.gitignore` afterwards: you then need to untrack it with `git rm --cached <file>`. And if it was a password file, consider those passwords compromised and change them.
+{{< /encadre >}}
+
 ## Recap
 
 | Command | Role |
@@ -108,6 +129,20 @@ Refresh the GitHub page: your file is there, on the `master` branch. Get into th
 | `git remote add origin <url>` | Link the project to a remote repository |
 | `git remote -v` | Show remote repositories |
 | `git push --set-upstream origin <branch>` | First push of a branch |
+
+{{< exercice title="Ignore the right files" >}}
+Your project has a `node_modules/` folder, a `.env` file with passwords and some `*.log` files. Write the `.gitignore`.
+
+{{< solution >}}
+```gitignore
+node_modules/
+.env
+*.log
+```
+
+A name ending with `/` means a folder, and `*` matches any sequence of characters. Then check with `git status`: those files must no longer show up.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## What's Next
 
