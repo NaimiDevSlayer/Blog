@@ -15,6 +15,13 @@ On attaque l'un des concepts les plus fondamentaux de SQL : les requêtes **`SEL
 
 {{< youtube id="BsVtkAheFG0" >}}
 
+{{< objectifs >}}
+- Lire des données avec `SELECT`
+- Filtrer, regrouper, trier et paginer avec les clauses
+- Calculer avec les fonctions d'agrégation
+- Comprendre dans quel ordre MySQL exécute une requête
+{{< /objectifs >}}
+
 ## La syntaxe de base
 
 ```sql
@@ -79,6 +86,30 @@ Lisons-la ligne par ligne :
 7. `LIMIT 5` : on garde les 5 premières lignes.
 
 > **`WHERE` ou `HAVING` ?** `WHERE` filtre les **lignes** avant le regroupement, `HAVING` filtre les **groupes** après.
+
+{{< encadre type="tip" title="L'ordre dans lequel MySQL lit ta requête" >}}
+On écrit `SELECT` en premier, mais MySQL l'exécute presque en dernier :
+
+1. `FROM` : quelle table ?
+2. `WHERE` : quelles lignes ?
+3. `GROUP BY` : quels groupes ?
+4. `HAVING` : quels groupes garder ?
+5. `SELECT` : quelles colonnes, et leurs alias
+6. `ORDER BY` : dans quel ordre ?
+7. `LIMIT` / `OFFSET` : combien ?
+
+Ça explique deux règles qui surprennent au début : on peut utiliser l'alias `prix_moyen` dans `ORDER BY` (exécuté après `SELECT`), mais **pas dans `WHERE`** (exécuté avant). Et c'est pour ça que `WHERE` ne peut pas contenir de `AVG()` : les groupes n'existent pas encore.
+{{< /encadre >}}
+
+{{< encadre type="mistake" >}}
+**Erreur 1055 « isn't in GROUP BY » ?** Avec `GROUP BY`, chaque colonne du `SELECT` doit être soit **dans le `GROUP BY`**, soit **dans une fonction d'agrégation**. Cette requête est refusée par MySQL :
+
+```sql
+SELECT city, name, COUNT(*) FROM user GROUP BY city;
+```
+
+Normal : une ville regroupe 34 utilisateurs, MySQL ne peut pas deviner **quel** `name` afficher. Retire `name`, ou ajoute-le au `GROUP BY`.
+{{< /encadre >}}
 
 ## Les index et la performance
 
@@ -148,6 +179,32 @@ SELECT ROUND(AVG(nb_like)) FROM post WHERE user_id = 1;
 ```
 
 > phpMyAdmin permet aussi de faire des recherches simples sans écrire de SQL. Mais dans ce cours, on écrit les vraies requêtes : c'est ce que tu utiliseras dans ton code.
+
+{{< encadre type="further" title="Chercher un morceau de texte : LIKE" >}}
+Pour trouver les utilisateurs dont le nom **commence** par « Sa » :
+
+```sql
+SELECT * FROM user WHERE name LIKE 'Sa%';
+```
+
+`%` remplace n'importe quelle suite de caractères (même vide), `_` remplace exactement un caractère. `'%dev%'` trouve « dev » n'importe où dans le texte, mais attention : un `%` au **début** empêche MySQL d'utiliser l'index de la colonne.
+{{< /encadre >}}
+
+{{< exercice title="Le podium des utilisateurs" >}}
+Avec la table `post`, affiche les **3 utilisateurs** (leur `user_id`) qui cumulent le plus de likes, avec leur total, du plus grand au plus petit.
+
+{{< solution >}}
+```sql
+SELECT user_id, SUM(nb_like) AS total_likes
+FROM post
+GROUP BY user_id
+ORDER BY total_likes DESC
+LIMIT 3;
+```
+
+On regroupe par utilisateur, on additionne les likes de chaque groupe, on trie sur l'alias, et on garde les trois premiers. Pour afficher leur nom plutôt que leur `user_id`, il faudra une **jointure** : rendez-vous au chapitre 7.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## La suite
 

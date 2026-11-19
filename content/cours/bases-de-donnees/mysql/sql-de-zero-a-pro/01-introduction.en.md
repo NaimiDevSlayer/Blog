@@ -15,6 +15,12 @@ Welcome to this new series where we dive into the world of **SQL**, the essentia
 
 {{< youtube id="nDU-eGIpn_c" >}}
 
+{{< objectifs >}}
+- The course outline, from databases to joins
+- What you'll be able to do by the end: create, link and query tables
+- How to work through the chapters so it really sticks
+{{< /objectifs >}}
+
 > The videos of this course are in French. Turn on YouTube's auto-translated subtitles if needed: every chapter below is fully written in English.
 
 ## The program
@@ -30,6 +36,10 @@ Here's what we'll cover, chapter by chapter:
 7. **Hands-on exercises**, in two parts, to put everything into practice.
 
 The goal: by the end of the course, you'll walk away with **real hands-on SQL experience**.
+
+{{< encadre type="tip" title="How to follow this course" >}}
+Type **every query yourself**, even the ones that look obvious, instead of copy-pasting them. Make a mistake, read MySQL's message, fix it: that's how the syntax sinks in. And at the end of each chapter, do the exercise before opening the solution.
+{{< /encadre >}}
 
 ## What's Next
 

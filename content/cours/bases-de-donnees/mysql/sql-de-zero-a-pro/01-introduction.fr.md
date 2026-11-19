@@ -15,6 +15,12 @@ Bienvenue dans cette nouvelle série où on plonge dans le monde de **SQL**, le 
 
 {{< youtube id="nDU-eGIpn_c" >}}
 
+{{< objectifs >}}
+- Le programme du cours, des bases de données jusqu'aux jointures
+- Ce que tu sauras faire à la fin : créer, relier, interroger des tables
+- Comment travailler les chapitres pour vraiment retenir
+{{< /objectifs >}}
+
 ## Le programme
 
 Voici ce qu'on va voir, chapitre par chapitre :
@@ -28,6 +34,10 @@ Voici ce qu'on va voir, chapitre par chapitre :
 7. **Exercices pratiques**, en deux parties, pour mettre en application tout ce qu'on a appris.
 
 L'objectif : qu'à la fin du cours, tu repartes avec une **vraie expérience pratique** de SQL.
+
+{{< encadre type="tip" title="Comment suivre ce cours" >}}
+Tape **toutes les requêtes toi-même**, même celles qui semblent évidentes, au lieu de les copier-coller. Fais une erreur, lis le message de MySQL, corrige : c'est comme ça que la syntaxe rentre. Et à la fin de chaque chapitre, fais l'exercice avant d'ouvrir la solution.
+{{< /encadre >}}
 
 ## La suite
 

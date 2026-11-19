@@ -15,6 +15,13 @@ A database without tables is an empty box. In this chapter, we create and modify
 
 {{< youtube id="8XI37ht3QNE" >}}
 
+{{< objectifs >}}
+- Create, modify and delete tables
+- Link tables: one to one, one to many, many to many
+- Name your constraints
+- Insert, update and delete data safely
+{{< /objectifs >}}
+
 ## Anatomy of a table
 
 Take a `user` table with four columns:
@@ -77,6 +84,8 @@ Try them yourself on your table: it's the best way to remember them.
 ## Relationships between tables
 
 We're working with a **relational** database: tables are **linked** to each other. Two tables are linked through a **foreign key** (`FOREIGN KEY`), a column that references the primary key of another table.
+
+{{< schema name="sql-relations" caption="The three kinds of relationships, and where the foreign key goes in each case." >}}
 
 ### One to one
 
@@ -205,6 +214,21 @@ WHERE name = 'Safe';
 
 > ⚠️ **Without `WHERE`, `UPDATE` and `DELETE` apply to the whole table.** Always double-check your condition before running them.
 
+{{< encadre type="tip" title="The safety net: transactions" >}}
+Before a risky `UPDATE` or `DELETE`, open a **transaction**. You check the result, then confirm with `COMMIT`… or undo everything with `ROLLBACK`:
+
+```sql
+START TRANSACTION;
+
+DELETE FROM user WHERE city = 'Paris';
+SELECT COUNT(*) FROM user;   -- is that the expected result?
+
+ROLLBACK;   -- undoes the deletion (or COMMIT; to keep it)
+```
+
+And two simple habits: first run a `SELECT` with the same `WHERE` to see which rows are affected, and write the `WHERE` **before** the rest of the query.
+{{< /encadre >}}
+
 ### Empty a table: `TRUNCATE`
 
 ```sql
@@ -212,6 +236,28 @@ TRUNCATE TABLE user;
 ```
 
 `TRUNCATE` removes all the table's content at once, like a `DELETE` without `WHERE`, and also resets the `AUTO_INCREMENT` counter.
+
+{{< encadre type="further" title="What happens to an order when its customer is deleted?" >}}
+By default, MySQL **refuses** to delete a customer who still has orders: the foreign key protects data consistency. You can pick another behavior with `ON DELETE`:
+
+```sql
+FOREIGN KEY (client_id) REFERENCES client(client_id) ON DELETE CASCADE
+```
+
+| Option | When the customer is deleted… |
+| --- | --- |
+| *(nothing)* or `RESTRICT` | … the deletion is refused |
+| `CASCADE` | … their orders are deleted too |
+| `SET NULL` | … their orders stay, with `client_id` set to `NULL` |
+
+`CASCADE` is handy, but use it with care: a single deletion can wipe out many rows in a chain.
+
+Also note: `TRUNCATE` is **refused** on a table referenced by a foreign key (error 1701). In that case, use `DELETE` instead.
+{{< /encadre >}}
+
+{{< encadre type="further" >}}
+These are exactly the relationships we build with Doctrine in the [Mini Library]({{< relref "/cours/developpement-web/symfony-8/mini-bibliotheque/03-database-entities-migrations" >}}) course: a book has one author (ManyToOne) and several categories (ManyToMany, with a junction table).
+{{< /encadre >}}
 
 ## Recap
 
@@ -223,6 +269,33 @@ TRUNCATE TABLE user;
 | `ALTER TABLE … ADD / DROP / MODIFY / CHANGE` | Modify columns |
 | `FOREIGN KEY … REFERENCES` | Link two tables |
 | `INSERT`, `UPDATE`, `DELETE`, `TRUNCATE` | Manipulate data |
+
+{{< exercice title="Authors and books" >}}
+Create two tables: `author` (`id`, `name`) and `book` (`id`, `title`, `author_id`). An author can write several books. Add the foreign key, then insert one author and two of their books.
+
+{{< solution >}}
+```sql
+CREATE TABLE author (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE book (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    author_id INT NOT NULL,
+    CONSTRAINT fk_book_author FOREIGN KEY (author_id) REFERENCES author(id)
+);
+
+INSERT INTO author (name) VALUES ('Victor Hugo');
+INSERT INTO book (title, author_id) VALUES
+    ('Les Misérables', 1),
+    ('The Hunchback of Notre-Dame', 1);
+```
+
+It's a **one-to-many** relationship: the foreign key goes on the "many" side, so in `book`. Then try inserting a book with `author_id = 99`: MySQL refuses, since that author doesn't exist.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## What's Next
 

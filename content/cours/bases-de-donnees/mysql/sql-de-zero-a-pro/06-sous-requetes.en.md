@@ -15,6 +15,13 @@ Time for advanced SQL with a super useful concept: **subqueries**.
 
 {{< youtube id="XBjkfScm83M" >}}
 
+{{< objectifs >}}
+- What a subquery is, and where you can use one
+- Add a computed column, replace a table, filter with `IN`
+- Copy, update or delete rows based on a result
+- Work around MySQL error 1093
+{{< /objectifs >}}
+
 ## What's a subquery?
 
 A **subquery** is a SQL query **nested inside another query**, between parentheses. You can use it in `SELECT`, `FROM`, `WHERE`, `HAVING`, and even in `INSERT`, `UPDATE` or `DELETE`.
@@ -112,6 +119,37 @@ WHERE id IN (
 - The innermost subquery computes the average likes of **all** posts.
 
 > Getting an "unknown column" error? Check the exact column names: here it's `user_id`, not `id_user`.
+
+{{< encadre type="further" title="IN or EXISTS?" >}}
+For "users who have at least one post", you can also write:
+
+```sql
+SELECT * FROM user u
+WHERE EXISTS (SELECT 1 FROM post p WHERE p.user_id = u.id);
+```
+
+`EXISTS` only checks whether **at least one row** exists: it stops as soon as it finds one. Here, the subquery depends on the current row (`u.id`): it's a **correlated** subquery.
+
+Above all, `NOT EXISTS` is safer than `NOT IN` whenever a column may contain `NULL`: you'll see why in the [exercises chapter]({{< relref "08-exercices-partie-1" >}}).
+{{< /encadre >}}
+
+{{< exercice title="Above their own average" >}}
+Show the posts that have more likes than **their author's average** (not the overall average).
+
+{{< solution >}}
+```sql
+SELECT p.id, p.title, p.user_id, p.nb_like
+FROM post p
+WHERE p.nb_like > (
+    SELECT AVG(p2.nb_like)
+    FROM post p2
+    WHERE p2.user_id = p.user_id
+);
+```
+
+It's a **correlated** subquery: for each post `p`, it recomputes the average of the same user's posts. The `p` and `p2` aliases are essential to tell apart the two uses of the same table.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## What's Next
 

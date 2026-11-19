@@ -15,6 +15,12 @@ Dans ce chapitre, on répond à la question **« qu'est-ce que SQL ? »**, on vo
 
 {{< youtube id="-rrXv2B8Ti0" >}}
 
+{{< objectifs >}}
+- Ce qu'est SQL, et ce qu'est un SGBD comme MySQL
+- Pourquoi SQL reste incontournable pour un développeur
+- Installer MySQL avec WAMP et ouvrir phpMyAdmin
+{{< /objectifs >}}
+
 ## Qu'est-ce que SQL ?
 
 **SQL** est l'acronyme de *Structured Query Language*, en français « langage de requête structurée ». C'est un langage conçu pour **interroger, manipuler et gérer des données** dans des **bases de données relationnelles**.
@@ -63,6 +69,20 @@ Clique sur l'icône de WAMP, puis sur **phpMyAdmin**, ou va directement sur `htt
 Tu arrives sur une interface qui liste toutes tes **bases de données**. Clique sur une base pour voir ses **tables**.
 
 > phpMyAdmin est très pratique, mais dans ce cours on apprendra surtout à écrire les **vraies requêtes SQL**. Les interfaces viendront ensuite te faire gagner du temps.
+
+{{< encadre type="further" title="MySQL ou MariaDB ?" >}}
+WAMP installe souvent **MySQL et MariaDB** côte à côte. MariaDB est un « fork » de MySQL, créé par ses fondateurs : pour tout ce cours, les deux se comportent de la même façon, à quelques détails près que je signale au passage.
+
+Pour savoir sur lequel tu es connecté, lance cette requête dans l'onglet **SQL** de phpMyAdmin :
+
+```sql
+SELECT VERSION();
+-- 8.0.31            → MySQL
+-- 10.11.6-MariaDB   → MariaDB
+```
+
+Et en dehors de WAMP : **MySQL Workbench** ou **DBeaver** sont de très bons clients graphiques, et **Docker** permet de lancer un serveur MySQL en une commande, sans rien installer d'autre.
+{{< /encadre >}}
 
 ## La suite
 

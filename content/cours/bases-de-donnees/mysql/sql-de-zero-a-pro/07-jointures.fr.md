@@ -15,6 +15,13 @@ Si tu as déjà travaillé avec plusieurs tables, tu as sûrement eu besoin de c
 
 {{< youtube id="hkwM-npTqKg" >}}
 
+{{< objectifs >}}
+- Visualiser les jointures avant de les écrire
+- `INNER JOIN`, `LEFT JOIN` et `RIGHT JOIN`, avec préfixes et alias
+- Simuler un `FULL OUTER JOIN` en MySQL avec `UNION`
+- Remplacer une sous-requête par une jointure
+{{< /objectifs >}}
+
 ## Visualiser les jointures
 
 Le plus simple pour comprendre les jointures, c'est un **schéma en cercles** (comme ceux du site sql.sh), avant même d'écrire la requête. Avec deux tables A et B :
@@ -25,6 +32,8 @@ Le plus simple pour comprendre les jointures, c'est un **schéma en cercles** (c
 | `LEFT JOIN` | **Toute la table A**, plus les correspondances dans B |
 | `RIGHT JOIN` | **Toute la table B**, plus les correspondances dans A |
 | `FULL OUTER JOIN` | **Tout**, des deux côtés |
+
+{{< schema name="sql-joins" caption="Les quatre jointures : la partie colorée, c'est ce que la requête renvoie." >}}
 
 ## Les tables d'exemple
 
@@ -158,6 +167,45 @@ Deux points importants :
 - **`GROUP BY u.id`.** On mélange des colonnes et une fonction d'agrégation : MySQL (en mode `ONLY_FULL_GROUP_BY`, activé par défaut) exige alors un regroupement. Comme `id` est la clé primaire, MySQL sait que les autres colonnes de `user` en dépendent. Avec **MariaDB**, il faut lister toutes les colonnes : `GROUP BY u.id, u.name, u.birthday, u.city`.
 
 Le résultat est identique à la version avec sous-requête, mais la requête est plus lisible.
+
+{{< encadre type="mistake" title="Le LEFT JOIN qui redevient un INNER JOIN" >}}
+On veut **tous les clients**, avec leurs commandes payées s'ils en ont. Première idée :
+
+```sql
+SELECT c.nom, co.statut
+FROM client c
+LEFT JOIN commande co ON co.client_id = c.id
+WHERE co.statut = 'payee';
+```
+
+Raté : les clients sans commande payée disparaissent. Pour eux, `co.statut` vaut `NULL`, et le `WHERE` les élimine. Le `LEFT JOIN` se comporte alors comme un `INNER JOIN`.
+
+La solution : mettre la condition sur la table de droite **dans le `ON`** :
+
+```sql
+SELECT c.nom, co.statut
+FROM client c
+LEFT JOIN commande co ON co.client_id = c.id AND co.statut = 'payee';
+```
+
+Tous les clients sont là, avec `NULL` quand ils n'ont pas de commande payée. Tu retrouveras ce piège dans l'exercice *Employee Bonus* du [chapitre 9]({{< relref "09-exercices-partie-2" >}}).
+{{< /encadre >}}
+
+{{< exercice title="Les clients sans commande" >}}
+Avec les tables `client` et `commande` du chapitre, affiche les clients qui n'ont **aucune** commande, avec une jointure.
+
+{{< solution >}}
+```sql
+SELECT c.nom
+FROM client c
+LEFT JOIN commande co ON co.client_id = c.id
+WHERE co.id IS NULL;
+-- Charlie
+```
+
+Le `LEFT JOIN` garde tous les clients. Pour ceux qui n'ont pas de commande, toutes les colonnes de `commande` valent `NULL` : il suffit de les filtrer avec `IS NULL`. C'est la « partie gauche seule » du schéma.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## La suite
 

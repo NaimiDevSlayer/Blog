@@ -15,6 +15,13 @@ Place à la pratique ! On résout des exercices SQL sur **LeetCode**, l'une des 
 
 {{< youtube id="XqKi8moeMSg" >}}
 
+{{< objectifs >}}
+- Résoudre 5 exercices SQL « Easy » de LeetCode
+- Choisir entre jointure et sous-requête
+- Joindre une table avec elle-même (auto-jointure)
+- Respecter exactement le format de résultat attendu
+{{< /objectifs >}}
+
 > **Astuce LeetCode :** **Run** teste ta requête sur l'exemple, **Submit** la vérifie sur tous les cas de test et te montre sa performance. Si tu bloques, l'onglet **Solutions** permet de voir comment d'autres ont résolu le problème.
 
 ## 1. Combine Two Tables
@@ -86,6 +93,25 @@ WHERE id NOT IN (SELECT customerId FROM Orders);
 
 Attention au nom de la colonne attendue : sans `AS Customers`, la réponse est refusée même si les données sont justes.
 
+{{< encadre type="mistake" title="NOT IN et les NULL : le piège classique" >}}
+Cette solution fonctionne sur LeetCode parce que `customerId` n'est jamais vide. Mais si une seule commande avait un `customerId` à `NULL`, la requête renverrait… **aucun client**. `NOT IN` compare chaque `id` à toutes les valeurs de la liste, et une comparaison avec `NULL` n'est jamais vraie.
+
+Les deux écritures sûres, qui fonctionnent dans tous les cas :
+
+```sql
+-- Avec NOT EXISTS
+SELECT name AS Customers
+FROM Customers c
+WHERE NOT EXISTS (SELECT 1 FROM Orders o WHERE o.customerId = c.id);
+
+-- Avec une jointure
+SELECT c.name AS Customers
+FROM Customers c
+LEFT JOIN Orders o ON o.customerId = c.id
+WHERE o.id IS NULL;
+```
+{{< /encadre >}}
+
 ## 5. Employees Earning More Than Their Managers
 
 **Table :** `Employee` : `id`, `name`, `salary`, `managerId`
@@ -114,6 +140,13 @@ WHERE e1.salary > e2.salary;
 ```
 
 Après un **Submit**, LeetCode affiche la performance de ta requête. Une requête peut être juste mais lente : comparer avec les autres solutions est un excellent moyen de progresser.
+
+{{< encadre type="tip" title="Ma méthode pour un exercice SQL" >}}
+1. **Lis le résultat attendu** avant la consigne : noms des colonnes, ordre, doublons.
+2. Repère **les tables** dont tu as besoin, et comment elles sont reliées.
+3. Écris la requête **par étapes** : d'abord le `FROM` et les jointures, puis le `WHERE`, puis le `SELECT`.
+4. Pense aux cas limites : `NULL`, doublons, tables vides.
+{{< /encadre >}}
 
 ## La suite
 
