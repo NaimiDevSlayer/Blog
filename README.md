@@ -1,7 +1,7 @@
 # NAIMI Dev Slayer — Blog
 
 Site statique Hugo (thème PaperMod, personnalisé), déployé gratuitement sur
-GitHub Pages : https://naimidevslayer.github.io/Blog/
+GitHub Pages, avec le domaine https://naimidevslayer.com/
 
 ## Structure
 
@@ -35,7 +35,7 @@ Les menus et les textes d'accueil sont définis par langue dans `hugo.yaml`.
 3. Intégrer la vidéo avec `{{</* youtube ID_DE_LA_VIDEO */>}}` : la vidéo
    française dans le `.fr.md`, l'anglaise dans le `.en.md`.
 4. Pour les liens internes, utiliser `{{</* relref "..." */>}}` et jamais un lien
-   qui commence par `/` (sinon il manque le `/Blog/` et la page renvoie une 404).
+   qui commence par `/` (relref gère les langues et les liens cassés).
 
 ## Ajouter un cours ou une techno au menu
 
