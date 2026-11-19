@@ -1,0 +1,27 @@
+{{- $fr := eq .Lang "fr" -}}
+<svg viewBox="0 0 640 190" role="img" aria-label="{{ cond $fr "Le cycle Git : git add, git commit, git push et git pull" "The Git cycle: git add, git commit, git push and git pull" }}">
+  <defs>
+    <marker id="gc-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="s-arrow"/>
+    </marker>
+  </defs>
+  {{- $boxes := slice
+      (slice (cond $fr "Répertoire" "Working") (cond $fr "de travail" "directory"))
+      (slice (cond $fr "Index" "Staging") (cond $fr "(staging)" "area"))
+      (slice (cond $fr "Dépôt" "Local") (cond $fr "local" "repository"))
+      (slice (cond $fr "Dépôt distant" "Remote") "(GitHub)") }}
+  {{- range $i, $b := $boxes }}
+  {{- $x := mul $i 170 }}
+  <rect x="{{ $x }}" y="54" width="130" height="58" rx="8" class="s-box" stroke-width="1.5" {{ if eq $i 3 }}style="stroke: var(--blade)"{{ end }}/>
+  <text x="{{ add $x 65 }}" y="79" class="s-text" text-anchor="middle" font-weight="700">{{ index $b 0 }}</text>
+  <text x="{{ add $x 65 }}" y="97" class="s-small" text-anchor="middle">{{ index $b 1 }}</text>
+  {{- end }}
+  {{- range $i, $c := slice "git add" "git commit" "git push" }}
+  {{- $x := add (mul $i 170) 130 }}
+  <line x1="{{ add $x 4 }}" y1="83" x2="{{ add $x 36 }}" y2="83" class="s-line" stroke-width="1.5" marker-end="url(#gc-arrow)"/>
+  <text x="{{ add $x 20 }}" y="40" class="s-code" text-anchor="middle" font-weight="600">{{ $c }}</text>
+  <line x1="{{ add $x 20 }}" y1="46" x2="{{ add $x 20 }}" y2="74" class="s-muted" stroke-width="1" stroke-dasharray="2 3"/>
+  {{- end }}
+  <path d="M575,116 C575,170 65,170 65,120" fill="none" class="s-line" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#gc-arrow)"/>
+  <text x="320" y="182" class="s-code" text-anchor="middle" font-weight="600">git pull</text>
+</svg>

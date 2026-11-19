@@ -16,6 +16,12 @@ Le chapitre précédent s'est terminé sur un défi : nos champs fichier et imag
 
 {{< youtube gcnwkNLq7KU >}}
 
+{{< objectifs >}}
+- Comprendre pourquoi un champ fichier obligatoire bloque la modification
+- Utiliser `$pageName` pour adapter un champ à la page
+- Charger ton propre CSS (et JS) dans EasyAdmin avec `configureAssets()`
+{{< /objectifs >}}
+
 ## Pourquoi ça arrive
 
 Sur la page de modification, un champ d'upload ne sait pas qu'un fichier est déjà enregistré pour cette entité. S'il est marqué comme obligatoire, le formulaire attend un nouveau fichier à chaque fois.
@@ -69,11 +75,41 @@ Le chemin est relatif à `public/`. Reteste avec un gros fichier : le message d'
 
 > Besoin de JavaScript aussi ? Utilise `addJsFile()` de la même façon : `Assets::new()->addJsFile('admin.js')`.
 
+{{< encadre type="mistake" >}}
+**Ton CSS ne change rien ?** Le navigateur garde souvent l'ancienne version en cache. Fais un **Ctrl + Maj + R** pour recharger la page sans cache. Vérifie aussi, dans l'onglet **Réseau** des outils de développement, que `custom.css` est bien chargé (code 200, et pas 404).
+{{< /encadre >}}
+
+{{< encadre type="tip" >}}
+Pour un style qui ne concerne qu'**un seul CRUD**, définis `configureAssets()` dans ce CRUD controller plutôt que dans le dashboard : le fichier ne sera chargé que sur ses pages.
+{{< /encadre >}}
+
 ## Récap
 
 - `$pageName === Crud::PAGE_NEW` rend les champs d'upload obligatoires uniquement à la création
 - Les styles globaux de l'admin vont dans un fichier CSS dans `public/`
 - `configureAssets()` avec `addCssFile()` ou `addJsFile()` les charge dans EasyAdmin
+
+{{< exercice title="Un peu de JavaScript" >}}
+Crée un fichier `public/admin.js` qui affiche « Admin chargée » dans la console du navigateur, et charge-le dans toute l'admin.
+
+{{< solution >}}
+```js
+// public/admin.js
+console.log('Admin chargée');
+```
+
+```php
+public function configureAssets(): Assets
+{
+    return Assets::new()
+        ->addCssFile('custom.css')
+        ->addJsFile('admin.js');
+}
+```
+
+Ouvre la console du navigateur (F12) sur n'importe quelle page de l'admin : le message apparaît.
+{{< /solution >}}
+{{< /exercice >}}
 
 ---
 

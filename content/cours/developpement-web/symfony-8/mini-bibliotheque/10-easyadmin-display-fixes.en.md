@@ -16,6 +16,13 @@ Our Book CRUD works, but the list is hard to read: raw HTML in the summary, a ba
 
 {{< youtube DeYzT4lLUZQ >}}
 
+{{< objectifs >}}
+- Keep uploaded files out of Git
+- Declare two EasyAdmin fields for the same property
+- Display HTML, badges and links in the list
+- Choose between `onlyOnForms()`, `hideOnForm()` and `hideOnIndex()`
+{{< /objectifs >}}
+
 ## Don't Push the Uploads
 
 ```bash
@@ -141,6 +148,35 @@ Looking at the database, two things are wrong:
 2. Delete a book and its row disappears, but the **PDF and the image stay on disk**. Over time, that's a storage problem.
 
 We fix both in the next chapter.
+
+{{< encadre type="tip" title="HTML that's easier to maintain" >}}
+Writing HTML inside `sprintf()` quickly gets unreadable. EasyAdmin lets you hand a field's display over to a **Twig template**:
+
+```php
+TextareaField::new('summary', 'Résumé')
+    ->hideOnForm()
+    ->setTemplatePath('admin/field/summary.html.twig'),
+```
+
+```twig
+{# templates/admin/field/summary.html.twig #}
+<a href="#" data-bs-toggle="modal" data-bs-target="#modal-{{ entity.instance.id }}">📄 Show summary</a>
+```
+
+In this template, `field.value` holds the value and `entity.instance` the `Book` object. And Twig escapes HTML by default, which protects against XSS.
+{{< /encadre >}}
+
+{{< exercice title="A more readable list" >}}
+The slug adds nothing to the book list. **Hide it** on the index page, while keeping it in the forms and the detail view.
+
+{{< solution >}}
+```php
+SlugField::new('bookSlug')
+    ->setTargetFieldName(['title', 'author'])
+    ->hideOnIndex(),
+```
+{{< /solution >}}
+{{< /exercice >}}
 
 ---
 

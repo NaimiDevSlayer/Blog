@@ -1,0 +1,30 @@
+{{- $fr := eq .Lang "fr" -}}
+<svg viewBox="0 0 640 300" role="img" aria-label="{{ cond $fr "Les trois types de relations entre tables" "The three kinds of relationships between tables" }}">
+  {{- define "partials/diagrams/sqlrel-box.html" -}}
+  <rect x="{{ .x }}" y="{{ .y }}" width="140" height="36" rx="6" class="s-box" stroke-width="1.5"/>
+  <text x="{{ add .x 70 }}" y="{{ add .y 23 }}" class="s-code" text-anchor="middle" font-weight="600">{{ .t }}</text>
+  {{- end -}}
+  {{- define "partials/diagrams/sqlrel-link.html" -}}
+  <line x1="{{ .x1 }}" y1="{{ .y }}" x2="{{ .x2 }}" y2="{{ .y }}" class="s-line" stroke-width="1.5"/>
+  <text x="{{ add .x1 10 }}" y="{{ sub .y 6 }}" class="s-gold" font-weight="700" font-size="14">{{ .a }}</text>
+  <text x="{{ sub .x2 10 }}" y="{{ sub .y 6 }}" class="s-gold" font-weight="700" font-size="14" text-anchor="end">{{ .b }}</text>
+  {{- end -}}
+  <text x="20" y="22" class="s-small" font-weight="700">{{ cond $fr "Un à un (One to One)" "One to one" }}</text>
+  {{ partial "diagrams/sqlrel-box.html" (dict "x" 20 "y" 34 "t" "user") }}
+  {{ partial "diagrams/sqlrel-link.html" (dict "x1" 160 "x2" 260 "y" 52 "a" "1" "b" "1") }}
+  {{ partial "diagrams/sqlrel-box.html" (dict "x" 260 "y" 34 "t" "passport") }}
+
+  <text x="20" y="118" class="s-small" font-weight="700">{{ cond $fr "Un à plusieurs (One to Many)" "One to many" }}</text>
+  {{ partial "diagrams/sqlrel-box.html" (dict "x" 20 "y" 130 "t" "client") }}
+  {{ partial "diagrams/sqlrel-link.html" (dict "x1" 160 "x2" 260 "y" 148 "a" "1" "b" "N") }}
+  {{ partial "diagrams/sqlrel-box.html" (dict "x" 260 "y" 130 "t" "commande") }}
+  <text x="420" y="153" class="s-small">{{ cond $fr "clé étrangère côté « N »" "foreign key on the \"many\" side" }}</text>
+
+  <text x="20" y="214" class="s-small" font-weight="700">{{ cond $fr "Plusieurs à plusieurs (Many to Many)" "Many to many" }}</text>
+  {{ partial "diagrams/sqlrel-box.html" (dict "x" 20 "y" 226 "t" "student") }}
+  {{ partial "diagrams/sqlrel-link.html" (dict "x1" 160 "x2" 250 "y" 244 "a" "1" "b" "N") }}
+  {{ partial "diagrams/sqlrel-box.html" (dict "x" 250 "y" 226 "t" "inscription") }}
+  {{ partial "diagrams/sqlrel-link.html" (dict "x1" 390 "x2" 480 "y" 244 "a" "N" "b" "1") }}
+  {{ partial "diagrams/sqlrel-box.html" (dict "x" 480 "y" 226 "t" "course") }}
+  <text x="320" y="286" class="s-small" text-anchor="middle">{{ cond $fr "table intermédiaire" "junction table" }}</text>
+</svg>

@@ -367,3 +367,105 @@ code, pre, kbd {
     font-variant-ligatures: none;
     font-feature-settings: "liga" 0, "calt" 0;
 }
+
+/* ---------- Learning boxes ---------- */
+
+.post-content .box {
+    margin: 28px 0;
+    padding: 16px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    border-inline-start: 4px solid var(--box-accent, var(--secondary));
+    background: var(--entry);
+}
+
+.post-content .box > :last-child {
+    margin-bottom: 0;
+}
+
+.post-content .box p.box-title {
+    margin: 0 0 8px;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--box-accent, var(--primary));
+}
+
+.post-content .box ul,
+.post-content .box ol {
+    margin-bottom: 0;
+}
+
+.post-content .box pre {
+    margin: 12px 0;
+}
+
+.box-objectives { --box-accent: var(--gold); }
+.box-tip { --box-accent: #2f7d5b; }
+.box-warning { --box-accent: var(--blade); }
+.box-mistake { --box-accent: #b5651d; }
+.box-further { --box-accent: #4a5dbd; }
+.box-exercise { --box-accent: var(--primary); }
+
+:root[data-theme="dark"] .box-tip { --box-accent: #5cc493; }
+:root[data-theme="dark"] .box-mistake { --box-accent: #e39a4f; }
+:root[data-theme="dark"] .box-further { --box-accent: #8f9ff0; }
+
+.post-content .box-objectives {
+    background: color-mix(in srgb, var(--gold) 7%, var(--entry));
+}
+
+/* Hidden solution */
+.post-content details.solution {
+    margin-top: 12px;
+    border-top: 1px dashed var(--border);
+    padding-top: 10px;
+}
+
+.post-content details.solution summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--blade);
+    list-style-position: inside;
+}
+
+.post-content details.solution[open] summary {
+    margin-bottom: 10px;
+}
+
+/* ---------- Diagrams ---------- */
+
+.post-content figure.schema {
+    margin: 28px 0;
+    padding: 20px 16px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--entry);
+}
+
+.post-content figure.schema svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 640px;
+    margin: 0 auto;
+    font-family: var(--font-body);
+}
+
+.post-content figure.schema figcaption {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--secondary);
+}
+
+.schema .s-stroke { stroke: var(--primary); }
+.schema .s-muted { stroke: var(--tertiary); }
+.schema .s-text { fill: var(--primary); font-size: 14px; }
+.schema .s-small { fill: var(--secondary); font-size: 12px; }
+.schema .s-code { fill: var(--primary); font-family: var(--font-code); font-size: 13px; }
+.schema .s-accent { fill: var(--blade); }
+.schema .s-accent-soft { fill: color-mix(in srgb, var(--blade) 30%, transparent); }
+.schema .s-gold { fill: var(--gold); }
+.schema .s-box { fill: var(--theme); stroke: var(--border); }
+.schema .s-line { stroke: var(--secondary); }
+.schema .s-arrow { fill: var(--secondary); }

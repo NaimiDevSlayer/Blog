@@ -1,0 +1,6 @@
+{{- /* Inline SVG diagram from layouts/_partials/diagrams/<name>.html, with an optional caption. */ -}}
+{{- $name := .Get "name" -}}
+<figure class="schema">
+  {{ partial (printf "diagrams/%s.html" $name) .Page }}
+  {{- with .Get "caption" }}<figcaption>{{ . | markdownify }}</figcaption>{{ end }}
+</figure>

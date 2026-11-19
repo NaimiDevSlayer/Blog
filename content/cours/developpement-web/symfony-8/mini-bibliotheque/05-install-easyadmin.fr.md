@@ -16,6 +16,13 @@ On attaque maintenant la **partie administration** de notre bibliothèque. On va
 
 {{< youtube YoJytlVTQ70 >}}
 
+{{< objectifs >}}
+- Installer EasyAdmin 5 avec Composer
+- Comprendre ce que Symfony Flex ajoute au projet
+- Générer le dashboard d'administration avec `make:admin:dashboard`
+- Protéger l'accès à `/admin`
+{{< /objectifs >}}
+
 ## Prérequis
 
 EasyAdmin a besoin de :
@@ -109,12 +116,65 @@ class DashboardController extends AbstractDashboardController
 
 Va sur `http://127.0.0.1:8000/admin` au lieu de `/home` : tu vois la page **« Welcome to EasyAdmin 5 »**, avec des liens vers la documentation.
 
+{{< encadre type="warning" title="Ton admin est ouverte à tout le monde" >}}
+Pour l'instant, n'importe qui peut aller sur `/admin`. En local ce n'est pas grave, mais **avant toute mise en ligne**, il faut réserver l'admin aux administrateurs. Avec le composant Security de Symfony, une ligne dans `config/packages/security.yaml` suffit :
+
+```yaml
+security:
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
+```
+
+Ou directement sur le controller, avec un attribut :
+
+```php
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
+#[IsGranted('ROLE_ADMIN')]
+#[AdminDashboard(routePath: '/admin', routeName: 'admin')]
+class DashboardController extends AbstractDashboardController
+```
+
+Il faut aussi des utilisateurs et une page de connexion (`make:user`, puis `make:security:form-login`) : on y viendra avec l'entité `User`.
+{{< /encadre >}}
+
+{{< encadre type="mistake" >}}
+**`/admin` renvoie une page 404 juste après l'installation ?** Vide le cache, puis vérifie que la route existe :
+
+```bash
+symfony console cache:clear
+symfony console debug:router | grep admin
+```
+{{< /encadre >}}
+
 ## Récap
 
 - `composer require easycorp/easyadmin-bundle` installe EasyAdmin
 - Flex ajoute automatiquement les routes, les bundles et Twig Components
 - `make:admin:dashboard` génère le controller du dashboard
 - L'admin se trouve sur `/admin`
+
+{{< exercice title="Personnalise le dashboard" >}}
+Change le titre du dashboard en **« Mini Bibliothèque »** et ajoute, dans le menu, une **section** « Catalogue » sous l'élément Dashboard.
+
+{{< solution >}}
+```php
+public function configureDashboard(): Dashboard
+{
+    return Dashboard::new()
+        ->setTitle('Mini Bibliothèque');
+}
+
+public function configureMenuItems(): iterable
+{
+    yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+    yield MenuItem::section('Catalogue');
+}
+```
+
+`MenuItem::section()` ajoute un intertitre dans le menu : pratique pour regrouper les CRUD qu'on va créer (livres, auteurs, catégories).
+{{< /solution >}}
+{{< /exercice >}}
 
 ## La suite
 

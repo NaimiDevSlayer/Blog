@@ -16,6 +16,13 @@ Notre application tourne et a un template. Il lui faut maintenant des données. 
 
 {{< youtube q5pv24ee5xk >}}
 
+{{< objectifs >}}
+- Configurer la connexion MySQL dans Symfony
+- Créer des entités avec `make:entity`, champ par champ
+- Relier les entités : ManyToOne et ManyToMany
+- Transformer les entités en tables avec les migrations
+{{< /objectifs >}}
+
 ## Configurer la base de données
 
 La connexion se configure dans le fichier `.env`, à la racine du projet. Symfony fournit déjà quelques exemples commentés (SQLite, MySQL, MariaDB, PostgreSQL). On utilise MySQL : on décommente donc la ligne MySQL et on commente les autres.
@@ -156,6 +163,35 @@ symfony console doctrine:migrations:migrate
 
 Dans la base, on a maintenant `author`, `book`, `category` et **`book_category`** : la table de liaison de la relation ManyToMany, créée automatiquement par Doctrine.
 
+{{< schema name="doctrine-relations" caption="Nos trois entités : un livre a **un** auteur (ManyToOne) et **plusieurs** catégories (ManyToMany, via la table `book_category`)." >}}
+
+Ces relations sont exactement celles qu'on retrouve en SQL. Pour comprendre ce que Doctrine crée derrière, va voir le chapitre [Tables, relations et manipulation des données]({{< relref "/cours/bases-de-donnees/mysql/sql-de-zero-a-pro/04-tables-relations-donnees" >}}) du cours SQL.
+
+{{< encadre type="warning" title="Tes identifiants ne vont pas dans .env" >}}
+Le fichier `.env` est **versionné** avec Git : tout ce que tu y écris part sur GitHub. Pour tes identifiants locaux, crée plutôt un fichier **`.env.local`**, qui est ignoré par Git et prend le dessus sur `.env` :
+
+```bash
+# .env.local
+DATABASE_URL="mysql://root:@127.0.0.1:3306/minibib?serverVersion=8.0.32&charset=utf8mb4"
+```
+
+Garde dans `.env` une valeur d'exemple, sans vrai mot de passe.
+{{< /encadre >}}
+
+{{< encadre type="mistake" >}}
+**Ton mot de passe contient `@`, `:` ou `/` ?** Ces caractères ont un sens dans l'URL de connexion, et Doctrine n'arrive plus à la lire. Encode-les : `@` devient `%40`, `:` devient `%3A`, `/` devient `%2F`.
+{{< /encadre >}}
+
+{{< encadre type="further" >}}
+Pour savoir quelles migrations ont été exécutées et lesquelles restent à faire :
+
+```bash
+symfony console doctrine:migrations:status
+```
+
+Tu croiseras peut-être `doctrine:schema:update --force`, qui modifie la base directement sans migration. C'est pratique pour un essai rapide, mais **à éviter dans un vrai projet** : sans fichier de migration, impossible de rejouer les changements sur une autre machine ou en production.
+{{< /encadre >}}
+
 ## Récap
 
 - La connexion à la base se trouve dans `DATABASE_URL`, dans `.env`
@@ -163,6 +199,24 @@ Dans la base, on a maintenant `author`, `book`, `category` et **`book_category`*
 - `make:entity` crée ou modifie une entité, champ par champ
 - `make:migration` + `doctrine:migrations:migrate` transforment les entités en tables
 - **ManyToOne** pour livre → auteur, **ManyToMany** pour livre ↔ catégories
+
+{{< exercice title="Une date de publication" >}}
+Ajoute à l'entité `Book` un champ `publishedAt` de type date, facultatif, puis crée la colonne dans la base.
+
+{{< solution >}}
+```bash
+symfony console make:entity Book
+# New property name: publishedAt
+# Field type: date_immutable
+# Can this field be null: yes
+
+symfony console make:migration
+symfony console doctrine:migrations:migrate
+```
+
+`make:entity` sur une entité existante ajoute simplement de nouveaux champs. N'oublie pas la migration : c'est elle qui crée la colonne.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## La suite
 

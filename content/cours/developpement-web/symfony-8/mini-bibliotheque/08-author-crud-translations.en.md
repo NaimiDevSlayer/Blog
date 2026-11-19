@@ -16,6 +16,13 @@ Last time, I left you the **Author** CRUD as an exercise. Here's my version, a q
 
 {{< youtube CODVynwCInY >}}
 
+{{< objectifs >}}
+- Build the Author CRUD with slug, rich text and date fields
+- Display rich text correctly in the detail view
+- Translate the whole admin into French with one line
+- Push the work to GitHub
+{{< /objectifs >}}
+
 ## The Author CRUD
 
 The Author entry is in the menu, and the whole screen is in French: *Tous les auteurs*, *Ajouter un auteur*, and every button.
@@ -41,7 +48,7 @@ public function configureFields(string $pageName): iterable
         TextField::new('lastName')->setLabel('Nom')->setRequired(true)->setSortable(true),
         SlugField::new('authorSlug')->setTargetFieldName(['firstName', 'lastName'])->setLabel('Slug'),
         TextEditorField::new('biography')->setLabel('Biographie')
-            ->formatValue(fn (string $value) => new Markup($value, 'UTF-8')),
+            ->formatValue(fn (?string $value) => new Markup($value ?? '', 'UTF-8')),
         DateField::new('birthday')->setLabel('Date de naissance')->setFormat('dd-MM-yyyy'),
     ];
 }
@@ -55,6 +62,14 @@ public function configureFields(string $pageName): iterable
 | Date of birth | `DateField` | With a French date format |
 
 Wrapping the biography in a Twig `Markup` object renders the formatting (bold, italic) in the detail view, instead of raw HTML.
+
+{{< encadre type="mistake" title="An empty biography crashes the page" >}}
+The `biography` column is **nullable**: an author may have no biography. With `fn (string $value)`, PHP throws a `TypeError` as soon as it receives `null`. Hence the `?string` and the `$value ?? ''` in the code above: this small detail avoids an error page on the first author without a biography.
+{{< /encadre >}}
+
+{{< encadre type="warning" >}}
+`Markup` outputs the HTML **as is**. It's safe here, since only administrators write biographies. But never use this technique to display content typed by visitors: a malicious `<script>` would run (an XSS vulnerability).
+{{< /encadre >}}
 
 ### The actions
 
@@ -109,6 +124,39 @@ git push origin main
 ```
 
 On GitHub, the `minibib` repository now contains the changes.
+
+{{< encadre type="further" title="Custom translations" >}}
+With the `fr` locale, EasyAdmin translates its own texts. For your own texts (labels, titles), Symfony offers translation files: write keys in the code, and their values in `translations/messages.fr.yaml`.
+
+```yaml
+# translations/messages.fr.yaml
+author.first_name: Prénom
+author.last_name: Nom
+```
+
+```php
+TextField::new('firstName')->setLabel('author.first_name'),
+```
+
+It's the best option if the admin is one day needed in several languages.
+{{< /encadre >}}
+
+{{< exercice title="A filter by name" >}}
+Add a **filter** on the last name to the Author CRUD, to quickly find an author in a long list.
+
+{{< solution >}}
+```php
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+
+public function configureFilters(Filters $filters): Filters
+{
+    return $filters->add('lastName');
+}
+```
+
+A **Filters** button appears above the list. EasyAdmin picks the right kind of filter based on the field's type.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## What's Next
 

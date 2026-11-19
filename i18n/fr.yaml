@@ -10,3 +10,17 @@
   translation: "Voir la chaîne YouTube"
 - id: home_latest
   translation: "Derniers chapitres"
+- id: box_objectives
+  translation: "Ce que tu vas apprendre"
+- id: box_tip
+  translation: "Astuce"
+- id: box_warning
+  translation: "Attention"
+- id: box_further
+  translation: "Pour aller plus loin"
+- id: box_mistake
+  translation: "Piège fréquent"
+- id: box_exercise
+  translation: "Exercice"
+- id: box_solution
+  translation: "Voir la solution"

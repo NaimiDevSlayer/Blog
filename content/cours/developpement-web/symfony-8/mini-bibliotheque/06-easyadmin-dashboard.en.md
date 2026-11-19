@@ -16,6 +16,12 @@ EasyAdmin is installed, but `/admin` still shows the default welcome page. Befor
 
 {{< youtube wTXEL10rPps >}}
 
+{{< objectifs >}}
+- The three ways to choose what `/admin` displays
+- Render your own template while keeping EasyAdmin's layout
+- Pass data (statistics) to your dashboard
+{{< /objectifs >}}
+
 ## The Three Options in `index()`
 
 Open `src/Controller/Admin/DashboardController.php`. The generated `index()` method suggests three options:
@@ -60,11 +66,62 @@ Refresh `/admin`: our dashboard is displayed, with the side menu and its **Dashb
 yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
 ```
 
+## Going further: a real dashboard
+
+A dashboard that just says "Dashboard" is a bit empty. Since `index()` is a regular Symfony controller, you can **inject repositories** and pass numbers to the template:
+
+```php
+use App\Repository\AuthorRepository;
+use App\Repository\BookRepository;
+
+public function __construct(
+    private readonly BookRepository $bookRepository,
+    private readonly AuthorRepository $authorRepository,
+) {}
+
+public function index(): Response
+{
+    return $this->render('admin/dashboard.html.twig', [
+        'nbBooks' => $this->bookRepository->count([]),
+        'nbAuthors' => $this->authorRepository->count([]),
+    ]);
+}
+```
+
+```twig
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+    <h1>Mini Library</h1>
+    <p>{{ nbBooks }} books · {{ nbAuthors }} authors</p>
+{% endblock %}
+```
+
+`count([])` counts every row in the table, with no filter.
+
 ## Recap
 
 - `index()` decides what `/admin` displays
 - `$this->render('admin/dashboard.html.twig')` renders our own page
 - Extending `@EasyAdmin/page/content.html.twig` keeps the EasyAdmin layout
+
+{{< exercice title="The number of categories" >}}
+Add the **number of categories** to the dashboard, the same way as books and authors.
+
+{{< solution >}}
+Inject `CategoryRepository` in the constructor, then:
+
+```php
+'nbCategories' => $this->categoryRepository->count([]),
+```
+
+And in the template:
+
+```twig
+<p>{{ nbBooks }} books · {{ nbAuthors }} authors · {{ nbCategories }} categories</p>
+```
+{{< /solution >}}
+{{< /exercice >}}
 
 ## What's Next
 

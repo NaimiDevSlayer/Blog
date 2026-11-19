@@ -23,6 +23,13 @@ In [Chapter 1]({{< relref "01-introduction" >}}), we set up our development envi
 
 {{< youtube zsffxoRsG5c >}}
 
+{{< objectifs >}}
+- Create a Symfony 8 project with the Symfony CLI (and what `--webapp` changes)
+- Start the local server and generate your first controller
+- Understand a request's journey: route, controller, template
+- Integrate an HTML/CSS template with Twig and AssetMapper
+{{< /objectifs >}}
+
 ## Installing a Symfony 8 Project
 
 We already ran `symfony check:requirements` in the previous chapter, so our machine is ready. The official documentation gives us two ways to create a project.
@@ -120,6 +127,8 @@ Symfony created a `/home` route for us. The controller method is where the appli
 
 Visit `http://127.0.0.1:8000/home`: the HomeController page shows up.
 
+{{< schema name="symfony-request" caption="A request's journey: the **route** picks the **controller**, which renders a **Twig template**, sent back to the browser as an HTML page." >}}
+
 ## Integrating the Template
 
 For this project I'm using a **free template** made of one HTML file and one CSS file. Here's how to plug it into Symfony.
@@ -167,7 +176,27 @@ The template's JavaScript files go in `base.html.twig` too.
 
 Copy the template's `images` folder into `public/`. Files in `public/` are served directly to the browser, which is exactly what images need.
 
+{{< encadre type="tip" >}}
+In your templates, reference those images with the Twig **`asset()`** function rather than a hard-coded path:
+
+```twig
+<img src="{{ asset('images/cover.jpg') }}" alt="Cover">
+```
+
+`asset()` builds the right path whatever the site's URL, for example if the app is one day installed in a subfolder. A relative path like `images/cover.jpg` breaks as soon as the page lives at another address, like `/books/42`.
+{{< /encadre >}}
+
 Refresh the page: the template is integrated and looks exactly like the original.
+
+{{< encadre type="further" >}}
+To see **every route** in your application, with its URL and controller:
+
+```bash
+symfony console debug:router
+```
+
+And to make the home page answer on `/` rather than `/home`, just change the attribute: `#[Route('/', name: 'app_home')]`.
+{{< /encadre >}}
 
 ## Recap
 
@@ -176,6 +205,38 @@ Refresh the page: the template is integrated and looks exactly like the original
 - **Create a controller:** `symfony console make:controller`
 - **CSS:** goes in `assets/` (AssetMapper) or in `public/`
 - **Global styles and scripts** go in `base.html.twig`, while **page-specific code** goes in the matching template
+
+{{< exercice title="A second page" >}}
+Create an **"About"** page at `/about`, with its own controller and template, extending `base.html.twig`.
+
+{{< solution >}}
+```bash
+symfony console make:controller AboutController
+```
+
+Then adjust the generated route:
+
+```php
+#[Route('/about', name: 'app_about')]
+public function index(): Response
+{
+    return $this->render('about/index.html.twig');
+}
+```
+
+And in `templates/about/index.html.twig`:
+
+```twig
+{% extends 'base.html.twig' %}
+
+{% block title %}About{% endblock %}
+
+{% block body %}
+    <h1>About the Mini Library</h1>
+{% endblock %}
+```
+{{< /solution >}}
+{{< /exercice >}}
 
 ## What's Next
 

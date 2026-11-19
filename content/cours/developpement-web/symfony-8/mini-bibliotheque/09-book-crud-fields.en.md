@@ -16,6 +16,13 @@ The **Book** entity is the heart of the project. In this chapter we configure ev
 
 {{< youtube AiANESc4Up4 >}}
 
+{{< objectifs >}}
+- Configure required text fields and rich text
+- Link entities with `AssociationField` and `__toString()`
+- Generate a slug automatically
+- Upload a PDF with `FileField` and a cover with `ImageField`
+{{< /objectifs >}}
+
 Generate the controller as for the others (`symfony console make:admin:crud`, then choose Book), add it to the menu, and let's fill `configureFields()`.
 
 ## Title and Summary
@@ -52,11 +59,15 @@ Same error for categories, same fix:
 
 ```php
 // src/Entity/Category.php
-public function __toString()
+public function __toString(): string
 {
-    return $this->getCategoryName();
+    return $this->getCategoryName() ?? '';
 }
 ```
+
+{{< encadre type="mistake" >}}
+`__toString()` must **always** return a string. But `categoryName` is nullable: without the `?? ''`, a category with no name crashes the whole list with a `TypeError`. On the `Author` side, concatenating with `.` already turns `null` into an empty string, so no problem there.
+{{< /encadre >}}
 
 ### Placeholders
 
@@ -145,12 +156,40 @@ Three things still look wrong in the list:
 
 That's for the next chapter.
 
+{{< encadre type="mistake" title="A 5 MB PDF rejected while the limit is 7 MB?" >}}
+Before EasyAdmin even checks the size, **PHP** applies its own limits, set in `php.ini`:
+
+```ini
+upload_max_filesize = 8M
+post_max_size = 10M
+```
+
+By default, `upload_max_filesize` is often **2 MB**. Set it above your `maxSize()` limit, with `post_max_size` a bit larger, then restart WAMP's services. Check the active values with `php -i | grep upload_max`.
+{{< /encadre >}}
+
+{{< encadre type="further" >}}
+For more advanced uploads (image resizing, cloud storage), look at **VichUploaderBundle** or **Flysystem**. For this project, EasyAdmin's built-in fields are more than enough.
+{{< /encadre >}}
+
 ## Recap
 
 - `AssociationField` for relations, with `__toString()` in the related entities
 - `setFormTypeOption()` for placeholders
 - `SlugField` + `setTargetFieldName()` for automatic slugs
 - `FileField` and `ImageField` for uploads: folder, path, name pattern, size and type
+
+{{< exercice title="Lighter covers" >}}
+Limit covers to **1 MB** and also accept **GIF** images.
+
+{{< solution >}}
+```php
+ImageField::new('coverImageName', 'Couverture')
+    // … same options as before …
+    ->maxSize('1M', 'The file "{{ name }}" is too large ({{ limit }} {{ suffix }} max).')
+    ->mimeTypes('image/jpeg,image/png,image/webp,image/gif'),
+```
+{{< /solution >}}
+{{< /exercice >}}
 
 ---
 

@@ -16,6 +16,13 @@ Time for our first **CRUD** screen: create, list, edit and delete. We start with
 
 {{< youtube 6KsbbFEs2Mk >}}
 
+{{< objectifs >}}
+- Generate a CRUD controller with `make:admin:crud`
+- Choose the displayed fields and their labels
+- Add the CRUD to the dashboard menu
+- Customize page titles and buttons
+{{< /objectifs >}}
+
 ## Generating the CRUD Controller
 
 ```bash
@@ -103,12 +110,56 @@ The **New** button now reads *Ajouter une catégorie*, with a plus icon. The oth
 
 Before the next chapter, build the **Author** CRUD yourself, using the same steps. The next chapter shows the final result.
 
+{{< encadre type="tip" title="Faster: the entity labels" >}}
+Rather than rewriting each page title, you can give EasyAdmin the **entity's name**, singular and plural. It then uses it everywhere: titles, "Add" buttons, messages…
+
+```php
+public function configureCrud(Crud $crud): Crud
+{
+    return $crud
+        ->setEntityLabelInSingular('Category')
+        ->setEntityLabelInPlural('Categories');
+}
+```
+
+Keep `setPageTitle()` for pages where you want a truly different title.
+{{< /encadre >}}
+
+{{< encadre type="mistake" >}}
+**"Attempted to load class "Action"" or "Class not found"?** A `use` statement is missing at the top of the controller. The classes used here all come from EasyAdmin:
+
+```php
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+```
+
+With VS Code's **PHP Intelephense** extension, the import is added automatically when you pick the class from autocomplete.
+{{< /encadre >}}
+
 ## Recap
 
 - `make:admin:crud` generates a CRUD controller for an entity
 - `configureFields()` → which fields, with which labels
 - `MenuItem::linkTo()` adds the CRUD to the menu
 - `configureCrud()` → page titles; `configureActions()` → buttons
+
+{{< exercice title="The save button" >}}
+On the category creation page, rename the **"Create"** button to **"Save"**.
+
+{{< solution >}}
+On the `new` page, the "Create" button is the `SAVE_AND_RETURN` action:
+
+```php
+->update(Crud::PAGE_NEW, Action::SAVE_AND_RETURN, function (Action $action) {
+    return $action->setLabel('Save');
+})
+```
+
+The "Create and add another" button is `Action::SAVE_AND_ADD_ANOTHER`.
+{{< /solution >}}
+{{< /exercice >}}
 
 ---
 

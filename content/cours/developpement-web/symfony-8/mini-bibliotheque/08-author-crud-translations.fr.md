@@ -16,6 +16,13 @@ La dernière fois, je t'ai laissé le CRUD **Author** en exercice. Voici ma vers
 
 {{< youtube R5YIV198gao >}}
 
+{{< objectifs >}}
+- Construire le CRUD Author avec des champs slug, texte riche et date
+- Afficher du texte riche correctement dans la vue détail
+- Traduire toute l'admin en français en une ligne
+- Pousser le travail sur GitHub
+{{< /objectifs >}}
+
 ## Le CRUD Author
 
 L'entrée Auteur est dans le menu, et tout l'écran est en français : *Tous les auteurs*, *Ajouter un auteur*, et tous les boutons.
@@ -41,7 +48,7 @@ public function configureFields(string $pageName): iterable
         TextField::new('lastName')->setLabel('Nom')->setRequired(true)->setSortable(true),
         SlugField::new('authorSlug')->setTargetFieldName(['firstName', 'lastName'])->setLabel('Slug'),
         TextEditorField::new('biography')->setLabel('Biographie')
-            ->formatValue(fn (string $value) => new Markup($value, 'UTF-8')),
+            ->formatValue(fn (?string $value) => new Markup($value ?? '', 'UTF-8')),
         DateField::new('birthday')->setLabel('Date de naissance')->setFormat('dd-MM-yyyy'),
     ];
 }
@@ -55,6 +62,14 @@ public function configureFields(string $pageName): iterable
 | Date de naissance | `DateField` | Avec un format de date français |
 
 Envelopper la biographie dans un objet Twig `Markup` affiche la mise en forme (gras, italique) dans la vue détail, au lieu du HTML brut.
+
+{{< encadre type="mistake" title="Une biographie vide fait planter la page" >}}
+La colonne `biography` est **nullable** : un auteur peut ne pas avoir de biographie. Avec `fn (string $value)`, PHP lève une `TypeError` dès qu'il reçoit `null`. D'où le `?string` et le `$value ?? ''` dans le code ci-dessus : ce petit détail évite une page d'erreur sur le premier auteur sans biographie.
+{{< /encadre >}}
+
+{{< encadre type="warning" >}}
+`Markup` affiche le HTML **tel quel**. C'est sans danger ici, car seuls les administrateurs écrivent les biographies. Mais n'utilise jamais cette technique pour afficher du contenu saisi par des visiteurs : un `<script>` malveillant serait exécuté (faille XSS).
+{{< /encadre >}}
 
 ### Les actions
 
@@ -109,6 +124,39 @@ git push origin main
 ```
 
 Sur GitHub, le dépôt `minibib` contient maintenant les modifications.
+
+{{< encadre type="further" title="Les traductions sur mesure" >}}
+Avec la locale `fr`, EasyAdmin traduit ses propres textes. Pour tes textes à toi (libellés, titres), Symfony propose les fichiers de traduction : écris des clés dans le code, et leurs valeurs dans `translations/messages.fr.yaml`.
+
+```yaml
+# translations/messages.fr.yaml
+author.first_name: Prénom
+author.last_name: Nom
+```
+
+```php
+TextField::new('firstName')->setLabel('author.first_name'),
+```
+
+C'est la meilleure option si l'admin doit un jour exister en plusieurs langues.
+{{< /encadre >}}
+
+{{< exercice title="Un filtre par nom" >}}
+Ajoute au CRUD Author un **filtre** sur le nom, pour retrouver vite un auteur dans une longue liste.
+
+{{< solution >}}
+```php
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
+
+public function configureFilters(Filters $filters): Filters
+{
+    return $filters->add('lastName');
+}
+```
+
+Un bouton **Filtres** apparaît au-dessus de la liste. EasyAdmin choisit tout seul le bon type de filtre selon le type du champ.
+{{< /solution >}}
+{{< /exercice >}}
 
 ## La suite
 
