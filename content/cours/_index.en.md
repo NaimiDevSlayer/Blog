@@ -4,8 +4,9 @@ description: "Free online courses to learn by building real projects, chapter by
 ShowToc: false
 ---
 
-Welcome to the **Courses** section of NAIMI Dev Slayer. Each course follows a YouTube video series and walks you step by step through building a real application, from the first `composer create-project` all the way to deployment.
+Welcome to the **Courses** section of NAIMI Dev Slayer. Each course follows a YouTube video series and walks you step by step through real projects and exercises, from the first line of code to the finished result.
 
-## Available courses
+## Categories
 
-- **[Symfony 8]({{< relref "/cours/symfony-8" >}})**: build complete applications with Symfony 8.
+- **[Web development]({{< relref "/cours/developpement-web" >}})**: Symfony 8, EasyAdmin and complete applications.
+- **[Databases]({{< relref "/cours/bases-de-donnees" >}})**: SQL and MySQL, from the basics to joins.

@@ -114,10 +114,23 @@
                 <ul class="submenu">
                     {{- range .Children }}
                     {{- $child_url := (cond (strings.HasSuffix .URL "/") .URL (printf "%s/" .URL) ) | absURL }}
-                    <li>
+                    <li {{- if .HasChildren }} class="has-submenu" {{- end }}>
                         <a href="{{ .URL | absURL }}" title="{{ .Title | default .Name }}">
                             <span {{- if eq $child_url $page_url }} class="active" {{- end }}>{{ .Name }}</span>
+                            {{- if .HasChildren }}<span class="submenu-caret submenu-caret-side" aria-hidden="true">◂</span>{{- end }}
                         </a>
+                        {{- if .HasChildren }}
+                        <ul class="submenu submenu-nested">
+                            {{- range .Children }}
+                            {{- $grand_url := (cond (strings.HasSuffix .URL "/") .URL (printf "%s/" .URL) ) | absURL }}
+                            <li>
+                                <a href="{{ .URL | absURL }}" title="{{ .Title | default .Name }}">
+                                    <span {{- if eq $grand_url $page_url }} class="active" {{- end }}>{{ .Name }}</span>
+                                </a>
+                            </li>
+                            {{- end }}
+                        </ul>
+                        {{- end }}
                     </li>
                     {{- end }}
                 </ul>
