@@ -1,0 +1,12 @@
+- id: prev_chapter
+  translation: "Previous chapter"
+- id: next_chapter
+  translation: "Next chapter"
+- id: follow_youtube
+  translation: "Follow NAIMI Dev Slayer on YouTube"
+- id: hero_cta_course
+  translation: "Start the Symfony 8 course"
+- id: hero_cta_channel
+  translation: "Visit the YouTube channel"
+- id: home_latest
+  translation: "Course chapters"

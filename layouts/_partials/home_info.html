@@ -12,9 +12,9 @@
         {{ .Content | $.Page.RenderString $opts }}
     </div>
     <div class="hero-actions">
-        <a class="hero-btn hero-btn-primary" href="{{ "cours/symfony-8/mini-bibliotheque/" | absLangURL }}">Commencer le cours Symfony 8</a>
-        <a class="hero-btn hero-btn-ghost" href="https://youtube.com/@NaimiDevSlayer" rel="noopener">Voir la chaîne YouTube</a>
+        <a class="hero-btn hero-btn-primary" href="{{ "cours/symfony-8/mini-bibliotheque/" | absLangURL }}">{{ i18n "hero_cta_course" }}</a>
+        <a class="hero-btn hero-btn-ghost" href="https://youtube.com/@NaimiDevSlayer" rel="noopener">{{ i18n "hero_cta_channel" }}</a>
     </div>
 </section>
-<h2 class="home-latest">Chapitres du cours</h2>
+<h2 class="home-latest">{{ i18n "home_latest" }}</h2>
 {{- end -}}

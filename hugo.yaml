@@ -1,6 +1,6 @@
 baseURL: "https://naimidevslayer.github.io/Blog/"
-languageCode: "fr-fr"
 defaultContentLanguage: "fr"
+defaultContentLanguageInSubdir: false
 title: "NAIMI Dev Slayer — Blog"
 theme: "PaperMod"
 
@@ -20,11 +20,10 @@ minify:
 params:
   env: production
   title: "NAIMI Dev Slayer"
-  description: "Tutoriels Symfony, EasyAdmin et développement PHP"
   keywords: [Symfony, EasyAdmin, PHP, Doctrine, Tutoriels]
   author: "Naimi"
-  DateFormat: "2 January 2006"
   defaultTheme: auto
+  displayFullLangName: false
   disableThemeToggle: false
   ShowShareButtons: true
   ShowReadingTime: true
@@ -35,10 +34,6 @@ params:
   ShowToc: true
   TocOpen: false
   comments: false
-
-  homeInfoParams:
-    Title: "NAIMI Dev Slayer"
-    Content: "Tutoriels pratiques sur Symfony, EasyAdmin, Doctrine et le développement PHP moderne — basés sur de vrais projets."
 
   socialIcons:
     - name: youtube
@@ -58,25 +53,67 @@ params:
     minMatchCharLength: 0
     keys: ["title", "permalink", "summary", "content"]
 
-menu:
-  main:
-    - identifier: home
-      name: Accueil
-      url: /
-      weight: 10
-    - identifier: cours
-      name: Cours
-      url: /cours/
-      weight: 15
-    - identifier: symfony-8
-      parent: cours
-      name: Symfony 8
-      url: /cours/symfony-8/
-      weight: 1
-    - identifier: search
-      name: Recherche
-      url: /search/
-      weight: 40
+languages:
+  fr:
+    languageName: "Français"
+    languageCode: "fr-fr"
+    weight: 1
+    title: "NAIMI Dev Slayer — Blog"
+    params:
+      description: "Tutoriels Symfony, EasyAdmin et développement PHP"
+      DateFormat: "2 January 2006"
+      homeInfoParams:
+        Title: "NAIMI Dev Slayer"
+        Content: "Tutoriels pratiques sur Symfony, EasyAdmin, Doctrine et le développement PHP moderne, basés sur de vrais projets."
+    menus:
+      main:
+        - identifier: home
+          name: Accueil
+          pageRef: /
+          weight: 10
+        - identifier: cours
+          name: Cours
+          pageRef: /cours
+          weight: 15
+        - identifier: symfony-8
+          parent: cours
+          name: Symfony 8
+          pageRef: /cours/symfony-8
+          weight: 1
+        - identifier: search
+          name: Recherche
+          pageRef: /search
+          weight: 40
+  en:
+    languageName: "English"
+    languageCode: "en-us"
+    weight: 2
+    title: "NAIMI Dev Slayer — Blog"
+    params:
+      description: "Symfony, EasyAdmin and PHP development tutorials"
+      DateFormat: "January 2, 2006"
+      homeInfoParams:
+        Title: "NAIMI Dev Slayer"
+        Content: "Hands-on tutorials on Symfony, EasyAdmin, Doctrine and modern PHP development, built around real projects."
+    menus:
+      main:
+        - identifier: home
+          name: Home
+          pageRef: /
+          weight: 10
+        - identifier: cours
+          name: Courses
+          pageRef: /cours
+          weight: 15
+        - identifier: symfony-8
+          parent: cours
+          name: Symfony 8
+          pageRef: /cours/symfony-8
+          weight: 1
+        - identifier: search
+          name: Search
+          pageRef: /search
+          weight: 40
 
 markup:
   highlight:

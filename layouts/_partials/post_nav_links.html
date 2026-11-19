@@ -7,13 +7,13 @@
   <nav class="paginav">
     {{- with $pages.Next . }}
     <a class="prev" href="{{ .Permalink }}">
-      <span class="title">« Chapitre précédent</span>
+      <span class="title">« {{ i18n "prev_chapter" }}</span>
       <span>{{- .Title -}}</span>
     </a>
     {{- end }}
     {{- with $pages.Prev . }}
     <a class="next" href="{{ .Permalink }}">
-      <span class="title">Chapitre suivant »</span>
+      <span class="title">{{ i18n "next_chapter" }} »</span>
       <span>{{- .Title -}}</span>
     </a>
     {{- end }}
