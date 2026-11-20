@@ -58,3 +58,13 @@
   translation: "Refuser"
 - id: consent_manage
   translation: "Cookies"
+- id: footer_links
+  translation: "Pages du site"
+- id: page_about
+  translation: "À propos"
+- id: page_contact
+  translation: "Contact"
+- id: page_legal
+  translation: "Mentions légales"
+- id: page_privacy
+  translation: "Confidentialité"
