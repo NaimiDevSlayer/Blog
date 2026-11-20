@@ -7,7 +7,7 @@
 - id: hero_cta_course
   translation: "Start the Symfony 8 course"
 - id: hero_cta_channel
-  translation: "Visit the YouTube channel"
+  translation: "The YouTube channel"
 - id: home_latest
   translation: "Latest chapters"
 - id: box_objectives
@@ -24,3 +24,29 @@
   translation: "Exercise"
 - id: box_solution
   translation: "Show the solution"
+- id: hero_cta_courses
+  translation: "Browse the courses"
+- id: home_stats
+  translation: "{{ .Courses }} courses · {{ .Chapters }} chapters · French and English · free"
+- id: home_courses
+  translation: "The courses"
+- id: home_path
+  translation: "Where to start?"
+- id: home_path_intro
+  translation: "New to all this? Follow the courses in this order: each one builds on the previous."
+- id: home_chapters
+  translation: "{{ .Count }} chapters"
+- id: level_beginner
+  translation: "Beginner"
+- id: level_intermediate
+  translation: "Intermediate"
+- id: course_start
+  translation: "Start the course"
+- id: home_follow
+  translation: "Follow the project"
+- id: home_follow_intro
+  translation: "A new video, a new course: subscribe so you don’t miss anything, and grab the code of every project on GitHub."
+- id: follow_youtube_cta
+  translation: "Subscribe on YouTube"
+- id: follow_github_cta
+  translation: "The code on GitHub"

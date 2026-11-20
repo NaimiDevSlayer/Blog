@@ -7,7 +7,7 @@
 - id: hero_cta_course
   translation: "Commencer le cours Symfony 8"
 - id: hero_cta_channel
-  translation: "Voir la chaîne YouTube"
+  translation: "La chaîne YouTube"
 - id: home_latest
   translation: "Derniers chapitres"
 - id: box_objectives
@@ -24,3 +24,29 @@
   translation: "Exercice"
 - id: box_solution
   translation: "Voir la solution"
+- id: hero_cta_courses
+  translation: "Voir les cours"
+- id: home_stats
+  translation: "{{ .Courses }} cours · {{ .Chapters }} chapitres · français et anglais · gratuit"
+- id: home_courses
+  translation: "Les cours"
+- id: home_path
+  translation: "Par où commencer ?"
+- id: home_path_intro
+  translation: "Tu débutes ? Suis les cours dans cet ordre : chacun s’appuie sur le précédent."
+- id: home_chapters
+  translation: "{{ .Count }} chapitres"
+- id: level_beginner
+  translation: "Débutant"
+- id: level_intermediate
+  translation: "Intermédiaire"
+- id: course_start
+  translation: "Commencer le cours"
+- id: home_follow
+  translation: "Suivre le projet"
+- id: home_follow_intro
+  translation: "Une nouvelle vidéo, un nouveau cours : abonne-toi pour ne rien manquer, et récupère le code de chaque projet sur GitHub."
+- id: follow_youtube_cta
+  translation: "S’abonner sur YouTube"
+- id: follow_github_cta
+  translation: "Le code sur GitHub"

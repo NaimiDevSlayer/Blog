@@ -1,0 +1,16 @@
+# Courses shown on the home page, in the suggested learning order.
+- path: /cours/outils/git/git-en-pratique
+  tech: Git
+  level: beginner
+- path: /cours/bases-de-donnees/mysql/sql-de-zero-a-pro
+  tech: MySQL
+  level: beginner
+- path: /cours/developpement-web/symfony-8/mini-bibliotheque
+  tech: Symfony 8
+  level: intermediate
+- path: /cours/developpement-web/api-platform/api-platform-4
+  tech: API Platform 4
+  level: intermediate
+- path: /cours/developpement-web/symfony-ux/live-component
+  tech: Symfony UX
+  level: intermediate

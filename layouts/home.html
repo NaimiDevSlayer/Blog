@@ -1,0 +1,76 @@
+{{- define "main" }}
+{{- $chapters := 0 }}
+{{- range site.Data.courses }}
+  {{- with site.GetPage .path }}{{ $chapters = add $chapters (len .RegularPages) }}{{ end }}
+{{- end }}
+
+{{- partial "home_info.html" (dict "page" . "courses" (len site.Data.courses) "chapters" $chapters) }}
+
+{{/* The courses */}}
+<section class="home-section" aria-labelledby="home-courses">
+  <h2 id="home-courses" class="home-heading">{{ i18n "home_courses" }}</h2>
+  <div class="course-grid">
+    {{- range site.Data.courses }}
+    {{- $c := . }}
+    {{- with site.GetPage .path }}
+    <article class="course-card">
+      <p class="course-tech">{{ $c.tech }}</p>
+      <h3 class="course-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+      <p class="course-desc">{{ .Description }}</p>
+      <p class="course-meta">
+        <span class="course-count">{{ i18n "home_chapters" (dict "Count" (len .RegularPages)) }}</span>
+        <span class="course-level course-level-{{ $c.level }}">{{ i18n (printf "level_%s" $c.level) }}</span>
+      </p>
+      <span class="course-start" aria-hidden="true">{{ i18n "course_start" }}</span>
+    </article>
+    {{- end }}
+    {{- end }}
+  </div>
+</section>
+
+{{/* Suggested learning path: a real sequence, so it is numbered */}}
+<section class="home-section" aria-labelledby="home-path">
+  <h2 id="home-path" class="home-heading">{{ i18n "home_path" }}</h2>
+  <p class="home-intro">{{ i18n "home_path_intro" }}</p>
+  <ol class="learning-path">
+    {{- range site.Data.courses }}
+    {{- $c := . }}
+    {{- with site.GetPage .path }}
+    <li><a href="{{ .RelPermalink }}"><span class="path-tech">{{ $c.tech }}</span>{{ if ne .Title $c.tech }}<span class="path-title">{{ .Title }}</span>{{ end }}</a></li>
+    {{- end }}
+    {{- end }}
+  </ol>
+</section>
+
+{{/* Latest chapters, newest first */}}
+{{- $latest := where site.RegularPages "Type" "in" site.Params.mainSections }}
+{{- $latest = first 4 $latest.ByDate.Reverse }}
+<section class="home-section" aria-labelledby="home-latest">
+  <h2 id="home-latest" class="home-heading">{{ i18n "home_latest" }}</h2>
+  {{- range $latest }}
+  <article class="post-entry{{ with .Params.series_order }} has-chapter{{ end }}">
+    {{- with .Params.series_order }}<span class="chapter-num" aria-hidden="true">{{ . }}</span>{{ end }}
+    <header class="entry-header"><h2>{{ .Title }}</h2></header>
+    <div class="entry-content"><p>{{ .Description | default (.Summary | plainify | htmlUnescape) }}</p></div>
+    <footer class="entry-footer">{{ partial "post_meta.html" . }}</footer>
+    <a class="entry-link" aria-label="{{ .Title | plainify }}" href="{{ .Permalink }}"></a>
+  </article>
+  {{- end }}
+</section>
+
+{{/* Community */}}
+<section class="home-follow" aria-labelledby="home-follow">
+  <h2 id="home-follow" class="home-heading">{{ i18n "home_follow" }}</h2>
+  <p class="home-intro">{{ i18n "home_follow_intro" }}</p>
+  <div class="follow-links">
+    <a class="follow-link follow-youtube" href="https://youtube.com/@NaimiDevSlayer?sub_confirmation=1" rel="noopener">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31.6 31.6 0 0 0 0 12a31.6 31.6 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31.6 31.6 0 0 0 24 12a31.6 31.6 0 0 0-.5-5.8zM9.6 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>
+      <span>{{ i18n "follow_youtube_cta" }}</span>
+    </a>
+    <a class="follow-link follow-github" href="https://github.com/saif1919" rel="noopener">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.7 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3"/></svg>
+      <span>{{ i18n "follow_github_cta" }}</span>
+    </a>
+  </div>
+</section>
+{{- end }}
