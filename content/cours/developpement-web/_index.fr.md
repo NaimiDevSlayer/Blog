@@ -9,3 +9,5 @@ Tous les cours pour apprendre à construire des applications web, de l'installat
 ## Technologies
 
 - **[Symfony 8]({{< relref "/cours/developpement-web/symfony-8" >}})** : construis des applications complètes avec Symfony 8.
+- **[API Platform]({{< relref "/cours/developpement-web/api-platform" >}})** : construis et sécurise des API REST avec API Platform 4.
+- **[Symfony UX]({{< relref "/cours/developpement-web/symfony-ux" >}})** : des interfaces dynamiques en PHP et Twig, sans JavaScript, avec Live Component, Chart.js et DataTables.
