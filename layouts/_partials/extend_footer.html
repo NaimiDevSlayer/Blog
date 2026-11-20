@@ -1,3 +1,12 @@
+<nav class="site-links" aria-label="{{ i18n "footer_links" }}">
+  <a href="{{ "a-propos/" | relLangURL }}">{{ i18n "page_about" }}</a>
+  <a href="{{ "contact/" | relLangURL }}">{{ i18n "page_contact" }}</a>
+  <a href="{{ "mentions-legales/" | relLangURL }}">{{ i18n "page_legal" }}</a>
+  <a href="{{ "confidentialite/" | relLangURL }}">{{ i18n "page_privacy" }}</a>
+  {{- if and site.Params.analyticsID hugo.IsProduction }}
+  <a href="#" id="consent-reopen">{{ i18n "consent_manage" }}</a>
+  {{- end }}
+</nav>
 {{- /* Google Analytics, loaded only after the visitor accepts (CNIL / GDPR). Production builds only. */ -}}
 {{- with site.Params.analyticsID }}
 {{- if hugo.IsProduction }}
@@ -8,7 +17,6 @@
     <button type="button" class="consent-btn consent-accept" data-consent="granted">{{ i18n "consent_accept" }}</button>
   </div>
 </div>
-<p class="consent-link"><a href="#" id="consent-reopen">{{ i18n "consent_manage" }}</a></p>
 <script>
 (function () {
   var ID = "{{ . }}", KEY = "nds-consent";

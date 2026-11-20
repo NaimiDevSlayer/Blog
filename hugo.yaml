@@ -202,3 +202,7 @@ outputs:
     - HTML
     - RSS
     - JSON
+
+privacy:
+  youtube:
+    privacyEnhanced: true
