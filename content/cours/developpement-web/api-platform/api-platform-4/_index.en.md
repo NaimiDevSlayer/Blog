@@ -14,6 +14,6 @@ ShowToc: false
 
 Follow the chapters below in order, alongside the videos. The full code is on GitHub: [saif1919/apiplatformv4tuto](https://github.com/saif1919/apiplatformv4tuto).
 
-> **Versions used:** API Platform **4.0**, Symfony **7.1**, PHP **8.2**, MySQL. This course only covers version 4.0: a course on the latest version will come later.
+> **Versions used:** API Platform **4.0**, Symfony **7.1**, PHP **8.2**, MySQL. The course is about 4.0. When something has changed since (up to 4.4), a For your information box tells you, and a course on the latest version will come later.
 
 > The videos of this course are in French. Turn on YouTube's auto-translated subtitles if needed.

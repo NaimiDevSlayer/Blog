@@ -126,6 +126,24 @@ Avec **MySQL**, il n'y a **aucune différence de résultat** dans la plupart des
 
 La différence apparaît avec **PostgreSQL**, sensible à la casse par défaut : là, `ipartial` est vraiment utile.
 
+{{< encadre type="further" title="Pour info : dans les versions récentes (4.2 à 4.4)" >}}
+API Platform a revu son système de filtres. En **4.4**, `#[ApiFilter]` et `SearchFilter` sont **dépréciés** (ils fonctionnent encore, mais disparaîtront dans une future version majeure). On déclare désormais les filtres comme des **paramètres** de l'opération, avec des classes plus spécialisées :
+
+```php
+use ApiPlatform\Doctrine\Orm\Filter\PartialSearchFilter;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\QueryParameter;
+
+#[GetCollection(
+    parameters: [
+        'title' => new QueryParameter(filter: new PartialSearchFilter()),
+    ],
+)]
+```
+
+`SearchFilter` est remplacé par `ExactFilter`, `PartialSearchFilter` ou `IriFilter` selon la stratégie, et `OrderFilter` par `SortFilter`. Le grand avantage : chaque opération déclare ses propres filtres, sans passer par un service YAML. Si tu démarres un projet en 4.4, vérifie la [documentation des filtres](https://api-platform.com/docs/core/doctrine-filters/) de ta version.
+{{< /encadre >}}
+
 {{< exercice title="Trier les auteurs" >}}
 Sur la collection des auteurs, permets de chercher par **nom** (début du nom) et de **trier** par nom ou par prénom.
 

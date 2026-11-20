@@ -170,6 +170,10 @@ return $response;
 Dans ce projet, la pagination est désactivée dans `api_platform.yaml`, donc le problème ne se voit pas.
 {{< /encadre >}}
 
+{{< encadre type="further" title="Pour info : dans les versions récentes (4.2 à 4.4)" >}}
+API Platform 4.2 a ajouté une façon plus déclarative de faire ce travail : on décrit la correspondance entre l'entité et le DTO avec l'attribut **`#[Map]`** du composant ObjectMapper de Symfony, et on relie la ressource à l'entité avec `stateOptions: new Options(entityClass: Article::class)`. API Platform fait alors la conversion tout seul, sans provider à écrire. Le provider écrit à la main reste valable, et il est idéal pour comprendre ce qui se passe.
+{{< /encadre >}}
+
 {{< exercice title="Ajouter la date au DTO" >}}
 Ajoute au DTO un champ `publishedAt`, formaté en texte comme `20/11/2026`.
 
