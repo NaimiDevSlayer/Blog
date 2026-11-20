@@ -1,0 +1,26 @@
+{{- $fr := eq .Lang "fr" -}}
+<svg viewBox="0 0 640 200" role="img" aria-label="{{ cond $fr "Le rôle des providers et des processors dans API Platform" "The role of providers and processors in API Platform" }}">
+  <defs>
+    <marker id="st-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="s-arrow"/>
+    </marker>
+  </defs>
+  <text x="20" y="30" class="s-text" font-weight="700">GET</text>
+  <text x="20" y="130" class="s-text" font-weight="700">POST / PUT / PATCH</text>
+  {{- $get := slice (slice (cond $fr "Requête" "Request") "GET /articles") (slice "Provider" (cond $fr "lit les données" "reads the data")) (slice "Serializer" "normalize") (slice (cond $fr "Réponse" "Response") "JSON") }}
+  {{- range $i, $s := $get }}
+  {{- $x := add 20 (mul $i 155) }}
+  <rect x="{{ $x }}" y="42" width="125" height="50" rx="8" class="s-box" stroke-width="1.5" {{ if eq $i 1 }}style="stroke: var(--blade)"{{ end }}/>
+  <text x="{{ add $x 62 }}" y="63" class="s-text" text-anchor="middle" font-weight="700">{{ index $s 0 }}</text>
+  <text x="{{ add $x 62 }}" y="81" class="s-small" text-anchor="middle">{{ index $s 1 }}</text>
+  {{- if lt $i 3 }}<line x1="{{ add $x 127 }}" y1="67" x2="{{ add $x 153 }}" y2="67" class="s-line" stroke-width="1.5" marker-end="url(#st-arrow)"/>{{ end }}
+  {{- end }}
+  {{- $post := slice (slice "JSON" (cond $fr "corps de la requête" "request body")) (slice "Serializer" "denormalize + validate") (slice "Processor" (cond $fr "écrit les données" "writes the data")) (slice (cond $fr "Réponse" "Response") "201 + JSON") }}
+  {{- range $i, $s := $post }}
+  {{- $x := add 20 (mul $i 155) }}
+  <rect x="{{ $x }}" y="142" width="125" height="50" rx="8" class="s-box" stroke-width="1.5" {{ if eq $i 2 }}style="stroke: var(--blade)"{{ end }}/>
+  <text x="{{ add $x 62 }}" y="163" class="s-text" text-anchor="middle" font-weight="700">{{ index $s 0 }}</text>
+  <text x="{{ add $x 62 }}" y="181" class="s-small" text-anchor="middle">{{ index $s 1 }}</text>
+  {{- if lt $i 3 }}<line x1="{{ add $x 127 }}" y1="167" x2="{{ add $x 153 }}" y2="167" class="s-line" stroke-width="1.5" marker-end="url(#st-arrow)"/>{{ end }}
+  {{- end }}
+</svg>

@@ -1,0 +1,30 @@
+{{- $fr := eq .Lang "fr" -}}
+<svg viewBox="0 0 640 250" role="img" aria-label="{{ cond $fr "Authentification JWT avec refresh token" "JWT authentication with a refresh token" }}">
+  <defs>
+    <marker id="jw-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="s-arrow"/>
+    </marker>
+  </defs>
+  <rect x="20" y="10" width="120" height="36" rx="8" class="s-box" stroke-width="1.5"/>
+  <text x="80" y="33" class="s-text" text-anchor="middle" font-weight="700">Client</text>
+  <rect x="500" y="10" width="120" height="36" rx="8" class="s-box" stroke-width="1.5" style="stroke: var(--blade)"/>
+  <text x="560" y="33" class="s-text" text-anchor="middle" font-weight="700">API</text>
+  <line x1="80" y1="46" x2="80" y2="240" class="s-muted" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <line x1="560" y1="46" x2="560" y2="240" class="s-muted" stroke-width="1.5" stroke-dasharray="4 4"/>
+  {{- $rows := slice
+      (slice 72 "r" "POST /auth  {email, password}")
+      (slice 100 "l" "token + refresh_token")
+      (slice 140 "r" "GET /api/…  Authorization: Bearer token")
+      (slice 168 "l" (cond $fr "200 · ou 401 si le token a expiré" "200 · or 401 if the token expired"))
+      (slice 208 "r" "POST /token/refresh  {refresh_token}")
+      (slice 236 "l" (cond $fr "nouveau token (+ nouveau refresh_token)" "new token (+ new refresh_token)")) }}
+  {{- range $rows }}
+  {{- $y := index . 0 }}
+  {{- if eq (index . 1) "r" }}
+  <line x1="84" y1="{{ $y }}" x2="556" y2="{{ $y }}" class="s-line" stroke-width="1.5" marker-end="url(#jw-arrow)"/>
+  {{- else }}
+  <line x1="556" y1="{{ $y }}" x2="84" y2="{{ $y }}" class="s-line" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#jw-arrow)"/>
+  {{- end }}
+  <text x="320" y="{{ sub $y 6 }}" class="s-code" text-anchor="middle" font-size="11">{{ index . 2 }}</text>
+  {{- end }}
+</svg>

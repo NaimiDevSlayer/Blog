@@ -1,0 +1,24 @@
+{{- $fr := eq .Lang "fr" -}}
+<svg viewBox="0 0 640 190" role="img" aria-label="{{ cond $fr "Le cycle d'un Live Component" "The lifecycle of a Live Component" }}">
+  <defs>
+    <marker id="lc-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="s-arrow"/>
+    </marker>
+  </defs>
+  {{- $steps := slice
+      (slice (cond $fr "Navigateur" "Browser") (cond $fr "clic, saisie…" "click, input…"))
+      (slice (cond $fr "Requête Ajax" "Ajax request") "/_components/…")
+      (slice (cond $fr "Composant PHP" "PHP component") "#[LiveAction]")
+      (slice "Twig" (cond $fr "nouveau HTML" "new HTML")) }}
+  {{- range $i, $s := $steps }}
+  {{- $x := add 10 (mul $i 160) }}
+  <rect x="{{ $x }}" y="30" width="135" height="58" rx="8" class="s-box" stroke-width="1.5" {{ if eq $i 2 }}style="stroke: var(--blade)"{{ end }}/>
+  <text x="{{ add $x 67 }}" y="55" class="s-text" text-anchor="middle" font-weight="700">{{ index $s 0 }}</text>
+  <text x="{{ add $x 67 }}" y="74" class="s-code" text-anchor="middle" font-size="10">{{ index $s 1 }}</text>
+  {{- if lt $i 3 }}
+  <line x1="{{ add $x 137 }}" y1="59" x2="{{ add $x 158 }}" y2="59" class="s-line" stroke-width="1.5" marker-end="url(#lc-arrow)"/>
+  {{- end }}
+  {{- end }}
+  <path d="M557,92 C557,160 77,160 77,94" fill="none" class="s-line" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#lc-arrow)"/>
+  <text x="320" y="178" class="s-small" text-anchor="middle">{{ cond $fr "seule la partie qui a changé est remplacée dans la page, sans une ligne de JavaScript" "only the part that changed is replaced in the page, without a line of JavaScript" }}</text>
+</svg>
