@@ -745,3 +745,66 @@ code, pre, kbd {
 .course-card:last-child:nth-child(odd) {
     grid-column: 1 / -1;
 }
+
+/* ---------- Cookie consent ---------- */
+
+.consent {
+    position: fixed;
+    z-index: 100;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+    border-inline-start: 4px solid var(--blade);
+    border-radius: 8px;
+    background: var(--entry);
+    box-shadow: 0 10px 28px rgba(15, 21, 40, 0.2);
+    font-size: 15px;
+    color: var(--content);
+}
+
+.consent[hidden] {
+    display: none;
+}
+
+.consent p {
+    margin: 0 0 12px;
+    line-height: 1.5;
+}
+
+.consent-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.consent-btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    border: 2px solid var(--tertiary);
+    background: transparent;
+    color: var(--primary);
+}
+
+.consent-accept {
+    background: var(--blade);
+    border-color: var(--blade);
+    color: #fff;
+}
+
+.consent-link {
+    margin: -8px 0 24px;
+    text-align: center;
+    font-size: 12px;
+}
+
+.consent-link a {
+    color: var(--secondary);
+    text-decoration: underline;
+}

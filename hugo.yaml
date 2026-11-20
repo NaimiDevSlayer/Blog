@@ -18,6 +18,7 @@ minify:
   disableXML: true
 
 params:
+  analyticsID: G-ST9VY1RKPW
   env: production
   title: "NAIMI Dev Slayer"
   keywords: [Symfony, EasyAdmin, PHP, Doctrine, Tutoriels]

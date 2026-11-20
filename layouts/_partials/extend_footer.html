@@ -1,0 +1,42 @@
+{{- /* Google Analytics, loaded only after the visitor accepts (CNIL / GDPR). Production builds only. */ -}}
+{{- with site.Params.analyticsID }}
+{{- if hugo.IsProduction }}
+<div class="consent" id="consent" role="dialog" aria-live="polite" aria-label="{{ i18n "consent_manage" }}" hidden>
+  <p>{{ i18n "consent_text" }}</p>
+  <div class="consent-actions">
+    <button type="button" class="consent-btn consent-refuse" data-consent="denied">{{ i18n "consent_refuse" }}</button>
+    <button type="button" class="consent-btn consent-accept" data-consent="granted">{{ i18n "consent_accept" }}</button>
+  </div>
+</div>
+<p class="consent-link"><a href="#" id="consent-reopen">{{ i18n "consent_manage" }}</a></p>
+<script>
+(function () {
+  var ID = "{{ . }}", KEY = "nds-consent";
+  var box = document.getElementById("consent");
+  function get() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+  function set(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+  function load() {
+    if (window.__gaLoaded) return; window.__gaLoaded = true;
+    var s = document.createElement("script");
+    s.async = true; s.src = "https://www.googletagmanager.com/gtag/js?id=" + ID;
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { dataLayer.push(arguments); };
+    gtag("js", new Date());
+    gtag("config", ID, { anonymize_ip: true });
+  }
+  var choice = get();
+  if (choice === "granted") load();
+  else if (choice !== "denied") box.hidden = false;
+  box.addEventListener("click", function (e) {
+    var v = e.target.getAttribute("data-consent");
+    if (!v) return;
+    set(v); box.hidden = true;
+    if (v === "granted") load();
+  });
+  var reopen = document.getElementById("consent-reopen");
+  if (reopen) reopen.addEventListener("click", function (e) { e.preventDefault(); box.hidden = false; });
+})();
+</script>
+{{- end }}
+{{- end }}
