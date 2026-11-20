@@ -150,8 +150,8 @@ The most specific level wins: an operation can turn pagination back on even if i
 
 At the end of the video, I push the project to a public repository: `git init`, `git remote add origin …`, `git add .`, `git commit -m "first commit"` and `git push origin master`. The code is here: [saif1919/apiplatformv4tuto](https://github.com/saif1919/apiplatformv4tuto). If these commands are new to you, the [Git in Practice]({{< relref "/cours/outils/git/git-en-pratique/04-git-init-github" >}}) course explains them step by step.
 
-{{< encadre type="further" title="In recent versions" >}}
-In JSON-LD, the list of items is called **`member`** (and the total **`totalItems`**). In older versions, these keys had a prefix: `hydra:member`, `hydra:totalItems`. If an older tutorial mentions `hydra:member`, it's the same thing.
+{{< encadre type="further" title="And in older versions?" >}}
+In JSON-LD, the list of items is called **`member`** (and the total **`totalItems`**). In 3.x versions, these keys had a prefix: `hydra:member`, `hydra:totalItems`. If an older tutorial mentions `hydra:member`, it's the same thing.
 {{< /encadre >}}
 
 {{< exercice title="Pages of 10, never more than 50" >}}

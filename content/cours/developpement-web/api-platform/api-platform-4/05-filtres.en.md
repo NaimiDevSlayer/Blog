@@ -126,24 +126,6 @@ With **MySQL**, there's **no difference in the results** in most cases: text col
 
 The difference shows with **PostgreSQL**, which is case-sensitive by default: there, `ipartial` is really useful.
 
-{{< encadre type="further" title="In recent versions (4.2 to 4.4)" >}}
-API Platform has reworked its filter system. In **4.4**, `#[ApiFilter]` and `SearchFilter` are **deprecated** (they still work, but will go away in a future major version). Filters are now declared as **parameters** of the operation, with more specialized classes:
-
-```php
-use ApiPlatform\Doctrine\Orm\Filter\PartialSearchFilter;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\QueryParameter;
-
-#[GetCollection(
-    parameters: [
-        'title' => new QueryParameter(filter: new PartialSearchFilter()),
-    ],
-)]
-```
-
-`SearchFilter` is replaced by `ExactFilter`, `PartialSearchFilter` or `IriFilter` depending on the strategy, and `OrderFilter` by `SortFilter`. The big win: each operation declares its own filters, without a YAML service. If you start a project on 4.4, check the [filter documentation](https://api-platform.com/docs/core/doctrine-filters/) for your version.
-{{< /encadre >}}
-
 {{< exercice title="Sort the authors" >}}
 On the author collection, allow searching by **last name** (start of the name) and **sorting** by last name or first name.
 

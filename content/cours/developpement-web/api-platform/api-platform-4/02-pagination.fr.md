@@ -150,8 +150,8 @@ Le niveau le plus précis gagne : une opération peut réactiver la pagination m
 
 En fin de vidéo, je pousse le projet sur un dépôt public : `git init`, `git remote add origin …`, `git add .`, `git commit -m "first commit"` et `git push origin master`. Le code est ici : [saif1919/apiplatformv4tuto](https://github.com/saif1919/apiplatformv4tuto). Si ces commandes ne te sont pas familières, le cours [Git en pratique]({{< relref "/cours/outils/git/git-en-pratique/04-git-init-github" >}}) les explique pas à pas.
 
-{{< encadre type="further" title="Dans les versions récentes" >}}
-En JSON-LD, la liste des éléments s'appelle **`member`** (et le total **`totalItems`**). Dans les anciennes versions, ces clés avaient un préfixe : `hydra:member`, `hydra:totalItems`. Si un tutoriel plus ancien parle de `hydra:member`, c'est la même chose.
+{{< encadre type="further" title="Et dans les anciennes versions ?" >}}
+En JSON-LD, la liste des éléments s'appelle **`member`** (et le total **`totalItems`**). Dans les versions 3.x, ces clés avaient un préfixe : `hydra:member`, `hydra:totalItems`. Si un tutoriel plus ancien parle de `hydra:member`, c'est la même chose.
 {{< /encadre >}}
 
 {{< exercice title="Une page de 10, sans dépasser 50" >}}

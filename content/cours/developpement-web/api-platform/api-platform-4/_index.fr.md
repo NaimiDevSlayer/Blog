@@ -14,4 +14,4 @@ ShowToc: false
 
 Suis les chapitres ci-dessous dans l'ordre, en même temps que les vidéos. Le code complet est sur GitHub : [saif1919/apiplatformv4tuto](https://github.com/saif1919/apiplatformv4tuto).
 
-> **Versions utilisées :** API Platform **4.0**, Symfony **7.1**, PHP **8.2**, MySQL. API Platform a pas mal évolué depuis (la dernière version 4.x est la 4.4) : quand une partie a changé, un encadré te le signale dans le chapitre.
+> **Versions utilisées :** API Platform **4.0**, Symfony **7.1**, PHP **8.2**, MySQL. Ce cours couvre uniquement la version 4.0 : un cours dédié à la dernière version arrivera plus tard.

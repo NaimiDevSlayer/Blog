@@ -23,7 +23,7 @@ Dans ce premier chapitre, on part d'un projet Symfony vide, on installe **API Pl
 {{< /objectifs >}}
 
 {{< encadre type="further" title="Versions utilisées dans ce cours" >}}
-API Platform **4.0.2**, Symfony **7.1**, PHP **8.2** et MySQL. Le code complet est sur GitHub : [saif1919/apiplatformv4tuto](https://github.com/saif1919/apiplatformv4tuto). Quand une partie a changé dans les versions plus récentes (jusqu'à la 4.4), un encadré te le signale.
+API Platform **4.0.2**, Symfony **7.1**, PHP **8.2** et MySQL. Le code complet est sur GitHub : [saif1919/apiplatformv4tuto](https://github.com/saif1919/apiplatformv4tuto). Ce cours couvre uniquement la version 4.0 : certaines parties ont changé dans les versions suivantes, qui auront leur propre cours.
 {{< /encadre >}}
 
 ## 1. Créer le projet Symfony
