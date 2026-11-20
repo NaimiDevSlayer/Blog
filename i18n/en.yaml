@@ -50,3 +50,11 @@
   translation: "Subscribe on YouTube"
 - id: follow_github_cta
   translation: "The code on GitHub"
+- id: consent_text
+  translation: "We use Google Analytics to see which courses are read and improve the blog. Do you accept these audience measurement cookies?"
+- id: consent_accept
+  translation: "Accept"
+- id: consent_refuse
+  translation: "Decline"
+- id: consent_manage
+  translation: "Cookies"
