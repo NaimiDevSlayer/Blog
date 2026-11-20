@@ -1,4 +1,5 @@
 {{- /* Home hero: the channel name cut by a single crimson blade stroke. */ -}}
+{{- $page := .page }}
 {{- with site.Params.homeInfoParams }}
 <section class="hero" aria-labelledby="hero-title">
     <div class="hero-title-wrap">
@@ -8,13 +9,12 @@
         </svg>
     </div>
     <div class="hero-text">
-        {{ $opts := dict "display" "block" }}
-        {{ .Content | $.Page.RenderString $opts }}
+        {{ .Content | $page.RenderString (dict "display" "block") }}
     </div>
+    <p class="hero-stats">{{ i18n "home_stats" (dict "Courses" $.courses "Chapters" $.chapters) }}</p>
     <div class="hero-actions">
-        <a class="hero-btn hero-btn-primary" href="{{ "cours/developpement-web/symfony-8/mini-bibliotheque/" | absLangURL }}">{{ i18n "hero_cta_course" }}</a>
+        <a class="hero-btn hero-btn-primary" href="#home-courses">{{ i18n "hero_cta_courses" }}</a>
         <a class="hero-btn hero-btn-ghost" href="https://youtube.com/@NaimiDevSlayer" rel="noopener">{{ i18n "hero_cta_channel" }}</a>
     </div>
 </section>
-<h2 class="home-latest">{{ i18n "home_latest" }}</h2>
 {{- end -}}

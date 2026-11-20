@@ -469,3 +469,279 @@ code, pre, kbd {
 .schema .s-box { fill: var(--theme); stroke: var(--border); }
 .schema .s-line { stroke: var(--secondary); }
 .schema .s-arrow { fill: var(--secondary); }
+
+/* ---------- Home page ---------- */
+
+.hero-stats {
+    margin: 14px 0 0;
+    font-size: 15px;
+    color: var(--secondary);
+}
+
+.home-section {
+    margin-bottom: 56px;
+    scroll-margin-top: 24px;
+}
+
+.home-heading {
+    margin: 0 0 18px;
+    font-size: 26px;
+    color: var(--primary);
+}
+
+.home-intro {
+    margin: -6px 0 20px;
+    color: var(--content);
+    max-width: 38em;
+}
+
+/* Course cards */
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.course-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px 18px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--entry);
+    transition: border-color 0.15s;
+}
+
+.course-card:hover,
+.course-card:focus-within {
+    border-color: var(--blade);
+}
+
+.course-tech {
+    margin: 0 0 6px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--blade);
+}
+
+.course-title {
+    margin: 0 0 8px;
+    font-family: var(--font-display);
+    font-size: 22px;
+    line-height: 1.25;
+}
+
+.course-title a::after {
+    /* the whole card is clickable */
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 8px;
+}
+
+.course-desc {
+    margin: 0 0 14px;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--secondary);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.course-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin: auto 0 0;
+    font-size: 14px;
+}
+
+.course-count {
+    font-weight: 700;
+    color: var(--gold);
+}
+
+.course-level {
+    padding: 2px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--content);
+}
+
+.course-start {
+    margin-top: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--primary);
+    text-decoration: underline;
+    text-decoration-color: var(--blade);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+}
+
+/* Learning path: numbered steps along a crimson line */
+.learning-path {
+    counter-reset: step;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0;
+    position: relative;
+}
+
+.learning-path::before {
+    content: "";
+    position: absolute;
+    top: 21px;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: var(--blade);
+    opacity: 0.6;
+}
+
+.learning-path li {
+    counter-increment: step;
+    position: relative;
+    text-align: center;
+    padding: 0 6px;
+}
+
+.learning-path a {
+    display: block;
+    box-shadow: none;
+}
+
+.learning-path a::before {
+    content: counter(step);
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    margin: 0 auto 10px;
+    border-radius: 50%;
+    border: 2px solid var(--blade);
+    background: var(--theme);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--gold);
+    position: relative;
+}
+
+.path-tech {
+    display: block;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.path-title {
+    display: block;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--secondary);
+}
+
+.learning-path a:hover .path-tech {
+    color: var(--blade);
+}
+
+/* Follow block */
+.home-follow {
+    margin: 64px 0 24px;
+    padding: 28px 24px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    border-inline-start: 4px solid var(--blade);
+    background: var(--entry);
+}
+
+.home-follow .home-intro {
+    margin-top: 0;
+}
+
+.follow-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.follow-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 18px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 16px;
+    border: 2px solid transparent;
+    transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.follow-youtube {
+    background: var(--blade);
+    color: #fff;
+}
+
+.follow-youtube:hover {
+    background: transparent;
+    border-color: var(--blade);
+    color: var(--blade);
+}
+
+.follow-github {
+    border-color: var(--tertiary);
+    color: var(--primary);
+}
+
+.follow-github:hover {
+    border-color: var(--primary);
+}
+
+@media screen and (max-width: 640px) {
+    .course-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .learning-path {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .learning-path::before {
+        top: 22px;
+        bottom: 22px;
+        left: 21px;
+        right: auto;
+        width: 2px;
+        height: auto;
+    }
+
+    .learning-path li {
+        text-align: left;
+        padding: 0;
+    }
+
+    .learning-path a {
+        display: grid;
+        grid-template-columns: 44px 1fr;
+        column-gap: 14px;
+        align-items: center;
+    }
+
+    .learning-path a::before {
+        grid-row: 1 / span 2;
+        margin: 0;
+    }
+}
+
+/* An odd last course card takes the full row */
+.course-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+}
