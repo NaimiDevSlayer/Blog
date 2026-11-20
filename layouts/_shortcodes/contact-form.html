@@ -1,0 +1,21 @@
+{{- $fr := eq .Page.Lang "fr" -}}
+{{- with site.Params.web3formsKey }}
+<form class="contact-form" action="https://api.web3forms.com/submit" method="POST">
+  <input type="hidden" name="access_key" value="{{ . }}">
+  <input type="hidden" name="subject" value="{{ cond $fr "Nouveau message depuis naimidevslayer.com" "New message from naimidevslayer.com" }}">
+  <input type="hidden" name="redirect" value="{{ cond $fr "https://naimidevslayer.com/contact/?envoye=1" "https://naimidevslayer.com/en/contact/?envoye=1" }}">
+  <input type="checkbox" name="botcheck" class="contact-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+  <label for="cf-name">{{ cond $fr "Ton nom" "Your name" }}</label>
+  <input id="cf-name" type="text" name="name" required autocomplete="name">
+  <label for="cf-email">{{ cond $fr "Ton email" "Your email" }}</label>
+  <input id="cf-email" type="email" name="email" required autocomplete="email">
+  <label for="cf-message">{{ cond $fr "Ton message" "Your message" }}</label>
+  <textarea id="cf-message" name="message" rows="7" required></textarea>
+  <p class="contact-note">{{ cond $fr "Ton nom et ton email servent uniquement à te répondre." "Your name and email are only used to answer you." }}</p>
+  <button type="submit" class="hero-btn hero-btn-primary">{{ cond $fr "Envoyer le message" "Send the message" }}</button>
+</form>
+<p class="contact-sent" id="contact-sent" hidden>{{ cond $fr "Merci, ton message est bien parti ! Je te réponds dès que possible." "Thanks, your message has been sent! I'll get back to you as soon as possible." }}</p>
+<script>if (new URLSearchParams(location.search).has("envoye")) { document.getElementById("contact-sent").hidden = false; }</script>
+{{- else }}
+<p class="contact-note">{{ cond $fr "Le formulaire de contact arrive bientôt. En attendant, laisse un commentaire sous une vidéo de la chaîne YouTube : je les lis tous." "The contact form is coming soon. In the meantime, leave a comment under a video on the YouTube channel: I read them all." }}</p>
+{{- end }}
